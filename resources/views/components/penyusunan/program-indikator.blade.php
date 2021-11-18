@@ -114,50 +114,64 @@
 					<div class="form-group">
 						<label for="basicInput">Program Indikator</label>
 						<fieldset class="form-group">
-							<textarea name="rpjmd_program_indikator_nama" class="form-control" cols="30" rows="5"></textarea>
+							<textarea name="rpjmd_program_indikator_nama" class="form-control" cols="30" rows="5" required></textarea>
 						</fieldset>
 					</div>
 					<div class="form-group">
 						<label for="basicInput">Satuan</label>
 						<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_satuan" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_satuan" class="form-control" required>
 						</fieldset>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-4">
+							<label for="basicInput">Jenis Kinerja</label>
+							<fieldset class="form-group">
+								<select name="rpjmd_program_indikator_nilai_jenis" class="form-control">
+									<option value="">-= Pilih Jenis Nilai =-</option>
+									<option value="1">Nilai</option>
+									<option value="2">Pilihan</option>
+								</select>
+							</fieldset>
+						</div>
+						<div class="col-sm-8" id="indikator-nilai">
+						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target Tahun Awal</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_th0_realisasi_target" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_th0_realisasi_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun') }}</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_th1_target" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_th1_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+1 }}</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_th2_target" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_th2_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+2 }}</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_th3_target" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_th3_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+3 }}</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_th4_target" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_th4_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+4 }}</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_th5_target" class="form-control">
+								<input type="text" name="rpjmd_program_indikator_th5_target" class="form-control" required>
 							</fieldset>
 						</div>
 					</div>
@@ -295,22 +309,22 @@ $(document).ready(function() {
 				data: 'rpjmd_program_indikator_satuan',
 			},
 			{
-				data: 'rpjmd_program_indikator_th0_realisasi_target',
+				data: 'th0_target',
 			},
 			{
-				data: 'rpjmd_program_indikator_th1_target',
+				data: 'th1_target',
 			},
 			{
-				data: 'rpjmd_program_indikator_th2_target',
+				data: 'th2_target',
 			},
 			{
-				data: 'rpjmd_program_indikator_th3_target',
+				data: 'th3_target',
 			},
 			{
-				data: 'rpjmd_program_indikator_th4_target',
+				data: 'th4_target',
 			},
 			{
-				data: 'rpjmd_program_indikator_th5_target',
+				data: 'th5_target',
 			},
 			{
 				data: 'action',
@@ -414,6 +428,7 @@ function setCreate() {
 
 	$('input[name="kode"]').val(kode);
 	$('textarea[name="program_nama"]').html(program_nama);
+	$('textarea[name="rpjmd_program_indikator_nama"]').html('');
 }
 
 function setUpdate(id) {
@@ -472,5 +487,45 @@ $('#form-data').submit(function(e) {
 function setDelete(id) {
 	init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
 }
+
+
+$('select[name="rpjmd_program_indikator_nilai_jenis"]').change(function() {
+		let val = $(this).val();
+		console.log(val);
+		if (val == 2) {
+			addIndikatorNilai();
+		} else {
+			$('#indikator-nilai').html('');
+			indikatorNilai = 1;
+		}
+	});
+
+	var indikatorNilai = 1;
+
+	function addIndikatorNilai() {
+		isi = '	<div class="row" id="nilai-' + indikatorNilai + '">\
+						<div class="form-group col-sm-5" >\
+							<label for="basicInput">Nilai Max</label>\
+							<fieldset class="form-group">\
+								<input type="number" name="indikator_nilai[]" class="form-control">\
+							</fieldset>\
+						</div>\
+						<div class="form-group col-sm-6">\
+							<label for="basicInput">Nomenklatur</label>\
+							<fieldset class="form-group">\
+								<input type="text" name="indikator_nama[]" class="form-control">\
+							</fieldset>\
+						</div>\
+						<div class="col-sm-1">\
+							<span onClick="addIndikatorNilai()">+</span> <span onClick="deleteIndikatorNilai(' + indikatorNilai + ')">-</span>\
+						</div>\
+					</div>';
+		indikatorNilai++;
+		$('#indikator-nilai').append(isi);
+	}
+
+	function deleteIndikatorNilai(id) {
+		$('#nilai-' + id).html('');
+	}
 </script>
 @endsection

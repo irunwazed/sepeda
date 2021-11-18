@@ -47,7 +47,8 @@ class ProgramController extends Controller
 		->orderBy('ref_program.permen_ver', 'ASC')
 		->orderBy('ref_program.urusan_kode', 'ASC')
 		->orderBy('ref_program.bidang_kode', 'ASC')
-		->orderBy('ref_program.program_kode', 'ASC');
+		->orderBy('ref_program.program_kode', 'ASC')
+		->where('ref_rpjmd_program.opd_id', session('opd'));
 
 		return $data;
 

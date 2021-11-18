@@ -152,25 +152,27 @@
 									readonly></textarea>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-9">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target Kinerja</label>
 							<fieldset class="form-group">
 								<input type="text" name="renstra_kegiatan_indikator_target" class="form-control" readonly>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-3">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Satuan</label>
 							<fieldset class="form-group">
 								<input type="text" name="renstra_kegiatan_indikator_satuan" class="form-control" readonly>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-9">
+						<div class="form-group col-sm-3" id="indikator-json" style="border: solid #CCCCCC 1px;">
+						</div>
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Realisasi Kinerja</label>
 							<fieldset class="form-group">
-								<input type="text" name="realisasi_kinerja" class="form-control">
+								<input type="number" step="0.01" name="realisasi_kinerja" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-3">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Satuan</label>
 							<fieldset class="form-group">
 								<input type="text" name="renstra_kegiatan_indikator_satuan" class="form-control" readonly>
@@ -281,7 +283,7 @@ $(document).ready(function() {
 				data: 'renstra_kegiatan_indikator_satuan',
 			},
 			{
-				data: 'renstra_kegiatan_indikator_th' + tahun_ke + '_target',
+				data: 'target',
 			},
 			{
 				data: 'pagu',
@@ -291,7 +293,7 @@ $(document).ready(function() {
 				className: "text-right"
 			},
 			{
-				data: 'renstra_kegiatan_indikator_th' + tahun_ke + '_realisasi_target',
+				data: 'realisasi_target',
 			},
 			{
 				data: 'realisasi_pagu',
@@ -444,6 +446,15 @@ function setUpdate(id) {
 			$('input[name="renstra_kegiatan_indikator_satuan"]').val(res.data.renstra_kegiatan_indikator_satuan);
 			$('input[name="renstra_kegiatan_indikator_target"]').val(res.data['renstra_kegiatan_indikator_th' + tahun_ke +
 				'_target']);
+				
+
+				let arrJson = JSON.parse(res.data.renstra_kegiatan_indikator_nilai_json);
+				let strJson = '';
+				for (let j = 0; j < arrJson.length; j++) {
+					strJson += (j + 1) + '. ' + arrJson[j]['nilai'] + ' => ' + arrJson[j]['nama'] + '<br>';
+				}
+				$('#indikator-json').html(strJson);
+
 		} else {
 			pesanSweet('Gagal!', res.pesan, 'warning');
 		}

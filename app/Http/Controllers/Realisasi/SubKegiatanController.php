@@ -112,6 +112,86 @@ class SubKegiatanController extends Controller
 		$number = 0;
     
     return DataTables::of($data->get())
+		->addColumn('target', function ($row) {
+			$th = 'rkpd_sub_kegiatan_indikator_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rkpd_sub_kegiatan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rkpd_sub_kegiatan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
+		->addColumn('tw1_target', function ($row) {
+			$th = 'rkpd_sub_kegiatan_indikator_tw1_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rkpd_sub_kegiatan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rkpd_sub_kegiatan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
+		->addColumn('tw2_target', function ($row) {
+			$th = 'rkpd_sub_kegiatan_indikator_tw2_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rkpd_sub_kegiatan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rkpd_sub_kegiatan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
+		->addColumn('tw3_target', function ($row) {
+			$th = 'rkpd_sub_kegiatan_indikator_tw3_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rkpd_sub_kegiatan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rkpd_sub_kegiatan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
+		->addColumn('tw4_target', function ($row) {
+			$th = 'rkpd_sub_kegiatan_indikator_tw4_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rkpd_sub_kegiatan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rkpd_sub_kegiatan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
 		->addColumn('program', function($row){
 			return (@$row->urusan_kode==0?'X':$row->urusan_kode).".".$this->setKode(@$row->bidang_kode).'.'.$this->setKode(@$row->program_kode)." ".@$row->program_nama;
 		})

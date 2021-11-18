@@ -157,6 +157,22 @@ class RenstraController extends Controller
 				->where('ta_renstra_sub_kegiatan_indikator.renstra_sub_kegiatan_id', $row->renstra_sub_kegiatan_id)
 				->get();
 
+				
+				// target
+				for($idxSub = 0; $idxSub < count($dataAll[$index]['data']); $idxSub++){
+					for($rowTahun = 1; $rowTahun <= 5; $rowTahun++){
+						$temp = 'renstra_sub_kegiatan_indikator_th'.$rowTahun.'_pagu';
+						$pagu = $dataAll[$index]['data'][$idxSub]->$temp;
+
+						$dataAll[$index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$index]['dataPagu'][$rowTahun]['pagu'];
+						$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu'];
+						$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu'];
+						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu'];
+						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu'];
+					}
+				}
+				// . target
+
 				//realisasi
 				for($rowTahun = 1; $rowTahun <= 5; $rowTahun++){
 
@@ -164,6 +180,7 @@ class RenstraController extends Controller
 					if(session('tahun') == $rowTahun){
 						$triwulan = session('triwulan');
 					}
+
 					$realisasi_pagu = DB::table('ref_rkpd_sub_kegiatan_indikator')
 					->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
 					->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
@@ -177,27 +194,19 @@ class RenstraController extends Controller
 					->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_pagu');
 
 					$dataAll[$index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu;
+					$dataAll[$index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($realisasi_pagu, $dataAll[$index]['dataPagu'][$rowTahun]['pagu']);
 
 					$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 					$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 					$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 					$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
+
+					$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu']);
+					$dataAll[$program_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$program_index]['dataPagu'][$rowTahun]['pagu']);
+					$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu']);
+					$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu']);
 				}
 				// . realisasi
-
-				// target
-				for($idxSub = 0; $idxSub < count($dataAll[$index]['data']); $idxSub++){
-					for($rowTahun = 1; $rowTahun <= 5; $rowTahun++){
-						$temp = 'renstra_sub_kegiatan_indikator_th'.$rowTahun.'_pagu';
-						$pagu = $dataAll[$index]['data'][$idxSub]->$temp;
-						
-						$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu'];
-						$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu'];
-						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu'];
-						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu'];
-					}
-				}
-				// . target
 
 				$dataAll[$index]['level'] = 5;
 				$index++;
@@ -223,6 +232,15 @@ class RenstraController extends Controller
       return view('pdf/renstra', $kirim);
     }
 
+	}
+
+	public function setCapaian($realisasi, $target)
+	{
+		$hasil = 0;
+		if ($target > 0) {
+			$hasil = round(100 * $realisasi / $target, 2);
+		}
+		return $hasil;
 	}
 
 }

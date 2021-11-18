@@ -8,6 +8,57 @@ function toRupiah($angka){
 	return $hasil_rupiah;
  
 }
+function setTarget($_nilai, $_jenis, $_json){
+		
+	$nilai = $_nilai;
+	$hasil = $nilai;
+	if (@$_jenis == 2) {
+		$arr = json_decode($_json, true);
+		for ($i = 0; $i < count($arr); $i++) {
+			$temp = 0;
+			if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+				$hasil = $arr[$i]['nama'];
+				$temp = $arr[$i]['nilai'];
+			}
+		}
+	}
+	return $hasil;
+}
+
+function setCapaian($realisasi, $target){
+	$hasil = 0;
+
+	if($target > 0){
+		$hasil = round(100*$realisasi/$target, 2);
+	}
+
+	return $hasil;
+}
+
+function setPredikat($nilai){
+	$hasil = "E";
+
+	if($nilai > 100){
+		$hasil = 'A+';
+	}elseif($nilai > 80){
+		$hasil = 'A';
+	}else if($nilai > 60){
+		$hasil = 'B';
+	}else if($nilai > 40){
+		$hasil = 'C';
+	}else if($nilai > 20){
+		$hasil = 'D';
+	}else{
+		$hasil = "E";
+	}
+
+	if($nilai == '' || $nilai == null){
+		$hasil = '';
+	}
+	
+
+	return $hasil;
+}
 
 ?>
 <head>
@@ -50,8 +101,8 @@ function toRupiah($angka){
 				<th rowspan="3">Satuan</th>
 				<th rowspan="3">Kondisi Awal</th>
 				<th colspan="10">Target</th>
-				<th colspan="10">Capaian</th>
-				<th colspan="5">Rasio</th>
+				<th colspan="10">Realisasi</th>
+				<th colspan="15">Capaian</th>
 				<th rowspan="3">OPD</th>
 			</tr>
 			<tr>
@@ -65,11 +116,11 @@ function toRupiah($angka){
 				<th colspan="2">{{ session('rpjmd_tahun')+2 }}</th>
 				<th colspan="2">{{ session('rpjmd_tahun')+3 }}</th>
 				<th colspan="2">{{ session('rpjmd_tahun')+4 }}</th>
-				<th rowspan="2">{{ session('rpjmd_tahun') }}</th>
-				<th rowspan="2">{{ session('rpjmd_tahun')+1 }}</th>
-				<th rowspan="2">{{ session('rpjmd_tahun')+2 }}</th>
-				<th rowspan="2">{{ session('rpjmd_tahun')+3 }}</th>
-				<th rowspan="2">{{ session('rpjmd_tahun')+4 }}</th>
+				<th colspan="3">{{ session('rpjmd_tahun') }}</th>
+				<th colspan="3">{{ session('rpjmd_tahun')+1 }}</th>
+				<th colspan="3">{{ session('rpjmd_tahun')+2 }}</th>
+				<th colspan="3">{{ session('rpjmd_tahun')+3 }}</th>
+				<th colspan="3">{{ session('rpjmd_tahun')+4 }}</th>
 			</tr>
 			<tr>
 				<th>Kinerja</th>
@@ -92,28 +143,33 @@ function toRupiah($angka){
 				<th>Pagu</th>
 				<th>Kinerja</th>
 				<th>Pagu</th>
-				<!-- <th>Kinerja</th>
-				<th>Pagu</th>
 				<th>Kinerja</th>
 				<th>Pagu</th>
+				<th>Predikat</th>
 				<th>Kinerja</th>
 				<th>Pagu</th>
+				<th>Predikat</th>
 				<th>Kinerja</th>
 				<th>Pagu</th>
+				<th>Predikat</th>
 				<th>Kinerja</th>
-				<th>Pagu</th> -->
+				<th>Pagu</th>
+				<th>Predikat</th>
+				<th>Kinerja</th>
+				<th>Pagu</th>
+				<th>Predikat</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($dataAll as $row)
 				@if($row['level'] == 1)
 					<tr>
-						<td colspan="40">{{ $row['uraian'] }}</td>
+						<td colspan="45">{{ $row['uraian'] }}</td>
 					</tr>
 				@elseif($row['level'] == 2)
 					<tr>
 						<td style="border-right: 0px"></td>
-						<td style="border-left: 0px" colspan="39">{{ $row['uraian'] }}</td>
+						<td style="border-left: 0px" colspan="44">{{ $row['uraian'] }}</td>
 					</tr>
 				@elseif($row['level'] == 3)
 				<tr>
@@ -122,49 +178,71 @@ function toRupiah($angka){
 						<td style="border-left: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}" colspan="4">{{ $row['uraian'] }}</td>
 						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_nama }}</td>
 						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_satuan }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th0_realisasi_target }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th1_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th2_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th3_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th4_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th5_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th1_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th0_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th1_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th2_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th3_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th4_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th5_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th2_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th3_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th4_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_tujuan_indikator_th5_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_tujuan_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][0]->rpjmd_tujuan_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['realisasi_pagu']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['pagu_rasio']) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th1_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][1]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th1_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th2_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][2]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th2_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th3_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][3]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th3_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th4_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][4]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th4_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th5_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][5]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_tujuan_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_tujuan_indikator_th5_target)) }}</td>
+						<td></td>
 					</tr>
 
 					@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++)
 					<tr>
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nama }}</td>
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_satuan }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th0_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th0_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_nilai_json) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th1_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th2_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th3_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th4_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_tujuan_indikator_th5_target)) }}</td>
+						<td></td>
 					</tr>
 					@endfor
 				@elseif($row['level'] == 4)
@@ -175,49 +253,71 @@ function toRupiah($angka){
 						<td style="border-right: 0px; border-left: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}" colspan="3">{{ $row['uraian'] }}</td>
 						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_nama }}</td>
 						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_satuan }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th0_realisasi_target }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th1_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th2_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th3_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th4_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th5_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th1_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th0_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th1_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th2_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th3_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th4_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th5_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th2_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th3_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th4_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_sasaran_indikator_th5_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_sasaran_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][0]->rpjmd_sasaran_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['realisasi_pagu']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['pagu_rasio']) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th1_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][1]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th1_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th2_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][2]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th2_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th3_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][3]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th3_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th4_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][4]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th4_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th5_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][5]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_sasaran_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_sasaran_indikator_th5_target)) }}</td>
+						<td></td>
 					</tr>
 
 					@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++)
 					<tr>
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nama }}</td>
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_satuan }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th0_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th0_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_nilai_json) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th1_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th2_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th3_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th4_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_sasaran_indikator_th5_target)) }}</td>
+						<td></td>
 					</tr>
 					@endfor
 				@elseif($row['level'] == 5)
@@ -229,49 +329,69 @@ function toRupiah($angka){
 						<td style="border-right: 0px; border-left: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}" colspan="2">{{ $row['uraian'] }}</td>
 						<td>{{ @$row['data'][0]->rpjmd_program_indikator_nama }}</td>
 						<td>{{ @$row['data'][0]->rpjmd_program_indikator_satuan }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th0_realisasi_target }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th1_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th2_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th3_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th4_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th5_target }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th1_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th0_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th1_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th2_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th3_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th4_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th5_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['renstra_pagu']) }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th2_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th3_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th4_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['realisasi_pagu']) }}</td>
-						<td>{{ @$row['data'][0]->rpjmd_program_indikator_th5_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][0]->rpjmd_program_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }}</td>
 						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['realisasi_pagu']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][1]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][2]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][3]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][4]['pagu_rasio']) }}</td>
-						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu'][5]['pagu_rasio']) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_program_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th1_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][1]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_program_indikator_th1_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th1_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_program_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th2_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][2]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_program_indikator_th2_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th2_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_program_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th3_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][3]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_program_indikator_th3_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th3_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_program_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th4_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][4]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_program_indikator_th4_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th4_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->rpjmd_program_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th5_target) }}%</td>
+						<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ (@$row['dataPagu'][5]['capaian_pagu']) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->rpjmd_program_indikator_th5_realisasi_target, @$row['data'][0]->rpjmd_program_indikator_th5_target)) }}</td>
 						<td rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->opd_nama }}</td>
 					</tr>
 					@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++)
 					<tr>
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_nama }}</td>
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_satuan }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th0_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_realisasi_target }}</td>
-						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_realisasi_target }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th0_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td>{{ setTarget(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th1_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th2_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th3_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th4_target)) }}</td>
+						<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_target) }}%</td>
+						<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_th5_target)) }}</td>
 					</tr>
 					@endfor
 				@endif

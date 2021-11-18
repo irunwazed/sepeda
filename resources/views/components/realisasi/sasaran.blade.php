@@ -2,9 +2,9 @@
 
 @section('content')
 <?php
-	$judul = "Realisasi Sasaran";
-	$icon = "feather icon-file";
-	$levelName = \Request::get('levelPath');
+$judul = "Realisasi Sasaran";
+$icon = "feather icon-file";
+$levelName = \Request::get('levelPath');
 ?>
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
@@ -51,14 +51,14 @@
 															<option value="">-= Pilih OPD =-</option>
 															@foreach(@$dataOPD as $row)
 															<option value="{{ $row->id }}" {{ session('opd')==$row->id?'selected':'' }}>
-																{{ $row->opd_nama }}</option>
+																{{ $row->opd_nama }}
+															</option>
 															@endforeach
 														</select>
 													</fieldset>
 												</div>
 												<div class="form-group col-sm-4">
-													<button type="submit" class="btn btn-primary"
-														style="position: relative; top: 20px">Gunakan</button>
+													<button type="submit" class="btn btn-primary" style="position: relative; top: 20px">Gunakan</button>
 												</div>
 											</div>
 										</form>
@@ -112,8 +112,7 @@
 <!-- [ Main Content ] end -->
 
 <!--Disabled Backdrop Modal -->
-<div class="modal fade text-left" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4"
-	aria-hidden="true">
+<div class="modal fade text-left" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable " role="document">
 		<!-- class modal-xl -->
 		<div class="modal-content">
@@ -134,36 +133,36 @@
 						<div class="form-group col-sm-12">
 							<label for="basicInput">Sasaran</label>
 							<fieldset class="form-group">
-								<textarea name="rpjmd_sasaran_nama" class="form-control" cols="30" rows="5"
-									readonly></textarea>
+								<textarea name="rpjmd_sasaran_nama" class="form-control" cols="30" rows="5" readonly></textarea>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-12">
 							<label for="basicInput">Indikator</label>
 							<fieldset class="form-group">
-								<textarea name="rpjmd_sasaran_indikator_nama" class="form-control" cols="30" rows="5"
-									readonly></textarea>
+								<textarea name="rpjmd_sasaran_indikator_nama" class="form-control" cols="30" rows="5" readonly></textarea>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-9">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target Kinerja</label>
 							<fieldset class="form-group">
 								<input type="text" name="rpjmd_sasaran_indikator_target" class="form-control" readonly>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-3">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Satuan</label>
 							<fieldset class="form-group">
 								<input type="text" name="rpjmd_sasaran_indikator_satuan" class="form-control" readonly>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-9">
+						<div class="form-group col-sm-3" id="indikator-json" style="border: solid #CCCCCC 1px;">
+						</div>
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Realisasi Kinerja</label>
 							<fieldset class="form-group">
-								<input type="text" name="realisasi_kinerja" class="form-control">
+								<input type="number" name="realisasi_kinerja" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-3">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Satuan</label>
 							<fieldset class="form-group">
 								<input type="text" name="rpjmd_sasaran_indikator_satuan" class="form-control" readonly>
@@ -187,297 +186,305 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"> -->
 <style>
-.dataTables_filter label {
-	width: 100%;
-	float: right;
-}
+	.dataTables_filter label {
+		width: 100%;
+		float: right;
+	}
 </style>
 <script>
-var link = window.location.pathname;
-var linkAction = '/create';
-var dataPilih = {};
-var kode = '{{ @$kode }}';
-var triwulan = 1;
-var tahun = "{{ session('rpjmd_tahun') }}";
-var tahun_ke = "{{ session('tahun') }}";
+	var link = window.location.pathname;
+	var linkAction = '/create';
+	var dataPilih = {};
+	var kode = '{{ @$kode }}';
+	var triwulan = 1;
+	var tahun = "{{ session('rpjmd_tahun') }}";
+	var tahun_ke = "{{ session('tahun') }}";
 
-$(document).ready(function() {
+	$(document).ready(function() {
 
-	var groupColumn = [{
-		name: 'Visi',
-		data: 'rpjmd_visi_nama',
-		column: 1
-	}, {
-		name: 'Misi',
-		data: 'rpjmd_misi_nama',
-		column: 2
-	}, {
-		name: 'Tujuan',
-		data: 'rpjmd_tujuan_nama',
-		column: 3
-	},{
-		name: 'Sasaran',
-		data: 'rpjmd_sasaran_nama',
-		column: 4
-	}, ];
-
-	var table = $('.my-datatable').DataTable({
-
-		responsive: true,
-		ordering: false,
-		autoWidth: false,
-		processing: true,
-		serverSide: true,
-		// responsive: true,
-		// "scrollX": true,
-		dom: "<'row'<'col-lg-10 col-md-10 col-xs-12'f><'col-lg-2 col-md-2 col-xs-12'l>>" +
-			"<'row'<'col-sm-12'tr>>" +
-			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-		language: {
-			search: '<div style="width: 100%;"><span>Filter:</span> _INPUT_</div>',
-			searchPlaceholder: 'Cari...',
-			lengthMenu: '<span>Perlihatkan : </span> _MENU_',
-			paginate: {
-				'first': 'First',
-				'last': 'Last',
-				'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
-				'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
-			}
-		},
-		ajax: link + "/get-data",
-		columnDefs: [{
-			"visible": false,
-			"targets": groupColumn[0].column
+		var groupColumn = [{
+			name: 'Visi',
+			data: 'rpjmd_visi_nama',
+			column: 1
 		}, {
-			"visible": false,
-			"targets": groupColumn[1].column
+			name: 'Misi',
+			data: 'rpjmd_misi_nama',
+			column: 2
 		}, {
-			"visible": false,
-			"targets": groupColumn[2].column
+			name: 'Tujuan',
+			data: 'rpjmd_tujuan_nama',
+			column: 3
 		}, {
-			"visible": false,
-			"targets": groupColumn[3].column
-		}, ],
-		columns: [{
-				"class": "details-control",
-				"orderable": false,
-				"data": null,
-				"defaultContent": "<center><img src='https://datatables.net/examples/resources/details_open.png' /></center>"
+			name: 'Sasaran',
+			data: 'rpjmd_sasaran_nama',
+			column: 4
+		}, ];
+
+		var table = $('.my-datatable').DataTable({
+
+			responsive: true,
+			ordering: false,
+			autoWidth: false,
+			processing: true,
+			serverSide: true,
+			// responsive: true,
+			// "scrollX": true,
+			dom: "<'row'<'col-lg-10 col-md-10 col-xs-12'f><'col-lg-2 col-md-2 col-xs-12'l>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			language: {
+				search: '<div style="width: 100%;"><span>Filter:</span> _INPUT_</div>',
+				searchPlaceholder: 'Cari...',
+				lengthMenu: '<span>Perlihatkan : </span> _MENU_',
+				paginate: {
+					'first': 'First',
+					'last': 'Last',
+					'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
+					'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
+				}
 			},
-			{
-				data: 'rpjmd_visi_nama',
-			},
-			{
-				data: 'rpjmd_misi_nama',
-			},
-			{
-				data: 'rpjmd_tujuan_nama',
-			},
-			{
-				data: 'rpjmd_sasaran_nama',
-			},
-			{
-				data: 'rpjmd_sasaran_indikator_nama',
-			},
-			{
-				data: 'rpjmd_sasaran_indikator_satuan',
-			},
-			{
-				data: 'rpjmd_sasaran_indikator_th' + tahun_ke + '_target',
-			},
-			{
-				data: 'pagu',
-				render: function(e) {
-					return '-';
+			ajax: link + "/get-data",
+			columnDefs: [{
+				"visible": false,
+				"targets": groupColumn[0].column
+			}, {
+				"visible": false,
+				"targets": groupColumn[1].column
+			}, {
+				"visible": false,
+				"targets": groupColumn[2].column
+			}, {
+				"visible": false,
+				"targets": groupColumn[3].column
+			}, ],
+			columns: [{
+					"class": "details-control",
+					"orderable": false,
+					"data": null,
+					"defaultContent": "<center><img src='https://datatables.net/examples/resources/details_open.png' /></center>"
 				},
-				className: "text-right"
-			},
-			{
-				data: 'rpjmd_sasaran_indikator_th' + tahun_ke + '_realisasi_target',
-			},
-			{
-				data: 'realisasi_pagu',
-				render: function(e) {
-					return '-';
+				{
+					data: 'rpjmd_visi_nama',
 				},
-				className: "text-right"
-			},
-			{
-				data: 'action',
-				name: 'action'
-			},
-		],
-		"displayLength": 25,
-		"order": [
-			[groupColumn[0].column, 'asc'],
-			[groupColumn[1].column, 'asc'],
-			[groupColumn[2].column, 'asc'],
-			[groupColumn[3].column, 'asc'],
-		],
-		"drawCallback": function(settings) {
-			var api = this.api();
-			var rows = api.rows({
-				page: 'current'
-			}).nodes();
-			var last = null;
-
-			console.log(api);
-
-			let space = '';
-			for (let idx = 0; idx < groupColumn.length; idx++) {
-				space += '';
-				api.column({
+				{
+					data: 'rpjmd_misi_nama',
+				},
+				{
+					data: 'rpjmd_tujuan_nama',
+				},
+				{
+					data: 'rpjmd_sasaran_nama',
+				},
+				{
+					data: 'rpjmd_sasaran_indikator_nama',
+				},
+				{
+					data: 'rpjmd_sasaran_indikator_satuan',
+				},
+				{
+					data: 'target',
+				},
+				{
+					data: 'pagu',
+					render: function(e) {
+						return '-';
+					},
+					className: "text-right"
+				},
+				{
+					data: 'realisasi_target',
+				},
+				{
+					data: 'realisasi_pagu',
+					render: function(e) {
+						return '-';
+					},
+					className: "text-right"
+				},
+				{
+					data: 'action',
+					name: 'action'
+				},
+			],
+			"displayLength": 25,
+			"order": [
+				[groupColumn[0].column, 'asc'],
+				[groupColumn[1].column, 'asc'],
+				[groupColumn[2].column, 'asc'],
+				[groupColumn[3].column, 'asc'],
+			],
+			"drawCallback": function(settings) {
+				var api = this.api();
+				var rows = api.rows({
 					page: 'current'
-				}).data().each(function(group, i) {
-					console.log(group);
-					let name = group[groupColumn[idx].data];
-					if (last !== name) {
-						if (idx == 3) {
+				}).nodes();
+				var last = null;
 
-							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="2">' + groupColumn[idx].name+ ' : ' + name +
-								'</td><td></td><td></td>' +
-								'</td><td class="text-right">' + formatRupiah(group['pagu']) +
-								'</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) +
-								'</td><td></td></tr>'
-							);
+				console.log(api);
 
-						} else {
-							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="8">' + groupColumn[idx].name+ ' : ' + name +'</td></tr>'
-							);
+				let space = '';
+				for (let idx = 0; idx < groupColumn.length; idx++) {
+					space += '';
+					api.column({
+						page: 'current'
+					}).data().each(function(group, i) {
+						console.log(group);
+						let name = group[groupColumn[idx].data];
+						if (last !== name) {
+							if (idx == 3) {
+
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="2">' + groupColumn[idx].name + ' : ' + name +
+									'</td><td></td><td></td>' +
+									'</td><td class="text-right">' + formatRupiah(group['pagu']) +
+									'</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) +
+									'</td><td></td></tr>'
+								);
+
+							} else {
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="8">' + groupColumn[idx].name + ' : ' + name + '</td></tr>'
+								);
+							}
+							last = name;
 						}
-						last = name;
-					}
-				});
+					});
+				}
 			}
-		}
+		});
+		var detailRows = [];
+
+		$('.my-datatable tbody').on('click', 'tr td.details-control', function() {
+
+			var tr = $(this).closest('tr');
+			var row = table.row(tr);
+			var idx = $.inArray(tr.attr('id'), detailRows);
+			console.log(tr.attr('id'));
+			if (row.child.isShown()) {
+				tr.removeClass('details');
+				row.child.hide();
+				detailRows.splice(idx, 1);
+				$(this).html("<center><img src='https://datatables.net/examples/resources/details_open.png'/></center>");
+			} else {
+				tr.addClass('details');
+				row.child(format(row.data())).show();
+
+				$(this).html("<center><img src='https://datatables.net/examples/resources/details_close.png'/></center>");
+				if (idx === -1) {
+					detailRows.push(tr.attr('id'));
+				}
+			}
+		});
+		table.on('draw', function() {
+			$.each(detailRows, function(i, id) {
+				$('#' + id + ' td.details-control').trigger('click');
+			});
+		});
+
 	});
-	var detailRows = [];
 
-	$('.my-datatable tbody').on('click', 'tr td.details-control', function() {
+	function format(d) {
+		let date = d.created_at;
+		let waktu = '';
+		let bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'November',
+			'Desember'
+		];
 
-		var tr = $(this).closest('tr');
-		var row = table.row(tr);
-		var idx = $.inArray(tr.attr('id'), detailRows);
-		console.log(tr.attr('id'));
-		if (row.child.isShown()) {
-			tr.removeClass('details');
-			row.child.hide();
-			detailRows.splice(idx, 1);
-			$(this).html("<center><img src='https://datatables.net/examples/resources/details_open.png'/></center>");
+		if (date != null) {
+			date = date.split(' ');
+			jam = date[1].split(':');
+			jam = jam[0] + ':' + jam[1];
+			date = date[0].split('-');
+			waktu = date[2] + ' ' + bulan[parseInt(date[1])] + ' ' + date[0] + ', Pukul ' + jam;
+			return '<span style="float: right;">Dibuat pada ' + waktu + '</span>';
 		} else {
-			tr.addClass('details');
-			row.child(format(row.data())).show();
-
-			$(this).html("<center><img src='https://datatables.net/examples/resources/details_close.png'/></center>");
-			if (idx === -1) {
-				detailRows.push(tr.attr('id'));
-			}
+			return '';
 		}
-	});
-	table.on('draw', function() {
-		$.each(detailRows, function(i, id) {
-			$('#' + id + ' td.details-control').trigger('click');
+	}
+
+	function setView(id) {
+		setUpdate(id);
+		$("#form-data :input").prop("disabled", true);
+		$('#btn-form-data').hide();
+	}
+
+	function setCreate() {
+		linkAction = '/create';
+		$('#btn-form-data').show().html("Tambah");
+		$("#form-data :input").prop("disabled", false);
+		$('#modal-form').modal('show');
+		$('#form-data')[0].reset();
+
+		$('textarea[name="rpjmd_sasaran_nama"]').html('');
+		$('textarea[name="rpjmd_sasaran_indikator_nama"]').html('');
+		$('input[name="kode"]').val(kode);
+	}
+
+	function setUpdate(id) {
+
+		$('#btn-form-data').show().html("Ubah");
+		$("#form-data :input").prop("disabled", false);
+		linkAction = '/update';
+		$('#modal-form').modal('show');
+		$('#form-data')[0].reset();
+
+
+		let url = link + '/get-data/' + id;
+		$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
+			if (res.status) {
+				dataPilih = res.data;
+				$('input[name="id"]').val(res.data.id);
+				$('input[name="kode"]').val(kode);
+
+				$('input[name="realisasi_kinerja"]').val(dataPilih['rpjmd_sasaran_indikator_th' + tahun_ke +
+					'_realisasi_target']);
+				$('input[name="realisasi_pagu"]').val(dataPilih['rpjmd_sasaran_indikator_th' + tahun_ke + '_realisasi_pagu']);
+
+				$('textarea[name="rpjmd_sasaran_nama"]').html(res.data.rpjmd_sasaran_nama);
+				$('textarea[name="rpjmd_sasaran_indikator_nama"]').html(res.data.rpjmd_sasaran_indikator_nama);
+				$('input[name="rpjmd_sasaran_indikator_satuan"]').val(res.data.rpjmd_sasaran_indikator_satuan);
+				$('input[name="rpjmd_sasaran_indikator_target"]').val(res.data['rpjmd_sasaran_indikator_th' + tahun_ke +
+					'_target']);
+
+
+				let arrJson = JSON.parse(res.data.rpjmd_sasaran_indikator_nilai_json);
+				let strJson = '';
+				for (let j = 0; j < arrJson.length; j++) {
+					strJson += (j + 1) + '. ' + arrJson[j]['nilai'] + ' => ' + arrJson[j]['nama'] + '<br>';
+				}
+				$('#indikator-json').html(strJson);
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
+		});
+	}
+
+	$('#form-data').submit(function(e) {
+		e.preventDefault();
+
+		let url = link + linkAction;
+		let data = $(this).serializeArray();
+		var fd = new FormData();
+		// var files = $('input[name="foto"]')[0].files;
+
+		// fd.append('foto',files[0]);
+		$.each(data, function(i, field) {
+			fd.append(field.name, field.value);
+		});
+		console.log(data);
+		$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
+			if (res.status == true) {
+				pesanSweet('Berhasil', res.pesan, 'success');
+				$('.my-datatable').DataTable().ajax.reload();
+				$('#modal-form').modal('hide');
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
 		});
 	});
 
-});
-
-function format(d) {
-	let date = d.created_at;
-	let waktu = '';
-	let bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'November',
-		'Desember'
-	];
-
-	if (date != null) {
-		date = date.split(' ');
-		jam = date[1].split(':');
-		jam = jam[0] + ':' + jam[1];
-		date = date[0].split('-');
-		waktu = date[2] + ' ' + bulan[parseInt(date[1])] + ' ' + date[0] + ', Pukul ' + jam;
-		return '<span style="float: right;">Dibuat pada ' + waktu + '</span>';
-	} else {
-		return '';
+	function setDelete(id) {
+		init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
 	}
-}
-
-function setView(id) {
-	setUpdate(id);
-	$("#form-data :input").prop("disabled", true);
-	$('#btn-form-data').hide();
-}
-
-function setCreate() {
-	linkAction = '/create';
-	$('#btn-form-data').show().html("Tambah");
-	$("#form-data :input").prop("disabled", false);
-	$('#modal-form').modal('show');
-	$('#form-data')[0].reset();
-
-	$('textarea[name="rpjmd_sasaran_nama"]').html('');
-	$('textarea[name="rpjmd_sasaran_indikator_nama"]').html('');
-	$('input[name="kode"]').val(kode);
-}
-
-function setUpdate(id) {
-
-	$('#btn-form-data').show().html("Ubah");
-	$("#form-data :input").prop("disabled", false);
-	linkAction = '/update';
-	$('#modal-form').modal('show');
-	$('#form-data')[0].reset();
-
-
-	let url = link + '/get-data/' + id;
-	$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
-		if (res.status) {
-			dataPilih = res.data;
-			$('input[name="id"]').val(res.data.id);
-			$('input[name="kode"]').val(kode);
-
-			$('input[name="realisasi_kinerja"]').val(dataPilih['rpjmd_sasaran_indikator_th' + tahun_ke +
-				'_realisasi_target']);
-			$('input[name="realisasi_pagu"]').val(dataPilih['rpjmd_sasaran_indikator_th' + tahun_ke + '_realisasi_pagu']);
-
-			$('textarea[name="rpjmd_sasaran_nama"]').html(res.data.rpjmd_sasaran_nama);
-			$('textarea[name="rpjmd_sasaran_indikator_nama"]').html(res.data.rpjmd_sasaran_indikator_nama);
-			$('input[name="rpjmd_sasaran_indikator_satuan"]').val(res.data.rpjmd_sasaran_indikator_satuan);
-			$('input[name="rpjmd_sasaran_indikator_target"]').val(res.data['rpjmd_sasaran_indikator_th' + tahun_ke +
-				'_target']);
-		} else {
-			pesanSweet('Gagal!', res.pesan, 'warning');
-		}
-	});
-}
-
-$('#form-data').submit(function(e) {
-	e.preventDefault();
-
-	let url = link + linkAction;
-	let data = $(this).serializeArray();
-	var fd = new FormData();
-	// var files = $('input[name="foto"]')[0].files;
-
-	// fd.append('foto',files[0]);
-	$.each(data, function(i, field) {
-		fd.append(field.name, field.value);
-	});
-	console.log(data);
-	$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
-		if (res.status == true) {
-			pesanSweet('Berhasil', res.pesan, 'success');
-			$('.my-datatable').DataTable().ajax.reload();
-			$('#modal-form').modal('hide');
-		} else {
-			pesanSweet('Gagal!', res.pesan, 'warning');
-		}
-	});
-});
-
-function setDelete(id) {
-	init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
-}
 </script>
 @endsection

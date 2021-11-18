@@ -57,8 +57,40 @@ class TujuanController extends Controller
 		}
 
 		$number = 0;
-    
+    $tahun_ke = session('tahun');
     return DataTables::of($data->get())
+		->addColumn('target', function ($row) use ($tahun_ke) {
+			$th = 'rpjmd_tujuan_indikator_th'.$tahun_ke.'_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rpjmd_tujuan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rpjmd_tujuan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
+		->addColumn('realisasi_target', function ($row) use ($tahun_ke) {
+			$th = 'rpjmd_tujuan_indikator_th'.$tahun_ke.'_realisasi_target';
+			$nilai = $row->$th;
+			$hasil = $nilai;
+			if (@$row->rpjmd_tujuan_indikator_nilai_jenis == 2) {
+				$arr = json_decode($row->rpjmd_tujuan_indikator_nilai_json, true);
+				for ($i = 0; $i < count($arr); $i++) {
+					$temp = 0;
+					if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+						$hasil = $arr[$i]['nama'];
+						$temp = $arr[$i]['nilai'];
+					}
+				}
+			}
+			return $hasil;
+		})
 		->addColumn('pagu', function($row){
 			$hasil = 0;
 

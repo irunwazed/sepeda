@@ -25,7 +25,7 @@ class CreateRkpdSubKegiatanIndikatorTable extends Migration
 				$table->double('rkpd_sub_kegiatan_indikator_latitude')->nullable(); 
 				$table->double('rkpd_sub_kegiatan_indikator_longitude')->nullable(); 
 				$table->string('rkpd_sub_kegiatan_indikator_satuan')->nullable(); 
-				$table->string('rkpd_sub_kegiatan_indikator_target')->nullable(); 
+				$table->double('rkpd_sub_kegiatan_indikator_target')->nullable(); 
 				$table->tinyInteger('rkpd_sub_kegiatan_indikator_target_jenis')->nullable();  // 1 pilihan masukkan nilai, 2 masukkan pilihan
 				$table->text('rkpd_sub_kegiatan_indikator_target_pilihan')->nullable();  // json daftar pilihan memiliki nama dan value
 				$table->double('rkpd_sub_kegiatan_indikator_pagu')->nullable(); 

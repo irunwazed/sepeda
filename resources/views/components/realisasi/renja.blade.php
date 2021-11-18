@@ -2,9 +2,9 @@
 
 @section('content')
 <?php
-	$judul = "Realisasi Renja";
-	$icon = "feather icon-file";
-	$levelName = \Request::get('levelPath');
+$judul = "Realisasi Renja";
+$icon = "feather icon-file";
+$levelName = \Request::get('levelPath');
 ?>
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
@@ -51,14 +51,14 @@
 															<option value="">-= Pilih OPD =-</option>
 															@foreach(@$dataOPD as $row)
 															<option value="{{ $row->id }}" {{ session('opd')==$row->id?'selected':'' }}>
-																{{ $row->opd_nama }}</option>
+																{{ $row->opd_nama }}
+															</option>
 															@endforeach
 														</select>
 													</fieldset>
 												</div>
 												<div class="form-group col-sm-4">
-													<button type="submit" class="btn btn-primary"
-														style="position: relative; top: 20px">Gunakan</button>
+													<button type="submit" class="btn btn-primary" style="position: relative; top: 20px">Gunakan</button>
 												</div>
 											</div>
 										</form>
@@ -122,8 +122,7 @@
 <!-- [ Main Content ] end -->
 
 <!--Disabled Backdrop Modal -->
-<div class="modal fade text-left" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4"
-	aria-hidden="true">
+<div class="modal fade text-left" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable " role="document">
 		<!-- class modal-xl -->
 		<div class="modal-content">
@@ -189,10 +188,11 @@
 								<input type="number" step="0.01" name="rkpd_sub_kegiatan_indikator_pagu" class="form-control" readonly>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-12">
+						<div class="form-group col-sm-6">
 							<label>Realisasi Triwulan</label>
 							<fieldset class="form-group">
-								<select name="triwulan" class="form-control select2" disabled>
+								<select name="triwulan" class="form-control select2" required>
+									<option value="">-= Pilih Triwulan =-</option>
 									<option value="1">Triwulan 1</option>
 									<option value="2">Triwulan 2</option>
 									<option value="3">Triwulan 3</option>
@@ -200,10 +200,12 @@
 								</select>
 							</fieldset>
 						</div>
+						<div class="form-group col-sm-5" id="indikator-json" style="border: solid #CCCCCC 1px;">
+						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Realisasi Kinerja</label>
 							<fieldset class="form-group">
-								<input type="text" name="realisasi_kinerja" class="form-control">
+								<input type="number" step="0.01" name="realisasi_kinerja" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-2">
@@ -236,372 +238,386 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"> -->
 <style>
-.dataTables_filter label {
-	width: 100%;
-	float: right;
-}
+	.dataTables_filter label {
+		width: 100%;
+		float: right;
+	}
 </style>
 <script>
-var link = window.location.pathname;
-var linkAction = '/create';
-var dataPilih = {};
-var kode = '{{ @$kode }}';
-var triwulan = 1;
+	var link = window.location.pathname;
+	var linkAction = '/create';
+	var dataPilih = {};
+	var kode = '{{ @$kode }}';
+	var triwulan = '{{session("triwulan")}}';
 
 
-$(document).ready(function() {
+	$(document).ready(function() {
 
-	$('select[name="opd"]').select2();
-	$('select[name="program"]').select2({
-		dropdownParent: $("#modal-form"),
-	});
-	$('select[name="kegiatan"]').select2({
-		dropdownParent: $("#modal-form"),
-	});
-	$('select[name="sub_kegiatan"]').select2({
-		dropdownParent: $("#modal-form"),
-	});
-	
-	var groupColumn = [{
-		name: 'Program',
-		data: 'program',
-		column: 1
-	}, {
-		name: 'Kegiatan',
-		data: 'kegiatan',
-		column: 2
-	}, {
-		name: 'Sub Kegiatan',
-		data: 'sub_kegiatan',
-		column: 3
-	}, ];
+		$('select[name="opd"]').select2();
+		$('select[name="program"]').select2({
+			dropdownParent: $("#modal-form"),
+		});
+		$('select[name="kegiatan"]').select2({
+			dropdownParent: $("#modal-form"),
+		});
+		$('select[name="sub_kegiatan"]').select2({
+			dropdownParent: $("#modal-form"),
+		});
 
-	var table = $('.my-datatable').DataTable({
+		var groupColumn = [{
+			name: 'Program',
+			data: 'program',
+			column: 1
+		}, {
+			name: 'Kegiatan',
+			data: 'kegiatan',
+			column: 2
+		}, {
+			name: 'Sub Kegiatan',
+			data: 'sub_kegiatan',
+			column: 3
+		}, ];
 
-		responsive: true,
-		ordering: false,
-		autoWidth: false,
-		processing: true,
-		serverSide: true,
-		// responsive: true,
-		// "scrollX": true,
-		dom: "<'row'<'col-lg-10 col-md-10 col-xs-12'f><'col-lg-2 col-md-2 col-xs-12'l>>" +
-			"<'row'<'col-sm-12'tr>>" +
-			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-		language: {
-			search: '<div style="width: 100%;"><span>Filter:</span> _INPUT_</div>',
-			searchPlaceholder: 'Cari...',
-			lengthMenu: '<span>Perlihatkan : </span> _MENU_',
-			paginate: {
-				'first': 'First',
-				'last': 'Last',
-				'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
-				'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
-			}
-		},
-		ajax: link + "/get-data",
-		columnDefs: [{
-				"visible": false,
-				"targets": groupColumn[0].column
+		var table = $('.my-datatable').DataTable({
+
+			responsive: true,
+			ordering: false,
+			autoWidth: false,
+			processing: true,
+			serverSide: true,
+			// responsive: true,
+			// "scrollX": true,
+			dom: "<'row'<'col-lg-10 col-md-10 col-xs-12'f><'col-lg-2 col-md-2 col-xs-12'l>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			language: {
+				search: '<div style="width: 100%;"><span>Filter:</span> _INPUT_</div>',
+				searchPlaceholder: 'Cari...',
+				lengthMenu: '<span>Perlihatkan : </span> _MENU_',
+				paginate: {
+					'first': 'First',
+					'last': 'Last',
+					'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
+					'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
+				}
 			},
-			{
-				"visible": false,
-				"targets": groupColumn[1].column
-			},
-			{
-				"visible": false,
-				"targets": groupColumn[2].column
-			},
-		],
-		columns: [{
-				"class": "details-control",
-				"orderable": false,
-				"data": null,
-				"defaultContent": "<center><img src='https://datatables.net/examples/resources/details_open.png' /></center>"
-			},
-			{
-				data: 'program_nama',
-			},
-			{
-				data: 'kegiatan_nama',
-			},
-			{
-				data: 'sub_kegiatan_nama',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_nama',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_target',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_satuan',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_pagu',
-				render: function(e){
-					return formatRupiah(e);
+			ajax: link + "/get-data",
+			columnDefs: [{
+					"visible": false,
+					"targets": groupColumn[0].column
 				},
-				className: "text-right"
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw1_target',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw1_pagu',
-				render: function(e){
-					return formatRupiah(e);
+				{
+					"visible": false,
+					"targets": groupColumn[1].column
 				},
-				className: "text-right"
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw2_target',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw2_pagu',
-				render: function(e){
-					return formatRupiah(e);
+				{
+					"visible": false,
+					"targets": groupColumn[2].column
 				},
-				className: "text-right"
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw3_target',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw3_pagu',
-				render: function(e){
-					return formatRupiah(e);
+			],
+			columns: [{
+					"class": "details-control",
+					"orderable": false,
+					"data": null,
+					"defaultContent": "<center><img src='https://datatables.net/examples/resources/details_open.png' /></center>"
 				},
-				className: "text-right"
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw4_target',
-			},
-			{
-				data: 'rkpd_sub_kegiatan_indikator_tw4_pagu',
-				render: function(e){
-					return formatRupiah(e);
+				{
+					data: 'program_nama',
 				},
-				className: "text-right"
-			},
-			{
-				data: 'action',
-				name: 'action'
-			},
-		],
-		"displayLength": 25,
-		"order": [
-			[groupColumn[0].column, 'asc'],
-			[groupColumn[1].column, 'asc'],
-			[groupColumn[2].column, 'asc'],
-		],
-		"drawCallback": function(settings) {
-			var api = this.api();
-			var rows = api.rows({
-				page: 'current'
-			}).nodes();
-			var last = null;
-
-			let space = '';
-			for (let idx = 0; idx < groupColumn.length; idx++) {
-				space += '';
-				api.column({
+				{
+					data: 'kegiatan_nama',
+				},
+				{
+					data: 'sub_kegiatan_nama',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_nama',
+				},
+				{
+					data: 'target',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_satuan',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_pagu',
+					render: function(e) {
+						return formatRupiah(e);
+					},
+					className: "text-right"
+				},
+				{
+					data: 'tw1_target',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_tw1_pagu',
+					render: function(e) {
+						return formatRupiah(e);
+					},
+					className: "text-right"
+				},
+				{
+					data: 'tw2_target',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_tw2_pagu',
+					render: function(e) {
+						return formatRupiah(e);
+					},
+					className: "text-right"
+				},
+				{
+					data: 'tw3_target',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_tw3_pagu',
+					render: function(e) {
+						return formatRupiah(e);
+					},
+					className: "text-right"
+				},
+				{
+					data: 'tw4_target',
+				},
+				{
+					data: 'rkpd_sub_kegiatan_indikator_tw4_pagu',
+					render: function(e) {
+						return formatRupiah(e);
+					},
+					className: "text-right"
+				},
+				{
+					data: 'action',
+					name: 'action'
+				},
+			],
+			"displayLength": 25,
+			"order": [
+				[groupColumn[0].column, 'asc'],
+				[groupColumn[1].column, 'asc'],
+				[groupColumn[2].column, 'asc'],
+			],
+			"drawCallback": function(settings) {
+				var api = this.api();
+				var rows = api.rows({
 					page: 'current'
-				}).data().each(function(group, i) {
+				}).nodes();
+				var last = null;
 
-					let name = group[groupColumn[idx].data];
-					if (last !== name) {
-						$(rows).eq(i).before(
-							'<tr class="group"><td colspan="17">' + name +
-							'</td></tr>'
-						);
-						last = name;
-					}
-				});
+				let space = '';
+				for (let idx = 0; idx < groupColumn.length; idx++) {
+					space += '';
+					api.column({
+						page: 'current'
+					}).data().each(function(group, i) {
+
+						let name = group[groupColumn[idx].data];
+						if (last !== name) {
+							$(rows).eq(i).before(
+								'<tr class="group"><td colspan="17">' + name +
+								'</td></tr>'
+							);
+							last = name;
+						}
+					});
+				}
 			}
-		}
+		});
+		var detailRows = [];
+
+		$('.my-datatable tbody').on('click', 'tr td.details-control', function() {
+
+			var tr = $(this).closest('tr');
+			var row = table.row(tr);
+			var idx = $.inArray(tr.attr('id'), detailRows);
+			console.log(tr.attr('id'));
+			if (row.child.isShown()) {
+				tr.removeClass('details');
+				row.child.hide();
+				detailRows.splice(idx, 1);
+				$(this).html("<center><img src='https://datatables.net/examples/resources/details_open.png'/></center>");
+			} else {
+				tr.addClass('details');
+				row.child(format(row.data())).show();
+
+				$(this).html("<center><img src='https://datatables.net/examples/resources/details_close.png'/></center>");
+				if (idx === -1) {
+					detailRows.push(tr.attr('id'));
+				}
+			}
+		});
+		table.on('draw', function() {
+			$.each(detailRows, function(i, id) {
+				$('#' + id + ' td.details-control').trigger('click');
+			});
+		});
+
 	});
-	var detailRows = [];
 
-	$('.my-datatable tbody').on('click', 'tr td.details-control', function() {
+	function format(d) {
+		let date = d.created_at;
+		let waktu = '';
+		let bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'November',
+			'Desember'
+		];
 
-		var tr = $(this).closest('tr');
-		var row = table.row(tr);
-		var idx = $.inArray(tr.attr('id'), detailRows);
-		console.log(tr.attr('id'));
-		if (row.child.isShown()) {
-			tr.removeClass('details');
-			row.child.hide();
-			detailRows.splice(idx, 1);
-			$(this).html("<center><img src='https://datatables.net/examples/resources/details_open.png'/></center>");
+		if (date != null) {
+			date = date.split(' ');
+			jam = date[1].split(':');
+			jam = jam[0] + ':' + jam[1];
+			date = date[0].split('-');
+			waktu = date[2] + ' ' + bulan[parseInt(date[1])] + ' ' + date[0] + ', Pukul ' + jam;
+			return '<span style="float: right;">Dibuat pada ' + waktu + '</span>';
 		} else {
-			tr.addClass('details');
-			row.child(format(row.data())).show();
-
-			$(this).html("<center><img src='https://datatables.net/examples/resources/details_close.png'/></center>");
-			if (idx === -1) {
-				detailRows.push(tr.attr('id'));
-			}
+			return '';
 		}
-	});
-	table.on('draw', function() {
-		$.each(detailRows, function(i, id) {
-			$('#' + id + ' td.details-control').trigger('click');
+	}
+
+	function setView(id) {
+		setUpdate(id);
+		$("#form-data :input").prop("disabled", true);
+		$('#btn-form-data').hide();
+	}
+
+	function setClear(){
+		console.log('tes');
+		$('#form-data')[0].reset();
+		$('#indikator-json').html('');
+		$('select[name="triwulan"]').val(triwulan);
+		$('select[name="program"]').val('').trigger('change');
+		$('textarea[name="rkpd_sub_kegiatan_indikator_nama"]').html('');
+	}
+
+	function setCreate() {
+		linkAction = '/create';
+		$('#btn-form-data').show().html("Tambah");
+		$("#form-data :input").prop("disabled", false);
+		$('#modal-form').modal('show');
+
+		$('input[name="kode"]').val(kode);
+	}
+
+	function setUpdate(id) {
+
+		$('#btn-form-data').show().html("Ubah");
+		$("#form-data :input").prop("disabled", false);
+		linkAction = '/update';
+		$('#modal-form').modal('show');
+		setClear();
+
+		let url = link + '/get-data/' + id;
+		$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
+			if (res.status) {
+				dataPilih = res.data;
+				$('input[name="id"]').val(res.data.id);
+				$('input[name="kode"]').val(kode);
+				$('select[name="program"]').empty().append('<option>' + res.data.program_nama + '</option>');
+				$('select[name="kegiatan"]').empty().append('<option>' + res.data.kegiatan_nama + '</option>');
+				$('select[name="sub_kegiatan"]').empty().append('<option value="' + res.data.permen_ver + '-' + res.data.urusan_kode + '-' + res.data.bidang_kode + '-' + res.data.program_kode + '-' + res.data.kegiatan_kode + '-' + res.data.sub_kegiatan_kode + '">' + res.data.sub_kegiatan_nama + '</option>');
+
+				$('input[name="triwulan"]').val(triwulan);
+
+				$('input[name="realisasi_kinerja"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw' + triwulan + '_target']);
+				$('input[name="realisasi_pagu"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw' + triwulan + '_pagu']);
+
+				$('textarea[name="rkpd_sub_kegiatan_indikator_nama"]').html(res.data.rkpd_sub_kegiatan_indikator_nama);
+				$('input[name="rkpd_sub_kegiatan_indikator_satuan"]').val(res.data.rkpd_sub_kegiatan_indikator_satuan);
+				$('input[name="rkpd_sub_kegiatan_indikator_target"]').val(res.data
+					.rkpd_sub_kegiatan_indikator_target);
+				$('input[name="rkpd_sub_kegiatan_indikator_pagu"]').val(res.data
+					.rkpd_sub_kegiatan_indikator_pagu);
+
+
+
+				let arrJson = JSON.parse(res.data.rkpd_sub_kegiatan_indikator_nilai_json);
+				let strJson = '';
+				for (let j = 0; j < arrJson.length; j++) {
+					strJson += (j + 1) + '. ' + arrJson[j]['nilai'] + ' => ' + arrJson[j]['nama'] + '<br>';
+				}
+				$('#indikator-json').html(strJson);
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
+		});
+	}
+
+	$('#form-data').submit(function(e) {
+		e.preventDefault();
+
+		let url = link + linkAction;
+		let data = $(this).serializeArray();
+		var fd = new FormData();
+		// var files = $('input[name="foto"]')[0].files;
+
+		// fd.append('foto',files[0]);
+		$.each(data, function(i, field) {
+			fd.append(field.name, field.value);
+		});
+		console.log(data);
+		$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
+			if (res.status == true) {
+				pesanSweet('Berhasil', res.pesan, 'success');
+				$('.my-datatable').DataTable().ajax.reload();
+				$('#modal-form').modal('hide');
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
 		});
 	});
 
-});
-
-function format(d) {
-	let date = d.created_at;
-	let waktu = '';
-	let bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'November',
-		'Desember'
-	];
-
-	if (date != null) {
-		date = date.split(' ');
-		jam = date[1].split(':');
-		jam = jam[0] + ':' + jam[1];
-		date = date[0].split('-');
-		waktu = date[2] + ' ' + bulan[parseInt(date[1])] + ' ' + date[0] + ', Pukul ' + jam;
-		return '<span style="float: right;">Dibuat pada ' + waktu + '</span>';
-	} else {
-		return '';
+	function setDelete(id) {
+		init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
 	}
-}
 
-function setView(id) {
-	setUpdate(id);
-	$("#form-data :input").prop("disabled", true);
-	$('#btn-form-data').hide();
-}
+	// $('select[name="program"]').change(function() {
+	// 	let val = $(this).val();
+	// 	let url = '{{ url("/api/program/get-kegiatan") }}';
 
-function setCreate() {
-	linkAction = '/create';
-	$('#btn-form-data').show().html("Tambah");
-	$("#form-data :input").prop("disabled", false);
-	$('#modal-form').modal('show');
-	$('#form-data')[0].reset();
-	
-	$('textarea[name="rkpd_sub_kegiatan_indikator_nama"]').html('');
-	$('input[name="kode"]').val(kode);
-}
+	// 	$.when(sendAjax(url, [{
+	// 		name: 'program',
+	// 		value: val
+	// 	}], 'get', 'select[name="kegiatan"]')).done(function(res) {
+	// 		if (res.status == true) {
+	// 			$('select[name="kegiatan"]').empty().append('<option>-= Pilih Kegiatan =-</option>');
+	// 			for (let i = 0; i < res.data.length; i++) {
+	// 				$('select[name="kegiatan"]').append('<option value="' + res.data[i].permen_ver + '-' + res.data[i]
+	// 					.urusan_kode + '-' + res.data[i].bidang_kode + '-' + res.data[i].program_kode + '-' + res.data[i]
+	// 					.kegiatan_kode + '">' + res.data[i].kegiatan_nama + '</option>')
+	// 			}
+	// 		} else {
+	// 			// pesanSweet('Gagal!', res.pesan, 'warning');
+	// 		}
+	// 	});
+	// });
 
-function setUpdate(id) {
+	// $('select[name="kegiatan"]').change(function() {
+	// 	let val = $(this).val();
+	// 	console.log(val);
+	// 	let url = '{{ url("/api/kegiatan/get-sub-kegiatan") }}';
 
-	$('#btn-form-data').show().html("Ubah");
-	$("#form-data :input").prop("disabled", false);
-	linkAction = '/update';
-	$('#modal-form').modal('show');
-	$('#form-data')[0].reset();
-	
+	// 	$.when(sendAjax(url, [{
+	// 		name: 'kegiatan',
+	// 		value: val
+	// 	}], 'get', 'select[name="sub_kegiatan"]')).done(function(res) {
+	// 		if (res.status == true) {
+	// 			$('select[name="sub_kegiatan"]').empty().append('<option>-= Pilih Sub Kegiatan =-</option>');
+	// 			for (let i = 0; i < res.data.length; i++) {
+	// 				$('select[name="sub_kegiatan"]').append('<option value="' + res.data[i].permen_ver + '-' + res.data[i]
+	// 					.urusan_kode + '-' + res.data[i].bidang_kode + '-' + res.data[i].program_kode + '-' + res.data[i]
+	// 					.kegiatan_kode + '-' + res.data[i].sub_kegiatan_kode + '">' + res.data[i].sub_kegiatan_nama +
+	// 					'</option>');
+	// 			}
+	// 		} else {
+	// 			// pesanSweet('Gagal!', res.pesan, 'warning');
+	// 		}
+	// 	});
+	// });
 
-	let url = link + '/get-data/' + id;
-	$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
-		if (res.status) {
-			dataPilih = res.data;
-			$('input[name="id"]').val(res.data.id);
-			$('input[name="kode"]').val(kode);
-			$('select[name="program"]').empty().append('<option>'+res.data.program_nama+'</option>');
-			$('select[name="kegiatan"]').empty().append('<option>'+res.data.kegiatan_nama+'</option>');
-			$('select[name="sub_kegiatan"]').empty().append('<option value="'+res.data.permen_ver + '-' + res.data.urusan_kode + '-' + res.data.bidang_kode + '-' + res.data.program_kode  + '-' + res.data.kegiatan_kode  + '-' + res.data.sub_kegiatan_kode +'">'+res.data.sub_kegiatan_nama+'</option>');
+	$('select[name="triwulan"]').change(function() {
+		triwulan = $(this).val();
+		$('input[name="realisasi_kinerja"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw' + triwulan + '_target']);
+		$('input[name="realisasi_pagu"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw' + triwulan + '_pagu']);
 
-			$('input[name="triwulan"]').val(triwulan);
-
-	$('input[name="realisasi_kinerja"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw'+triwulan+'_target']);
-	$('input[name="realisasi_pagu"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw'+triwulan+'_pagu']);
-	
-			$('textarea[name="rkpd_sub_kegiatan_indikator_nama"]').html(res.data.rkpd_sub_kegiatan_indikator_nama);
-			$('input[name="rkpd_sub_kegiatan_indikator_satuan"]').val(res.data.rkpd_sub_kegiatan_indikator_satuan);
-			$('input[name="rkpd_sub_kegiatan_indikator_target"]').val(res.data
-				.rkpd_sub_kegiatan_indikator_target);
-			$('input[name="rkpd_sub_kegiatan_indikator_pagu"]').val(res.data
-				.rkpd_sub_kegiatan_indikator_pagu);
-		}
-		else {
-			pesanSweet('Gagal!', res.pesan, 'warning');
-		}
-	});
-}
-
-$('#form-data').submit(function(e) {
-	e.preventDefault();
-
-	let url = link + linkAction;
-	let data = $(this).serializeArray();
-	var fd = new FormData();
-	// var files = $('input[name="foto"]')[0].files;
-
-	// fd.append('foto',files[0]);
-	$.each(data, function(i, field) {
-		fd.append(field.name, field.value);
-	});
-	console.log(data);
-	$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
-		if (res.status == true) {
-			pesanSweet('Berhasil', res.pesan, 'success');
-			$('.my-datatable').DataTable().ajax.reload();
-			$('#modal-form').modal('hide');
-		} else {
-			pesanSweet('Gagal!', res.pesan, 'warning');
-		}
-	});
-});
-
-function setDelete(id) {
-	init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
-}
-
-$('select[name="program"]').change(function() {
-	let val = $(this).val();
-	let url = '{{ url("/api/program/get-kegiatan") }}';
-
-	$.when(sendAjax(url, [{
-		name: 'program',
-		value: val
-	}], 'get', 'select[name="kegiatan"]')).done(function(res) {
-		if (res.status == true) {
-			$('select[name="kegiatan"]').empty().append('<option>-= Pilih Kegiatan =-</option>');
-			for (let i = 0; i < res.data.length; i++) {
-				$('select[name="kegiatan"]').append('<option value="' + res.data[i].permen_ver + '-' + res.data[i]
-					.urusan_kode + '-' + res.data[i].bidang_kode + '-' + res.data[i].program_kode + '-' + res.data[i]
-					.kegiatan_kode + '">' + res.data[i].kegiatan_nama + '</option>')
-			}
-		} else {
-			// pesanSweet('Gagal!', res.pesan, 'warning');
-		}
-	});
-});
-
-$('select[name="kegiatan"]').change(function() {
-	let val = $(this).val();
-	console.log(val);
-	let url = '{{ url("/api/kegiatan/get-sub-kegiatan") }}';
-
-	$.when(sendAjax(url, [{
-		name: 'kegiatan',
-		value: val
-	}], 'get', 'select[name="sub_kegiatan"]')).done(function(res) {
-		if (res.status == true) {
-			$('select[name="sub_kegiatan"]').empty().append('<option>-= Pilih Sub Kegiatan =-</option>');
-			for (let i = 0; i < res.data.length; i++) {
-				$('select[name="sub_kegiatan"]').append('<option value="' + res.data[i].permen_ver + '-' + res.data[i]
-					.urusan_kode + '-' + res.data[i].bidang_kode + '-' + res.data[i].program_kode + '-' + res.data[i]
-					.kegiatan_kode + '-' + res.data[i].sub_kegiatan_kode + '">' + res.data[i].sub_kegiatan_nama +
-					'</option>')
-			}
-		} else {
-			// pesanSweet('Gagal!', res.pesan, 'warning');
-		}
-	});
-});
-
-$('select[name="triwulan"]').change(function(){
-	triwulan = $(this).val();
-	$('input[name="realisasi_kinerja"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw'+triwulan+'_target']);
-	$('input[name="realisasi_pagu"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw'+triwulan+'_pagu']);
-	
-})
+	})
 </script>
 @endsection
