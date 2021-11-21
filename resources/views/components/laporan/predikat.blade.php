@@ -2,7 +2,7 @@
 
 @section('content')
 <?php
-	$judul = "Laporan Renstra";
+	$judul = "Rapor Kegiatan";
 	$icon = "feather icon-user";
 ?>
 <!-- [ Main Content ] start -->
@@ -65,42 +65,11 @@
 									</div>
 								</div>
 								@endif
-								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
-										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
-									</div>
-									<div class="card-block">
-										<form action="./predikat/cetak" method="get" id="form-cetak" target="_blank">
-
-											<div class="row">
-												<!-- <div class="col-sm-3">
-													<div class="form-group">
-														<label for="basicInput">Cetak</label>
-														<fieldset class="form-group">
-															<select name="cetak" class="form-control">
-																<option value="">-= Pilih Cetak =-</option>
-																<option value="pdf">PDF</option>
-																<option value="view">View</option>
-															</select>
-														</fieldset>
-													</div>
-												</div> -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<fieldset class="form-group">
-															<button type="submit" class="btn btn-primary" id="laporan-btn">Tampilkan</button>
-														</fieldset>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
 							</div>
 						</div>
 
 
-						<row class="row" id="laporan-view" style="display: none;">
+						<row class="row" id="laporan-view">
 							<div class="col-sm-12">
 								<div class="card">
 									<div class="card-header " style="background-color: #63cceb">
@@ -143,20 +112,20 @@
 var link = window.location.pathname;
 
 $('li[data-menu-bar="rapor"]').addClass("active pcoded-trigger");
-$('#laporan-view').hide();
+// $('#laporan-view').hide();
 
-$('#form-cetak').submit(function(e) {
+// $('#form-cetak').submit(function(e) {
 
-	if ($('#laporan-btn').html() == 'Tampilkan') {
-		$('#laporan-btn').html('Sembunyikan');
-		$('#laporan-view').show();
-	} else {
-		$('#laporan-btn').html('Tampilkan');
-		$('#laporan-view').hide();
-	}
+// 	if ($('#laporan-btn').html() == 'Tampilkan') {
+// 		$('#laporan-btn').html('Sembunyikan');
+// 		$('#laporan-view').show();
+// 	} else {
+// 		$('#laporan-btn').html('Tampilkan');
+// 		$('#laporan-view').hide();
+// 	}
 
-	e.preventDefault();
+// 	e.preventDefault();
 
-})
+// })
 </script>
 @endsection

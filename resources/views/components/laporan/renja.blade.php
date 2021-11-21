@@ -109,8 +109,8 @@
 									<div class="card-block">
 										<a class="btn btn-info" target="_blank" href="./renja/cetak?cetak=view"><i
 												class="fa fa-print"></i>Cetak</a>
-										<a class="btn btn-warning" target="_blank" href="./renja/cetak?cetak=pdf"><i
-												class="fa fa-file"></i>PDF</a>
+										<!-- <a class="btn btn-warning" target="_blank" href="./renja/cetak?cetak=pdf"><i
+												class="fa fa-file"></i>PDF</a> -->
 										<iframe src="./renja/cetak?cetak=view" height="900" style="width: 100%"
 											title="Iframe Example"></iframe>
 

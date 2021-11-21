@@ -276,7 +276,7 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/predikat/cetak','Laporan\RenstraController@rapor');
 
 			Route::get('/opd','Laporan\OPDController@view')->name('admin.rapor.opd');
-			Route::get('/opd/cetak','Laporan\OPDController@rapor');
+			Route::get('/opd/cetak','Laporan\OPDController@cetak');
 		});
 	});
 

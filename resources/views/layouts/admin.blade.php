@@ -199,8 +199,10 @@
 					<li data-menu-bar="rapor" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-file"></i></span><span class="pcoded-mtext">Rapor</span></a>
 						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
+					@if(in_array(session('login_level'), [1,2]))
 							<li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li>
+					@endif
+							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
 						</ul>
 					</li>
 

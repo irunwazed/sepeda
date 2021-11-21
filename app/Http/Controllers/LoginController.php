@@ -9,7 +9,7 @@ use Validator;
 class LoginController extends Controller
 {
   public function view(){
-    return view('pages/login');
+    return view('pages/login1');
   }
 
   public function cekLogin(Request $request){

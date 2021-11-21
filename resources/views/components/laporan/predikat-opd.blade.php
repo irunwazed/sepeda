@@ -2,7 +2,7 @@
 
 @section('content')
 <?php
-	$judul = "Laporan Renstra";
+	$judul = "Rapor OPD";
 	$icon = "feather icon-user";
 ?>
 <!-- [ Main Content ] start -->
@@ -40,11 +40,11 @@
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">
-										<a class="btn btn-info" target="_blank" href="./predikat/cetak?cetak=view"><i
+										<a class="btn btn-info" target="_blank" href="./opd/cetak?cetak=view"><i
 												class="fa fa-print"></i>Cetak</a>
-										<a class="btn btn-warning" target="_blank" href="./predikat/cetak?cetak=pdf"><i
+										<a class="btn btn-warning" target="_blank" href="./opd/cetak?cetak=pdf"><i
 												class="fa fa-file"></i>PDF</a>
-										<iframe src="./predikat/cetak?cetak=view" height="900" style="width: 100%"
+										<iframe src="./opd/cetak?cetak=view" height="900" style="width: 100%"
 											title="Iframe Example"></iframe>
 
 									</div>
