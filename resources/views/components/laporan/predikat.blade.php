@@ -2,7 +2,7 @@
 
 @section('content')
 <?php
-	$judul = "Laporan RPJMD";
+	$judul = "Laporan Renstra";
 	$icon = "feather icon-user";
 ?>
 <!-- [ Main Content ] start -->
@@ -33,12 +33,44 @@
 						<!-- [ Main Content ] start -->
 						<div class="row">
 							<div class="col-sm-12">
+
+								@if(in_array(session('login_level'), [1,2]))
+
+								<div class="card">
+									<div class="card-header " style="background-color: #63cceb">
+										<h5 style="color: white"><i class="fa fa-cog"></i> Pengaturan OPD</h5>
+									</div>
+									<div class="card-block">
+										<form action="{{ route('admin.set.opd') }}" method="post">
+											@csrf
+											<div class="row">
+												<div class="form-group col-sm-4">
+													<label>OPD</label>
+													<fieldset class="form-group">
+														<select name="opd" class="form-control select2" required>
+															<option value="">-= Pilih OPD =-</option>
+															@foreach(@$dataOPD as $row)
+															<option value="{{ $row->id }}" {{ session('opd')==$row->id?'selected':'' }}>
+																{{ $row->opd_nama }}</option>
+															@endforeach
+														</select>
+													</fieldset>
+												</div>
+												<div class="form-group col-sm-4">
+													<button type="submit" class="btn btn-primary"
+														style="position: relative; top: 30px">Gunakan</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								@endif
 								<div class="card">
 									<div class="card-header " style="background-color: #63cceb">
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">
-										<form action="./rpjmd/cetak" method="get" id="form-cetak" target="_blank">
+										<form action="./predikat/cetak" method="get" id="form-cetak" target="_blank">
 
 											<div class="row">
 												<!-- <div class="col-sm-3">
@@ -75,10 +107,13 @@
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">
-										<a class="btn btn-info" target="_blank" href="./rpjmd/cetak?cetak=view"><i class="fa fa-print"></i>Cetak</a>
-										<!-- <a class="btn btn-warning" target="_blank" href="./rpjmd/cetak?cetak=pdf"><i class="fa fa-file"></i>PDF</a> -->
-									<iframe src="./rpjmd/cetak?cetak=view" height="900" style="width: 100%" title="Iframe Example"></iframe>
-									
+										<a class="btn btn-info" target="_blank" href="./predikat/cetak?cetak=view"><i
+												class="fa fa-print"></i>Cetak</a>
+										<a class="btn btn-warning" target="_blank" href="./predikat/cetak?cetak=pdf"><i
+												class="fa fa-file"></i>PDF</a>
+										<iframe src="./predikat/cetak?cetak=view" height="900" style="width: 100%"
+											title="Iframe Example"></iframe>
+
 									</div>
 								</div>
 							</div>
@@ -107,15 +142,15 @@
 <script>
 var link = window.location.pathname;
 
-$('li[data-menu-bar="laporan"]').addClass("active pcoded-trigger");
+$('li[data-menu-bar="rapor"]').addClass("active pcoded-trigger");
 $('#laporan-view').hide();
 
-$('#form-cetak').submit(function(e){
+$('#form-cetak').submit(function(e) {
 
-	if($('#laporan-btn').html() == 'Tampilkan'){
+	if ($('#laporan-btn').html() == 'Tampilkan') {
 		$('#laporan-btn').html('Sembunyikan');
 		$('#laporan-view').show();
-	}else{
+	} else {
 		$('#laporan-btn').html('Tampilkan');
 		$('#laporan-view').hide();
 	}
@@ -123,13 +158,5 @@ $('#form-cetak').submit(function(e){
 	e.preventDefault();
 
 })
-
-
-function showContent() {
-  var temp = document.getElementsByTagName("template")[0];
-  var clon = temp.content.cloneNode(true);
-  document.body.appendChild(clon);
-	console.log(clon);
-}
 </script>
 @endsection

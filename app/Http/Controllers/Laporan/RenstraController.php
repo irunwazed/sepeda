@@ -27,6 +27,15 @@ class RenstraController extends Controller
     return view('components/laporan/renstra', $kirim);
   }
 
+  public function viewRapor(){
+
+		$dataOPD = DB::table('ref_opd')->get();
+		$kirim = [
+			'dataOPD' => $dataOPD,
+		];
+    return view('components/laporan/predikat', $kirim);
+  }
+
 	public function getQuery($request){
 		$data = DB::table($this->table)
 		->select($this->table.'.*'
@@ -80,11 +89,12 @@ class RenstraController extends Controller
 		return $data;
 
 	}
-	
-	public function cetak(Request $request){
+
+	public function setDataLaporan($request){
 		$data = $this->getQuery($request)->get();
 
 		$dataAll = [];
+		$dataTotal = [];
 		$index = 0;
 
 		$tujuan_id = 0;
@@ -169,6 +179,8 @@ class RenstraController extends Controller
 						$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu'];
 						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu'];
 						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu'] = $pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu'];
+
+						$dataTotal['target'][$rowTahun]['pagu'] = $pagu + @$dataTotal['target'][$rowTahun]['pagu'];
 					}
 				}
 				// . target
@@ -181,7 +193,7 @@ class RenstraController extends Controller
 						$triwulan = session('triwulan');
 					}
 
-					$realisasi_pagu = DB::table('ref_rkpd_sub_kegiatan_indikator')
+					$data_realisasi_pagu = DB::table('ref_rkpd_sub_kegiatan_indikator')
 					->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
 					->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
 					->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
@@ -191,20 +203,33 @@ class RenstraController extends Controller
 					->where('ref_rkpd_sub_kegiatan.sub_kegiatan_kode', $row->sub_kegiatan_kode)
 					->where('ref_rkpd_sub_kegiatan.opd_id', $row->opd_id)
 					->where('ref_rkpd_sub_kegiatan.tahun_ke', $rowTahun)
-					->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_pagu');
+					->get();
 
-					$dataAll[$index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu;
-					$dataAll[$index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($realisasi_pagu, $dataAll[$index]['dataPagu'][$rowTahun]['pagu']);
+					for($idxReal = 0; $idxReal < count($data_realisasi_pagu); $idxReal++){
+						$temp = 'rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_pagu';
+						$realisasi_pagu = $data_realisasi_pagu[$idxReal]->$temp;
+						$temp = 'rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_target';
+						$realisasi_target = $data_realisasi_pagu[$idxReal]->$temp;
+						$temp = 'rkpd_sub_kegiatan_indikator_target';
+						$target = $data_realisasi_pagu[$idxReal]->$temp;
+						$dataAll[$index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$index]['dataPagu'][$rowTahun]['realisasi_pagu'];
+						$dataAll[$index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($realisasi_pagu, $dataAll[$index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$index]['dataPagu'][$rowTahun]['target'] = $target;
+						$dataAll[$index]['dataPagu'][$rowTahun]['capaian_target'] = $this->setCapaian($realisasi_target, $target);
+	
+						$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
+						$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
+						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
+						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
+	
+						$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$program_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$program_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataTotal['realisasi'][$rowTahun]['pagu'] = $realisasi_pagu + @$dataTotal['realisasi'][$rowTahun]['pagu'];
+					}
+					// ->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_pagu');
 
-					$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
-					$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
-					$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
-					$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
-
-					$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu']);
-					$dataAll[$program_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$program_index]['dataPagu'][$rowTahun]['pagu']);
-					$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu']);
-					$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu']);
 				}
 				// . realisasi
 
@@ -215,21 +240,43 @@ class RenstraController extends Controller
 
 		}
 		// echo "<pre>";
-		// print_r($data);
+		// print_r($dataTotal);
 		// echo "</pre>";
-
-
-		$cetak = $request->cetak;
 		
 		$kirim = [
 			'dataAll' => $dataAll,
+			'dataTotal' => $dataTotal,
 		];
+
+
+
+		return $kirim;
+	}
+	
+	public function cetak(Request $request){
+		
+		$cetak = $request->cetak;
+		$kirim = $this->setDataLaporan($request);
 
     if($cetak == 'pdf'){
       $pdf = PDF::loadView('pdf/renstra', $kirim)->setPaper('a4', 'landscape');
       return $pdf->download('pdf_file.pdf');
     }else{
       return view('pdf/renstra', $kirim);
+    }
+
+	}
+	
+	public function rapor(Request $request){
+		
+		$cetak = $request->cetak;
+		$kirim = $this->setDataLaporan($request);
+
+    if($cetak == 'pdf'){
+      $pdf = PDF::loadView('pdf/predikat', $kirim)->setPaper('a4', 'landscape');
+      return $pdf->download('pdf_file.pdf');
+    }else{
+      return view('pdf/predikat', $kirim);
     }
 
 	}

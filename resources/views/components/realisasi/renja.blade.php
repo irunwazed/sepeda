@@ -244,6 +244,7 @@ $levelName = \Request::get('levelPath');
 	}
 </style>
 <script>
+$('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 	var link = window.location.pathname;
 	var linkAction = '/create';
 	var dataPilih = {};

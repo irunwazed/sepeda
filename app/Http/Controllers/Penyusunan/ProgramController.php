@@ -29,13 +29,17 @@ class ProgramController extends Controller
 
 	public function getQuery($request, $kode){
 		$data = DB::table($this->table)
-		->select($this->table.'.*', 'rpjmd_visi_nama', 'rpjmd_misi_nama', 'rpjmd_tujuan_nama', 'rpjmd_sasaran_nama', 'program_nama')
+		->select($this->table.'.*', 'rpjmd_visi_nama', 'rpjmd_misi_nama', 'rpjmd_tujuan_nama', 'rpjmd_sasaran_nama', 'program_nama', 'opd_nama')
 		->leftJoin('ref_program', function($join)
 		{
 			$join->on('ref_program.permen_ver', '=', 'ref_rpjmd_program.permen_ver');
 			$join->on('ref_program.urusan_kode', '=', 'ref_rpjmd_program.urusan_kode');
 			$join->on('ref_program.bidang_kode', '=', 'ref_rpjmd_program.bidang_kode');
 			$join->on('ref_program.program_kode', '=', 'ref_rpjmd_program.program_kode');
+		})
+		->leftJoin('ref_opd', function($join)
+		{
+			$join->on('ref_opd.id', '=', 'ref_rpjmd_program.opd_id');
 		})
 		->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 		->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')

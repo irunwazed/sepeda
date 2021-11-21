@@ -59,6 +59,7 @@
 														<th>Tujuan</th>
 														<th>Sasaran</th>
 														<th>Program</th>
+														<th>OPD</th>
 														<th width="10">Aksi</th>
 													</tr>
 												</thead>
@@ -137,6 +138,7 @@
 }
 </style>
 <script>
+$('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 var link = window.location.pathname;
 var linkAction = '/create';
 var dataPilih = {};
@@ -236,6 +238,9 @@ $(document).ready(function() {
 			},
 			{
 				data: 'program_nama',
+			},
+			{
+				data: 'opd_nama',
 			},
 			{
 				data: 'action',
@@ -398,6 +403,7 @@ $('select[name="opd"]').change(function() {
 		value: val
 	}, ], 'get')).done(function(res) {
 		if (res.status) {
+				$('select[name="program"]').empty().append('<option>-= Pilih Program =-</option>');
 			for (let i = 0; i < res.data.length; i++) {
 				$('select[name="program"]').append('<option value="' + res.data[i].permen_ver + '-' + res.data[i]
 					.urusan_kode + '-' + res.data[i].bidang_kode + '-' + res.data[i].program_kode + '">' + res.data[i]

@@ -9,7 +9,7 @@ use Validator;
 use DataTables;
 use PDF;
 
-class RPJMDController extends Controller
+class OPDController extends Controller
 {
 
 	private $table;
@@ -21,7 +21,7 @@ class RPJMDController extends Controller
 	public function view()
 	{
 		$kirim = [];
-		return view('components/laporan/rpjmd', $kirim);
+		return view('components/laporan/predikat-opd', $kirim);
 	}
 
 	public function getQuery($request)

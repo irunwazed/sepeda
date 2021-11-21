@@ -142,6 +142,7 @@
 <script>
 var link = window.location.pathname;
 
+$('li[data-menu-bar="laporan"]').addClass("active pcoded-trigger");
 $('#laporan-view').hide();
 
 $('#form-cetak').submit(function(e) {

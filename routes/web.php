@@ -13,9 +13,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+Route::get('storage/{folder}/{any}', function ($folder, $any)
+{
+  return setStorage($folder, $any);
+});
+
+function setStorage($folder, $data){
+  $path = storage_path('app/public/'.$folder.'/'.$data);
+	
+    if (!File::exists($path)) {
+			$path = storage_path('app/public/no-image.png');
+    }else if (is_dir($path)) {
+			$path = storage_path('app/public/no-image.png');
+		}
+		
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+}
 
 // Route::get('/', 'AwalController@awal');
 Route::get('/', 'LoginController@view');
@@ -39,8 +59,6 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 		Route::post('/setting/pengguna/create','UserController@create');
 		Route::post('/setting/pengguna/update','UserController@update');
 		Route::get('/setting/pengguna/delete/{id}','UserController@delete');
-
-
 
 		Route::prefix('/penyusunan/rpjmd')->group(function () {
 
@@ -248,6 +266,114 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/renstra/cetak','Laporan\RenstraController@cetak');
 
 			Route::get('/renja','Laporan\RenjaController@view')->name('admin.laporan.renja');
+			Route::get('/renja/cetak','Laporan\RenjaController@cetak');
+
+			
+		});
+
+		Route::prefix('/rapor')->group(function () {
+			Route::get('/predikat','Laporan\RenstraController@viewRapor')->name('admin.rapor.predikat');
+			Route::get('/predikat/cetak','Laporan\RenstraController@rapor');
+
+			Route::get('/opd','Laporan\OPDController@view')->name('admin.rapor.opd');
+			Route::get('/opd/cetak','Laporan\OPDController@rapor');
+		});
+	});
+
+});
+
+
+Route::middleware(['verificationLevel:2'])->group(function () {
+
+	Route::prefix('/opd')->group(function () {
+
+		Route::get('/', 'AdminController@beranda');
+
+		Route::prefix('/penyusunan/renstra')->group(function () {
+
+			Route::get('/program','PenyusunanRenstra\ProgramController@view')->name('opd.penyusunan.renstra');
+			Route::get('/program/get-data','PenyusunanRenstra\ProgramController@getData');
+			Route::get('/program/get-data/{id}','PenyusunanRenstra\ProgramController@getData');
+			Route::post('/program/create','PenyusunanRenstra\ProgramController@create');
+			Route::post('/program/update','PenyusunanRenstra\ProgramController@update');
+			Route::get('/program/delete/{id}','PenyusunanRenstra\ProgramController@delete');
+
+			Route::get('/program/{kode}','PenyusunanRenstra\KegiatanController@view');
+			Route::get('/program/{kode}/get-data','PenyusunanRenstra\KegiatanController@getData');
+			Route::get('/program/{kode}/get-data/{id}','PenyusunanRenstra\KegiatanController@getData');
+			Route::post('/program/{kode}/create','PenyusunanRenstra\KegiatanController@create');
+			Route::post('/program/{kode}/update','PenyusunanRenstra\KegiatanController@update');
+			Route::get('/program/{kode}/delete/{id}','PenyusunanRenstra\KegiatanController@delete');
+
+			Route::get('/kegiatan/{kode}','PenyusunanRenstra\SubKegiatanController@view');
+			Route::get('/kegiatan/{kode}/get-data','PenyusunanRenstra\SubKegiatanController@getData');
+			Route::get('/kegiatan/{kode}/get-data/{id}','PenyusunanRenstra\SubKegiatanController@getData');
+			Route::post('/kegiatan/{kode}/create','PenyusunanRenstra\SubKegiatanController@create');
+			Route::post('/kegiatan/{kode}/update','PenyusunanRenstra\SubKegiatanController@update');
+			Route::get('/kegiatan/{kode}/delete/{id}','PenyusunanRenstra\SubKegiatanController@delete');
+
+		});
+
+		Route::prefix('/penyusunan/renja')->group(function () {
+
+			Route::get('/sub-kegiatan','PenyusunanRKPD\SubKegiatanController@view')->name('opd.penyusunan.renja');
+			Route::get('/sub-kegiatan/get-data','PenyusunanRKPD\SubKegiatanController@getData');
+			Route::get('/sub-kegiatan/get-data/{id}','PenyusunanRKPD\SubKegiatanController@getData');
+			Route::post('/sub-kegiatan/create','PenyusunanRKPD\SubKegiatanController@create');
+			Route::post('/sub-kegiatan/update','PenyusunanRKPD\SubKegiatanController@update');
+			Route::get('/sub-kegiatan/delete/{id}','PenyusunanRKPD\SubKegiatanController@delete');
+
+		});
+
+
+		Route::prefix('/realisasi')->group(function () {
+
+			Route::get('/tujuan','Realisasi\TujuanController@view')->name('opd.realisasi.tujuan');
+			Route::get('/tujuan/get-data','Realisasi\TujuanController@getData');
+			Route::get('/tujuan/get-data/{id}','Realisasi\TujuanController@getData');
+			Route::post('/tujuan/create','Realisasi\TujuanController@create');
+			Route::post('/tujuan/update','Realisasi\TujuanController@update');
+			Route::get('/tujuan/delete/{id}','Realisasi\TujuanController@delete');
+
+			Route::get('/sasaran','Realisasi\SasaranController@view')->name('opd.realisasi.sasaran');
+			Route::get('/sasaran/get-data','Realisasi\SasaranController@getData');
+			Route::get('/sasaran/get-data/{id}','Realisasi\SasaranController@getData');
+			Route::post('/sasaran/create','Realisasi\SasaranController@create');
+			Route::post('/sasaran/update','Realisasi\SasaranController@update');
+			Route::get('/sasaran/delete/{id}','Realisasi\SasaranController@delete');
+
+			Route::get('/program','Realisasi\ProgramController@view')->name('opd.realisasi.program');
+			Route::get('/program/get-data','Realisasi\ProgramController@getData');
+			Route::get('/program/get-data/{id}','Realisasi\ProgramController@getData');
+			Route::post('/program/create','Realisasi\ProgramController@create');
+			Route::post('/program/update','Realisasi\ProgramController@update');
+			Route::get('/program/delete/{id}','Realisasi\ProgramController@delete');
+
+			Route::get('/kegiatan','Realisasi\KegiatanController@view')->name('opd.realisasi.kegiatan');
+			Route::get('/kegiatan/get-data','Realisasi\KegiatanController@getData');
+			Route::get('/kegiatan/get-data/{id}','Realisasi\KegiatanController@getData');
+			Route::post('/kegiatan/create','Realisasi\KegiatanController@create');
+			Route::post('/kegiatan/update','Realisasi\KegiatanController@update');
+			Route::get('/kegiatan/delete/{id}','Realisasi\KegiatanController@delete');
+
+			Route::get('/renja','Realisasi\SubKegiatanController@view')->name('opd.realisasi.renja');
+			Route::get('/renja/get-data','Realisasi\SubKegiatanController@getData');
+			Route::get('/renja/get-data/{id}','Realisasi\SubKegiatanController@getData');
+			Route::post('/renja/create','Realisasi\SubKegiatanController@create');
+			Route::post('/renja/update','Realisasi\SubKegiatanController@update');
+			Route::get('/renja/delete/{id}','Realisasi\SubKegiatanController@delete');
+
+		});
+
+		Route::prefix('/laporan')->group(function () {
+
+			Route::get('/rpjmd','Laporan\RPJMDController@view')->name('opd.laporan.rpjmd');
+			Route::get('/rpjmd/cetak','Laporan\RPJMDController@cetak');
+
+			Route::get('/renstra','Laporan\RenstraController@view')->name('opd.laporan.renstra');
+			Route::get('/renstra/cetak','Laporan\RenstraController@cetak');
+
+			Route::get('/renja','Laporan\RenjaController@view')->name('opd.laporan.renja');
 			Route::get('/renja/cetak','Laporan\RenjaController@cetak');
 
 			

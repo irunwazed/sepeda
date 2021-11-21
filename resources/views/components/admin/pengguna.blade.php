@@ -112,7 +112,7 @@
 															<option value="">Pilih Level</option>
 															<option value="1">Super Admin</option>
 															<option value="2">Admin</option>
-															<option value="3">Kurir</option>
+															<option value="3">OPD</option>
 														</select>
 												</fieldset>
 											</div>

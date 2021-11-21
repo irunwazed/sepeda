@@ -122,6 +122,7 @@
 }
 </style>
 <script>
+$('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 var link = window.location.pathname;
 var linkAction = '/create';
 var dataPilih = {};
