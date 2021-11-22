@@ -97,14 +97,17 @@ class OPDController extends Controller
 				array_push($arrTemp[5],$capaian);
 
 			}
-			$dataAll[$index]['predikat'] = [
-				$this->setCapaian(array_sum($arrTemp[1]), count($arrTemp[1]), false),
-				$this->setCapaian(array_sum($arrTemp[2]), count($arrTemp[2]), false),
-				$this->setCapaian(array_sum($arrTemp[3]), count($arrTemp[3]), false),
-				$this->setCapaian(array_sum($arrTemp[4]), count($arrTemp[4]), false),
-				$this->setCapaian(array_sum($arrTemp[5]), count($arrTemp[5]), false),
-			];
+			if(count($dataTemp) > 0){
 
+				$dataAll[$index]['predikat'] = [
+					$this->setCapaian(array_sum($arrTemp[1]), count($arrTemp[1]), false),
+					$this->setCapaian(array_sum($arrTemp[2]), count($arrTemp[2]), false),
+					$this->setCapaian(array_sum($arrTemp[3]), count($arrTemp[3]), false),
+					$this->setCapaian(array_sum($arrTemp[4]), count($arrTemp[4]), false),
+					$this->setCapaian(array_sum($arrTemp[5]), count($arrTemp[5]), false),
+				];
+	
+			}
 			$dataAll[$index]['opd_nama'] = $row->opd_nama;
 			$dataAll[$index]['data'] = $dataTemp;
 			$index++;

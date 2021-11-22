@@ -73,6 +73,21 @@
 		table.dataTable tr.even td.sorting_3 {
 			background-color: #F9F9FF;
 		}
+
+		.my-bg-color{
+			/* background-color: red; */
+		}
+
+		.nav-item .active{
+			background-color: red;
+		}
+		.nav-item li {
+			background-color: red;
+		}
+
+		/* .pcoded-submenu{
+			background-color: red;
+		} */
 	</style>
 </head>
 
@@ -85,9 +100,9 @@
 	</div>
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
-	<nav class="pcoded-navbar icon-colored">
+	<nav class="pcoded-navbar icon-colored my-bg-color" >
 		<div class="navbar-wrapper">
-			<div class="navbar-brand header-logo">
+			<div class="navbar-brand header-logo my-bg-color">
 				<a href="index.html" class="b-brand">
 					<div class="b-bg">
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3F4D67" class="bi bi-bicycle" viewBox="0 0 16 16">
@@ -221,7 +236,8 @@
 	<!-- [ navigation menu ] end -->
 
 	<!-- [ Header ] start -->
-	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-lightblue">
+	<!-- <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-lightblue"> -->
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: gray;">
 		<div class="m-header">
 			<a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
 			<a href="index.html" class="b-brand">

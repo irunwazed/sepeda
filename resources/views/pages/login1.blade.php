@@ -25,7 +25,7 @@
 
 		html,
 		body {
-			background-image: url('<?=$awalAssets?>/images/bg-login.jpg');
+			background-image: url('<?=$awalAssets?>/images/bg-login2.png');
 			background-size: cover;
 			background-repeat: no-repeat;
 			height: 100%;
@@ -116,7 +116,7 @@
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card">
-					<div style="font-size: 30px; width: 600; text-align: center; position: absolute; top: -175px; left: -100px; ">Sistem Pelaporan Kinerja Pemerintah Daerah Berbasis Web <br> (SPKP)</div>
+					<div style="color: white; font-size: 30px; width: 600; text-align: center; position: absolute; top: -175px; left: -100px; ">Sistem Pelaporan Kinerja Pemerintah Daerah Berbasis Web <br> (SPKP)</div>
 				<div class="card-header">
 					<h5 style="color:white;">Masuk</h5>
 					<div class="d-flex justify-content-end social_icon">
@@ -130,14 +130,14 @@
 						@csrf
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text bg-info"><i class="fas fa-user" style="color: white;"></i></span>
 							</div>
 							<input type="text" class="form-control" name="username" placeholder="username">
 
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
+								<span class="input-group-text bg-info" ><i class="fas fa-key" style="color: white;"></i></span>
 							</div>
 							<input type="password" class="form-control" name="password" placeholder="password">
 						</div>
@@ -146,7 +146,7 @@
 						</div> -->
 						<br>
 						<div class="form-group">
-							<input type="submit" value="Login" class="btn float-right login_btn">
+							<input type="submit" value="Login" class="btn float-right login_btn  bg-info"  style="color: white;">
 						</div>
 					</form>
 				</div>

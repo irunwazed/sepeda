@@ -378,6 +378,13 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 			
 		});
+		Route::prefix('/rapor')->group(function () {
+			Route::get('/predikat','Laporan\RenstraController@viewRapor')->name('opd.rapor.predikat');
+			Route::get('/predikat/cetak','Laporan\RenstraController@rapor');
+
+			Route::get('/opd','Laporan\OPDController@view')->name('opd.rapor.opd');
+			Route::get('/opd/cetak','Laporan\OPDController@cetak');
+		});
 	});
 
 });

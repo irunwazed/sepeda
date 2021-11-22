@@ -65,7 +65,7 @@ function setPredikat($nilai){
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Laporan Predikat</title>
+	<title>Rapor Kinerja</title>
 	<style>
 	.my-table th {
 		padding: 10px;
@@ -89,7 +89,7 @@ function setPredikat($nilai){
 
 
 	<center>
-		<h2>Predikat</h2>
+		<h2>Rapor Kinerja</h2>
 	</center>
 	<br>
 	<table class="my-table">

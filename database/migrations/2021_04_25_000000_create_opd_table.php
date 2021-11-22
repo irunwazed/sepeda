@@ -29,6 +29,8 @@ class CreateOpdTable extends Migration
         DB::table('ref_opd')->insert([
 					['urusan1_kode' => 1, 'bidang1_kode' => 3, 'urusan2_kode' => null, 'bidang2_kode' => null, 'opd_nama' => 'Dinas Pekerjaan Umum dan Penataan Ruang', 'opd_status' => 1],
 					['urusan1_kode' => 5, 'bidang1_kode' => 1, 'urusan2_kode' => 5, 'bidang2_kode' => 5, 'opd_nama' => 'Badan Perencanaan, Penelitian, dan Pengembangan Daerah', 'opd_status' => 1],
+					['urusan1_kode' => 5, 'bidang1_kode' => 1, 'urusan2_kode' => 5, 'bidang2_kode' => 5, 'opd_nama' => 'Dinas Kependudukan dan Pencatatan Sipil Daerah', 'opd_status' => 1],
+					['urusan1_kode' => 5, 'bidang1_kode' => 1, 'urusan2_kode' => 5, 'bidang2_kode' => 5, 'opd_nama' => 'xxxx', 'opd_status' => 1],
 					// ['opd_nama' => 'Dinas Kesehatan, Pengendalian Penduduk dan Keluarga Berencana', 'opd_status' => 1],
 					// 
 					// ['opd_nama' => 'Dinas Perumahan, Kawasan Pemukiman dan Pertanahan', 'opd_status' => 1],
