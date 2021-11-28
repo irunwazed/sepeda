@@ -60,6 +60,13 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 		Route::post('/setting/pengguna/update','UserController@update');
 		Route::get('/setting/pengguna/delete/{id}','UserController@delete');
 
+		
+		Route::get('/setting/jadwal','JadwalController@view');
+		Route::post('/setting/jadwal','JadwalController@update');
+		
+		Route::get('/import/rkpd','ImportController@view');
+		Route::post('/import/rkpd','ImportController@import');
+
 		Route::prefix('/penyusunan/rpjmd')->group(function () {
 
 			Route::get('/','Penyusunan\VisiController@view')->name('admin.penyusunan.rpjmd');

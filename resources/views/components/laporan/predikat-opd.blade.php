@@ -76,6 +76,7 @@
 var link = window.location.pathname;
 
 $('li[data-menu-bar="rapor"]').addClass("active pcoded-trigger");
+	$('select[name="opd"]').select2();
 // $('#laporan-view').hide();
 
 // $('#form-cetak').submit(function(e) {

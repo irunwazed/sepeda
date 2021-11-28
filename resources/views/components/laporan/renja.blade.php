@@ -103,7 +103,7 @@
 						<row class="row" id="laporan-view" style="display: none;">
 							<div class="col-sm-12">
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header" style="background-color: #63cceb">
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">
@@ -145,6 +145,7 @@ var link = window.location.pathname;
 $('li[data-menu-bar="laporan"]').addClass("active pcoded-trigger");
 $('#laporan-view').hide();
 
+$('.select2').select2();
 $('#form-cetak').submit(function(e) {
 
 	if ($('#laporan-btn').html() == 'Tampilkan') {

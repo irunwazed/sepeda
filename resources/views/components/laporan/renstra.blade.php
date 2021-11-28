@@ -145,6 +145,8 @@ var link = window.location.pathname;
 $('li[data-menu-bar="laporan"]').addClass("active pcoded-trigger");
 $('#laporan-view').hide();
 
+$('.select2').select2();
+
 $('#form-cetak').submit(function(e) {
 
 	if ($('#laporan-btn').html() == 'Tampilkan') {

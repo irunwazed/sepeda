@@ -136,6 +136,7 @@
 
 	<script>
     
+$('li[data-menu-bar="pengaturan"]').addClass("active pcoded-trigger");
     var link = './pengguna';
     var linkAction = '/create';
     var dataPilih = {};

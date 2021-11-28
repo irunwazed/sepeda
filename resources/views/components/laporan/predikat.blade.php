@@ -37,7 +37,7 @@
 								@if(in_array(session('login_level'), [1,2]))
 
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header" style="background-color: #63cceb">
 										<h5 style="color: white"><i class="fa fa-cog"></i> Pengaturan OPD</h5>
 									</div>
 									<div class="card-block">
@@ -112,6 +112,7 @@
 var link = window.location.pathname;
 
 $('li[data-menu-bar="rapor"]').addClass("active pcoded-trigger");
+	$('select[name="opd"]').select2();
 // $('#laporan-view').hide();
 
 // $('#form-cetak').submit(function(e) {

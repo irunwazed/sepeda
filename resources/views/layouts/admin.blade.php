@@ -74,16 +74,30 @@
 			background-color: #F9F9FF;
 		}
 
-		.my-bg-color{
+		.my-bg-color {
 			/* background-color: red; */
 		}
 
-		.nav-item .active{
+		/* .nav-item .active {
+			background-color: blue;
+		}
+
+		.navbar-content {
+			background-color: orange;
+		}
+
+		.nav-item ul {
+			background-color: green;
+		}
+
+		.nav-item {
 			background-color: red;
 		}
+
 		.nav-item li {
 			background-color: red;
-		}
+		} */
+
 
 		/* .pcoded-submenu{
 			background-color: red;
@@ -100,11 +114,12 @@
 	</div>
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
-	<nav class="pcoded-navbar icon-colored my-bg-color" >
+	<nav class="pcoded-navbar icon-colored">
 		<div class="navbar-wrapper">
-			<div class="navbar-brand header-logo my-bg-color">
-				<a href="index.html" class="b-brand">
+			<div class="navbar-brand header-logo">
+				<a href="#" class="b-brand">
 					<div class="b-bg">
+
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3F4D67" class="bi bi-bicycle" viewBox="0 0 16 16">
 							<path d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
 						</svg>
@@ -132,13 +147,13 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Penyusunan</label>
 					</li>
-					
+
 					<li data-menu-bar="penyusunan" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Data</span></a>
 						<ul class="pcoded-submenu">
-					@if(in_array(session('login_level'), [1,2]))
+							@if(in_array(session('login_level'), [1,2]))
 							<li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class=""><a href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="">RPJMD</a></li>
-					@endif
+							@endif
 							<li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class=""><a href="{{ route($levelName.'.penyusunan.renstra') }}" class="">Renstra</a></li>
 							<li data-menu="/{{ $levelName }}/penyusunan/renja/sub-kegiatan" class=""><a href="{{ route($levelName.'.penyusunan.renja') }}" class="">RENJA</a></li>
 						</ul>
@@ -157,7 +172,7 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Realisasi</label>
 					</li>
-					
+
 					<li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD & RENSTRA</span></a>
 						<ul class="pcoded-submenu">
@@ -214,9 +229,9 @@
 					<li data-menu-bar="rapor" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-file"></i></span><span class="pcoded-mtext">Rapor</span></a>
 						<ul class="pcoded-submenu">
-					@if(in_array(session('login_level'), [1,2]))
-							<li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li>
-					@endif
+							@if(in_array(session('login_level'), [1,2]))
+							<!-- <li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li> -->
+							@endif
 							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
 						</ul>
 					</li>
@@ -225,8 +240,20 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Pengaturan</label>
 					</li>
-					<li data-menu="/{{ $levelName }}/setting/pengguna" class="nav-item">
-						<a href="{{ url('/'.$levelName.'/setting/pengguna') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Pengguna</span></a>
+
+					<li data-menu-bar="pengaturan" class="nav-item pcoded-hasmenu">
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cog"></i></span><span class="pcoded-mtext">Pengaturan</span></a>
+						<ul class="pcoded-submenu">
+							<li data-menu="/{{ $levelName }}/setting/pengguna" class=""><a href="{{ url('/'.$levelName.'/setting/pengguna') }}" class="">Pengguna</a></li>
+							<li data-menu="/{{ $levelName }}/setting/jadwal" class=""><a href="{{ url('/'.$levelName.'/setting/jadwal') }}" class="">Jadwal</a></li>
+						</ul>
+					</li>
+
+					<li data-menu-bar="import" class="nav-item pcoded-hasmenu">
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-upload"></i></span><span class="pcoded-mtext">Import</span></a>
+						<ul class="pcoded-submenu">
+							<li data-menu="/{{ $levelName }}/import/rkpd" class=""><a href="{{ url('/'.$levelName.'/import/rkpd') }}" class="">RKPD</a></li>
+						</ul>
 					</li>
 					@endif
 				</ul>
@@ -236,11 +263,11 @@
 	<!-- [ navigation menu ] end -->
 
 	<!-- [ Header ] start -->
-	<!-- <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-lightblue"> -->
-	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: gray;">
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-lightblue">
+		<!-- <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: gray;"> -->
 		<div class="m-header">
 			<a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
-			<a href="index.html" class="b-brand">
+			<a href="#" class="b-brand">
 				<div class="b-bg">
 					<!-- <i class="feather icon-trending-up"></i> -->
 					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#23b6e4" class="bi bi-bicycle" viewBox="0 0 16 16">
@@ -256,6 +283,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
+				<li>{{ @session('rpjmd_tahun')+@session('tahun')-1 }}</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<!-- 
@@ -460,6 +488,12 @@
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				},
 			});
+
+			let btn = false;
+			if(type == 'get'){
+				btn = true;
+			}
+
 			return $.ajax({
 				url: url,
 				type: type,
@@ -467,7 +501,7 @@
 				contentType: false,
 				processData: false,
 				beforeSend: function() {
-					if (loading != null) setLoading(loading, true);
+					if (loading != null) setLoading(loading, true, '', btn);
 				},
 				success: function(result) {
 					console.log(result);
@@ -478,12 +512,12 @@
 					// $("Terjadi error : ");
 				},
 				complete: function() {
-					if (loading != null) setLoading(loading, false);
+					if (loading != null) setLoading(loading, false, '', btn);
 				},
 			});
 		}
 
-		function setLoading(name, status, style = '') {
+		function setLoading(name, status, style = '', btn = false) {
 			// console.log(name);
 			if (status) {
 				// $(name).block({
@@ -502,12 +536,22 @@
 				$(name).addClass('prevent-click');
 				$(name).css("display", "none");
 				$(name).before('<div class="loading-view" style=" ' + style +
-					'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>')
+					'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>');
+
+				// tambahan
+				if (btn) {
+					$('#btn-form-data').hide();
+				}
 			} else {
 				// $(name).unblock();
 				$(name).removeClass('prevent-click');
 				$(".loading-view").remove();
 				$(name).css("display", "block");
+
+				// tambahan
+				if (btn) {
+					$('#btn-form-data').show();
+				}
 			}
 		}
 

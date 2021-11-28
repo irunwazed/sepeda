@@ -138,12 +138,13 @@ class RPJMDController extends Controller
 				->where('ref_renstra_sub_kegiatan.bidang_kode', $row->bidang_kode)
 				->where('ref_renstra_sub_kegiatan.program_kode', $row->program_kode)
 				->get();
+				
+				for ($idxTahun = 1; $idxTahun <= 5; $idxTahun++) {
+					$dataAll[$index]['dataPagu'][$idxTahun]['renstra_pagu'] = 0;
+					$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['renstra_pagu'] = 0;
+					$dataAll[$tujuan_index]['dataPagu'][$idxTahun]['renstra_pagu'] = 0;
+				}
 
-				$dataAll[$index]['dataPagu'][1]['renstra_pagu'] = 0;
-				$dataAll[$index]['dataPagu'][2]['renstra_pagu'] = 0;
-				$dataAll[$index]['dataPagu'][3]['renstra_pagu'] = 0;
-				$dataAll[$index]['dataPagu'][4]['renstra_pagu'] = 0;
-				$dataAll[$index]['dataPagu'][5]['renstra_pagu'] = 0;
 				for ($idxRens = 0; $idxRens < count($dataAll[$index]['renstra_sub_kegiatan']); $idxRens++) {
 					for ($idxTahun = 1; $idxTahun <= 5; $idxTahun++) {
 						$temp = 'renstra_sub_kegiatan_indikator_th'.$idxTahun.'_pagu';
@@ -188,8 +189,8 @@ class RPJMDController extends Controller
 							$sub_pagu_realisasi += @$rowTahunan->rkpd_sub_kegiatan_indikator_tw4_pagu;
 							$sub_target_realisasi += @$rowTahunan->rkpd_sub_kegiatan_indikator_tw4_target;
 						}
-						$sub_pagu_capaian = 100 * $sub_pagu_realisasi / $sub_pagu;
-						$sub_target_capaian = 100 * $sub_target_realisasi / $sub_target;
+						// $sub_pagu_capaian = 100 * $sub_pagu_realisasi / $sub_pagu;
+						// $sub_target_capaian = 100 * $sub_target_realisasi / $sub_target;
 
 						$dataAll[$index]['dataPagu'][$idxTahun]['pagu'] += $sub_pagu;
 						$dataAll[$index]['dataPagu'][$idxTahun]['realisasi_pagu'] += $sub_pagu_realisasi;

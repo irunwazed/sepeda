@@ -31,7 +31,7 @@
 
 	<style>
 		table.dataTable tr.odd {
-			background-color: #f2fdfe;
+			background-color: #EBEDEF;
 		}
 
 		table.dataTable tr.even {
@@ -41,13 +41,14 @@
 		table.dataTable thead tr {
 			text-align: center;
 			background: rgb(0, 36, 32);
-			background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
+			background: linear-gradient(164deg, #5D6D7E 0%, #5D6D7E 0%, #85929E 68%);
+			color: white;
 		}
 
 		table.dataTable tfoot tr {
 			text-align: center;
 			background: rgb(0, 36, 32);
-			background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
+			background: linear-gradient(164deg, #5D6D7E 0%, #5D6D7E 0%, #85929E 68%);
 		}
 
 		table.dataTable tr.odd td.sorting_1 {
@@ -73,6 +74,10 @@
 		table.dataTable tr.even td.sorting_3 {
 			background-color: #F9F9FF;
 		}
+
+		.pcoded-main-container {
+			background-image: url('<?= $awalAssets ?>/images/bg-admin.png');
+		}
 	</style>
 </head>
 
@@ -85,16 +90,30 @@
 	</div>
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
-	<nav class="pcoded-navbar icon-colored" >
+	<nav class="pcoded-navbar icon-colored">
 		<div class="navbar-wrapper">
-			<div class="navbar-brand header-logo" >
-				<a href="index.html" class="b-brand">
-					<div class="b-bg">
-						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3F4D67" class="bi bi-bicycle" viewBox="0 0 16 16">
-							<path d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
+			<div class="navbar-brand header-logo">
+				<a href="#" class="b-brand">
+					<div class="b-bg" style="color: white">
+						<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20pt" height="316.000000pt" viewBox="0 0 154.000000 316.000000" preserveAspectRatio="xMidYMid meet">
+
+							<g transform="translate(0.000000,316.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
+								<path d="M1089 2832 c-491 -363 -731 -546 -789 -599 l-54 -50 -38 -549 c-20
+-302 -37 -560 -38 -573 0 -22 2 -23 42 -17 59 9 431 211 469 254 24 27 29 42
+29 83 0 68 -18 105 -88 183 -170 188 -153 348 50 479 29 19 186 112 348 207
+162 95 302 178 310 186 12 11 19 80 35 314 11 165 20 300 19 300 -1 0 -133
+-98 -295 -218z" />
+								<path d="M1272 2100 c-101 -46 -382 -203 -406 -227 -34 -34 -47 -81 -35 -134
+13 -57 21 -70 89 -145 78 -86 112 -156 113 -231 1 -115 -61 -184 -283 -315
+-80 -47 -234 -138 -342 -202 -147 -87 -199 -122 -202 -139 -9 -40 -39 -567
+-33 -573 10 -10 1002 731 1084 810 44 43 53 58 53 87 0 19 16 266 35 549 19
+283 35 521 35 528 0 18 -59 14 -108 -8z" />
+							</g>
 						</svg>
 					</div>
-					<span class="b-title">{{ env('APP_NAME') }}</span>
+
+
+					<span style=" padding-left: 10px; font-weight: bold; font-size: 25px;" class="b-title">S P K P</span>
 				</a>
 				<a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
 			</div>
@@ -117,33 +136,33 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Penyusunan</label>
 					</li>
-					
-					<li data-menu-bar="penyusunan" class="nav-item pcoded-hasmenu">
+
+					<!-- <li data-menu-bar="penyusunan" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Data</span></a>
 						<ul class="pcoded-submenu">
-					@if(in_array(session('login_level'), [1,2]))
+							@if(in_array(session('login_level'), [1,2]))
 							<li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class=""><a href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="">RPJMD</a></li>
-					@endif
+							@endif
 							<li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class=""><a href="{{ route($levelName.'.penyusunan.renstra') }}" class="">Renstra</a></li>
 							<li data-menu="/{{ $levelName }}/penyusunan/renja/sub-kegiatan" class=""><a href="{{ route($levelName.'.penyusunan.renja') }}" class="">RENJA</a></li>
 						</ul>
-					</li>
-					@if(in_array(session('login_level'), [1,2]))
-					<!-- <li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class="nav-item">
-						<a href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">RPJMD</span></a>
 					</li> -->
+					@if(in_array(session('login_level'), [1,2]))
+					<li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class="nav-item">
+						<a href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">RPJMD</span></a>
+					</li>
 					@endif
-					<!-- <li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class="nav-item">
-						<a href="{{ route($levelName.'.penyusunan.renstra') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Renstra</span></a>
+					<li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class="nav-item">
+						<a href="{{ route($levelName.'.penyusunan.renstra') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-minus"></i></span><span class="pcoded-mtext">Renstra</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/penyusunan/renja/sub-kegiatan" class="nav-item">
 						<a href="{{ route($levelName.'.penyusunan.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">RENJA</span></a>
-					</li> -->
+					</li>
 					<li class="nav-item pcoded-menu-caption">
 						<label>Realisasi</label>
 					</li>
-					
-					<li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
+
+					<!-- <li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD & RENSTRA</span></a>
 						<ul class="pcoded-submenu">
 							<li data-menu="/{{ $levelName }}/realisasi/tujuan" class=""><a href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan</a></li>
@@ -157,37 +176,40 @@
 						<ul class="pcoded-submenu">
 							<li data-menu="/{{ $levelName }}/realisasi/renja" class=""><a href="{{ route($levelName.'.realisasi.renja') }}" class="">Sub Kegiatan</a></li>
 						</ul>
-					</li>
-					<!-- <li data-menu="/{{ $levelName }}/realisasi/tujuan" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.tujuan') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Tujuan</span></a>
+					</li> -->
+					<li data-menu="/{{ $levelName }}/realisasi/tujuan" class="nav-item">
+						<a href="{{ route($levelName.'.realisasi.tujuan') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-compass"></i></span><span class="pcoded-mtext">Tujuan</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/realisasi/sasaran" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.sasaran') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sasaran</span></a>
+						<a href="{{ route($levelName.'.realisasi.sasaran') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-codepen"></i></span><span class="pcoded-mtext">Sasaran</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/realisasi/program" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.program') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Program</span></a>
+						<a href="{{ route($levelName.'.realisasi.program') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-chrome"></i></span><span class="pcoded-mtext">Program</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/realisasi/kegiatan" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.kegiatan') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Kegiatan</span></a>
+						<a href="{{ route($levelName.'.realisasi.kegiatan') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-crosshair"></i></span><span class="pcoded-mtext">Kegiatan</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/realisasi/renja" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Renja</span></a>
-					</li> -->
+						<a href="{{ route($levelName.'.realisasi.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-disc"></i></span><span class="pcoded-mtext">Renja</span></a>
+					</li>
 
 					<li class="nav-item pcoded-menu-caption">
 						<label>Laporan</label>
 					</li>
-					<!-- <li data-menu="/{{ $levelName }}/laporan/rpjmd" class="nav-item">
-						<a href="{{ route($levelName.'.laporan.rpjmd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD</span></a>
+					<li data-menu="/{{ $levelName }}/laporan/rpjmd" class="nav-item">
+						<a href="{{ route($levelName.'.laporan.rpjmd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-inbox"></i></span><span class="pcoded-mtext">RPJMD</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/laporan/renstra" class="nav-item">
-						<a href="{{ route($levelName.'.laporan.renstra') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">RENSTRA</span></a>
+						<a href="{{ route($levelName.'.laporan.renstra') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">RENSTRA</span></a>
 					</li>
 					<li data-menu="/{{ $levelName }}/laporan/renja" class="nav-item">
-						<a href="{{ route($levelName.'.laporan.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Renja</span></a>
-					</li> -->
+						<a href="{{ route($levelName.'.laporan.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-calendar"></i></span><span class="pcoded-mtext">Renja</span></a>
+					</li>
+					<li data-menu="/{{ $levelName }}/rapor/opd" class="nav-item">
+						<a href="{{ route($levelName.'.rapor.opd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Rapor</span></a>
+					</li>
 
-					<li data-menu-bar="laporan" class="nav-item pcoded-hasmenu">
+					<!-- <li data-menu-bar="laporan" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-print"></i></span><span class="pcoded-mtext">Cetak</span></a>
 						<ul class="pcoded-submenu">
 							<li data-menu="/{{ $levelName }}/laporan/rpjmd" class=""><a href="{{ route($levelName.'.laporan.rpjmd') }}" class="">RPJMD</a></li>
@@ -199,12 +221,12 @@
 					<li data-menu-bar="rapor" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-file"></i></span><span class="pcoded-mtext">Rapor</span></a>
 						<ul class="pcoded-submenu">
-					@if(in_array(session('login_level'), [1,2]))
+							@if(in_array(session('login_level'), [1,2]))
 							<li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li>
-					@endif
+							@endif
 							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
 						</ul>
-					</li>
+					</li> -->
 
 					@if(in_array(session('login_level'), [1,2]))
 					<li class="nav-item pcoded-menu-caption">
@@ -221,18 +243,30 @@
 	<!-- [ navigation menu ] end -->
 
 	<!-- [ Header ] start -->
-	<!-- <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-lightblue"> -->
-	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: gray;">
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: #34495E;">
+		<!-- <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: gray;"> -->
 		<div class="m-header">
 			<a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
 			<a href="index.html" class="b-brand">
+
 				<div class="b-bg">
-					<!-- <i class="feather icon-trending-up"></i> -->
-					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#23b6e4" class="bi bi-bicycle" viewBox="0 0 16 16">
-						<path d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
+					<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="12pt" height="316.000000pt" viewBox="0 0 154.000000 316.000000" preserveAspectRatio="xMidYMid meet">
+
+						<g transform="translate(0.000000,316.000000) scale(0.100000,-0.100000)" fill="#34495E" stroke="none">
+							<path d="M1089 2832 c-491 -363 -731 -546 -789 -599 l-54 -50 -38 -549 c-20
+-302 -37 -560 -38 -573 0 -22 2 -23 42 -17 59 9 431 211 469 254 24 27 29 42
+29 83 0 68 -18 105 -88 183 -170 188 -153 348 50 479 29 19 186 112 348 207
+162 95 302 178 310 186 12 11 19 80 35 314 11 165 20 300 19 300 -1 0 -133
+-98 -295 -218z" />
+							<path d="M1272 2100 c-101 -46 -382 -203 -406 -227 -34 -34 -47 -81 -35 -134
+13 -57 21 -70 89 -145 78 -86 112 -156 113 -231 1 -115 -61 -184 -283 -315
+-80 -47 -234 -138 -342 -202 -147 -87 -199 -122 -202 -139 -9 -40 -39 -567
+-33 -573 10 -10 1002 731 1084 810 44 43 53 58 53 87 0 19 16 266 35 549 19
+283 35 521 35 528 0 18 -59 14 -108 -8z" />
+						</g>
 					</svg>
 				</div>
-				<span class="b-title">{{ env('APP_NAME') }}</span>
+				<span class="b-title" style="font-weight: bold;">S P K P</span>
 			</a>
 		</div>
 		<a class="mobile-menu" id="mobile-header" href="javascript:">
@@ -330,7 +364,6 @@
 		</div>
 	</header>
 	<!-- [ Header ] end -->
-
 
 	@yield('content')
 
@@ -487,12 +520,20 @@
 				$(name).addClass('prevent-click');
 				$(name).css("display", "none");
 				$(name).before('<div class="loading-view" style=" ' + style +
-					'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>')
+					'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>');
+
+					
+				//tambahan
+				$('#btn-form-data').hide();
+				
 			} else {
 				// $(name).unblock();
 				$(name).removeClass('prevent-click');
 				$(".loading-view").remove();
 				$(name).css("display", "block");
+
+				//tambahan
+				$('#btn-form-data').show();
 			}
 		}
 

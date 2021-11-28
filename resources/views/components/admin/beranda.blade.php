@@ -16,7 +16,7 @@
 						<div class="row">
 							<!--[ daily sales section ] start-->
 							<div class="col-md-6 col-xl-4">
-								<div class="card daily-sales">
+								<div class="card daily-sales" style="border-left: #D4AC0D solid 8px;">
 									<div class="card-block">
 										<h6 class="mb-4">Jumlah Program</h6>
 										<div class="row d-flex align-items-center">
@@ -28,7 +28,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-xl-4">
-								<div class="card daily-sales">
+								<div class="card daily-sales" style="border-left: #CB4335 solid 8px;">
 									<div class="card-block">
 										<h6 class="mb-4">Jumlah Kegiatan</h6>
 										<div class="row d-flex align-items-center">
@@ -40,7 +40,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-xl-4">
-								<div class="card daily-sales">
+								<div class="card daily-sales" style="border-left: #1E8449 solid 8px;">
 									<div class="card-block">
 										<h6 class="mb-4">Jumlah Sub Kegiatan</h6>
 										<div class="row d-flex align-items-center">
