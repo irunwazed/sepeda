@@ -54,12 +54,24 @@ class CreateRpjmdTujuanIndikatorTable extends Migration
 					$table->double('rpjmd_tujuan_indikator_th5_realisasi_pagu')->nullable(); 
 					$table->double('rpjmd_tujuan_indikator_th5_capaian_target')->nullable(); 
 					$table->double('rpjmd_tujuan_indikator_th5_capaian_pagu')->nullable(); 
+					$table->double('rpjmd_tujuan_indikator_th6_target')->nullable(); 
+					$table->double('rpjmd_tujuan_indikator_th6_pagu')->nullable(); 
+					$table->double('rpjmd_tujuan_indikator_th6_realisasi_target')->nullable(); 
+					$table->double('rpjmd_tujuan_indikator_th6_realisasi_pagu')->nullable(); 
+					$table->double('rpjmd_tujuan_indikator_th6_capaian_target')->nullable(); 
+					$table->double('rpjmd_tujuan_indikator_th6_capaian_pagu')->nullable(); 
 					$table->timestamps();
 
 
 					$table->foreign('rpjmd_tujuan_id')->references('id')->on('ref_rpjmd_tujuan')->onDelete('cascade')->onUpdate('cascade');
 
         });
+
+
+				// DB::table('ta_rpjmd_tujuan_indikator')->insert([
+				// 	['rpjmd_tujuan_id' => 1, 'rpjmd_tujuan_indikator_nama' => 'Indeks Reformasi Birokrasi Kab. Morowali'],
+				// ]);
+
     }
 
     /**

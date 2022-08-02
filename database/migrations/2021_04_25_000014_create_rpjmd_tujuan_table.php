@@ -22,6 +22,14 @@ class CreateRpjmdTujuanTable extends Migration
 
 					$table->foreign('rpjmd_misi_id')->references('id')->on('ref_rpjmd_misi')->onDelete('cascade')->onUpdate('cascade');
         });
+
+				DB::table('ref_rpjmd_tujuan')->insert([
+					['rpjmd_misi_id' => 1, 'rpjmd_tujuan_nama' => 'Menciptakan pemerintahan yang baik dan bersih'],
+					['rpjmd_misi_id' => 2, 'rpjmd_tujuan_nama' => 'Meningkatkan skala ekonomi Daerah untuk Kesejahteraan bersama'],
+					['rpjmd_misi_id' => 3, 'rpjmd_tujuan_nama' => 'Meningkatkan Daya Saing Sumberdaya Manusia (SDM)'],
+					['rpjmd_misi_id' => 4, 'rpjmd_tujuan_nama' => 'Meningkatkan kualitas infrastruktur dasar'],
+					['rpjmd_misi_id' => 5, 'rpjmd_tujuan_nama' => 'Meningkatkan Daya Dukung dan Daya Tampung Lingkungan Hidup (DDDTLH) dan berkurangnya Resiko Bencana'],
+				]);
     }
 
     /**

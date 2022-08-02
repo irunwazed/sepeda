@@ -229,6 +229,21 @@ class SubKegiatanController extends Controller
 				}
 				return $hasil;
 			})
+			->addColumn('th6_target', function ($row) {
+				$nilai = $row->renstra_sub_kegiatan_indikator_th6_target;
+				$hasil = $nilai;
+				if (@$row->renstra_sub_kegiatan_indikator_nilai_jenis == 2) {
+					$arr = json_decode($row->renstra_sub_kegiatan_indikator_nilai_json, true);
+					for ($i = 0; $i < count($arr); $i++) {
+						$temp = 0;
+						if ($nilai <= $arr[$i]['nilai'] && $nilai > $temp) {
+							$hasil = $arr[$i]['nama'];
+							$temp = $arr[$i]['nilai'];
+						}
+					}
+				}
+				return $hasil;
+			})
 			->addColumn('action', '
 				<div class="btn-group mb-2 mr-2">
 					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>

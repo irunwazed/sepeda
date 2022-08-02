@@ -173,15 +173,23 @@
 						<label>Realisasi</label>
 					</li>
 
-					<li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD & RENSTRA</span></a>
-						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/realisasi/tujuan" class=""><a href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan</a></li>
-							<li data-menu="/{{ $levelName }}/realisasi/sasaran" class=""><a href="{{ route($levelName.'.realisasi.sasaran') }}" class="">Sasaran</a></li>
-							<li data-menu="/{{ $levelName }}/realisasi/program" class=""><a href="{{ route($levelName.'.realisasi.program') }}" class="">Program</a></li>
-							<li data-menu="/{{ $levelName }}/realisasi/kegiatan" class=""><a href="{{ route($levelName.'.realisasi.kegiatan') }}" class="">Kegiatan</a></li>
-						</ul>
-					</li>
+<li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
+	<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD</span></a>
+	<ul class="pcoded-submenu">
+		<li data-menu="/{{ $levelName }}/realisasi/tujuan" class=""><a href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan</a></li>
+		<li data-menu="/{{ $levelName }}/realisasi/sasaran" class=""><a href="{{ route($levelName.'.realisasi.sasaran') }}" class="">Sasaran</a></li>
+		<li data-menu="/{{ $levelName }}/realisasi/program" class=""><a href="{{ route($levelName.'.realisasi.program') }}" class="">Program</a></li>
+	</ul>
+</li>
+
+<li data-menu-bar="realisasi-renstra" class="nav-item pcoded-hasmenu">
+	<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RENSTRA</span></a>
+	<ul class="pcoded-submenu">
+		<li data-menu="/{{ $levelName }}/realisasi/tujuan-opd" class=""><a href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan OPD</a></li>
+		<li data-menu="/{{ $levelName }}/realisasi/sasaran-opd" class=""><a href="{{ route($levelName.'.realisasi.sasaran') }}" class="">Sasaran OPD</a></li>
+		<li data-menu="/{{ $levelName }}/realisasi/kegiatan" class=""><a href="{{ route($levelName.'.realisasi.kegiatan') }}" class="">Kegiatan</a></li>
+	</ul>
+</li>
 					<li data-menu-bar="realisasi-renja" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">Renja</span></a>
 						<ul class="pcoded-submenu">
@@ -230,7 +238,7 @@
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-file"></i></span><span class="pcoded-mtext">Rapor</span></a>
 						<ul class="pcoded-submenu">
 							@if(in_array(session('login_level'), [1,2]))
-							<!-- <li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li> -->
+							<li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li>
 							@endif
 							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
 						</ul>
@@ -471,7 +479,7 @@
 				},
 				error: function(err) {
 					console.log(err);
-					pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
+					// pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
 					// $('#my-error').html(err.responseText);
 					// $("Terjadi error : ");
 				},

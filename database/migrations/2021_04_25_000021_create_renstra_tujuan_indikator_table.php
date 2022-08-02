@@ -55,6 +55,12 @@ class CreateRenstraTujuanIndikatorTable extends Migration
 					$table->double('renstra_tujuan_indikator_th5_realisasi_pagu')->nullable(); 
 					$table->double('renstra_tujuan_indikator_th5_capaian_target')->nullable(); 
 					$table->double('renstra_tujuan_indikator_th5_capaian_pagu')->nullable(); 
+					$table->double('renstra_tujuan_indikator_th6_target')->nullable(); 
+					$table->double('renstra_tujuan_indikator_th6_pagu')->nullable(); 
+					$table->double('renstra_tujuan_indikator_th6_realisasi_target')->nullable(); 
+					$table->double('renstra_tujuan_indikator_th6_realisasi_pagu')->nullable(); 
+					$table->double('renstra_tujuan_indikator_th6_capaian_target')->nullable(); 
+					$table->double('renstra_tujuan_indikator_th6_capaian_pagu')->nullable(); 
 					$table->timestamps();
 
 					$foreign = [

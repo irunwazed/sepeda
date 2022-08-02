@@ -54,6 +54,12 @@ class CreateRpjmdSasaranIndikatorTable extends Migration
 					$table->double('rpjmd_sasaran_indikator_th5_realisasi_pagu')->nullable(); 
 					$table->double('rpjmd_sasaran_indikator_th5_capaian_target')->nullable(); 
 					$table->double('rpjmd_sasaran_indikator_th5_capaian_pagu')->nullable(); 
+					$table->double('rpjmd_sasaran_indikator_th6_target')->nullable(); 
+					$table->double('rpjmd_sasaran_indikator_th6_pagu')->nullable(); 
+					$table->double('rpjmd_sasaran_indikator_th6_realisasi_target')->nullable(); 
+					$table->double('rpjmd_sasaran_indikator_th6_realisasi_pagu')->nullable(); 
+					$table->double('rpjmd_sasaran_indikator_th6_capaian_target')->nullable(); 
+					$table->double('rpjmd_sasaran_indikator_th6_capaian_pagu')->nullable(); 
 					$table->timestamps();
 
 					$table->foreign('rpjmd_sasaran_id')->references('id')->on('ref_rpjmd_sasaran')->onDelete('cascade')->onUpdate('cascade');

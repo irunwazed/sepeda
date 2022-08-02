@@ -39,23 +39,25 @@ class RenstraController extends Controller
 	public function getQuery($request){
 		$data = DB::table($this->table)
 		->select($this->table.'.*'
-		, 'ref_rpjmd_tujuan.id as rpjmd_tujuan_id'
-		, 'ref_rpjmd_sasaran.id as rpjmd_sasaran_id'
+		, 'ref_rpjmd_program.renstra_tujuan_kode'
+		, 'ref_rpjmd_program.renstra_sasaran_kode'
 		, 'ref_rpjmd_program.id as rpjmd_program_id'
 		, 'ref_renstra_kegiatan.id as renstra_kegiatan_id'
 		, 'ref_renstra_sub_kegiatan.id as renstra_sub_kegiatan_id'
-		, 'ref_rpjmd_tujuan.rpjmd_tujuan_nama'
-		, 'ref_rpjmd_sasaran.rpjmd_sasaran_nama'
+		, 'ref_renstra_tujuan.renstra_tujuan_nama'
+		, 'ref_renstra_sasaran.renstra_sasaran_nama'
 		, 'ref_program.program_nama'
 		, 'ref_kegiatan.kegiatan_nama'
 		, 'ref_sub_kegiatan.sub_kegiatan_nama'
 		, 'ref_rpjmd_program.opd_id'
+		, 'ref_renstra_tujuan.renstra_tujuan_nama'
+		, 'ref_renstra_sasaran.renstra_sasaran_nama'
 		, 'ref_opd.opd_nama')
 		->leftJoin('ref_renstra_kegiatan', 'ref_renstra_kegiatan.id', '=', 'ref_renstra_sub_kegiatan.renstra_kegiatan_id')
 		->leftJoin('ref_rpjmd_program', 'ref_rpjmd_program.id', '=', 'ref_renstra_kegiatan.rpjmd_program_id')
 		->leftJoin('ref_opd', 'ref_opd.id', '=', 'ref_rpjmd_program.opd_id')
-		->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
-		->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
+		// ->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
+		// ->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
 		->leftJoin('ref_program', function($join){
 			$join->on('ref_program.permen_ver', '=', 'ref_renstra_sub_kegiatan.permen_ver');
 			$join->on('ref_program.urusan_kode', '=', 'ref_renstra_sub_kegiatan.urusan_kode');
@@ -79,9 +81,20 @@ class RenstraController extends Controller
 			$join->on('ref_sub_kegiatan.kegiatan_kode', '=', 'ref_renstra_sub_kegiatan.kegiatan_kode');
 			$join->on('ref_sub_kegiatan.sub_kegiatan_kode', '=', 'ref_renstra_sub_kegiatan.sub_kegiatan_kode');
 		})
+		->leftJoin('ref_renstra_tujuan', function($join)
+		{
+			$join->on('ref_renstra_tujuan.opd_id', '=', 'ref_rpjmd_program.opd_id');
+			$join->on('ref_renstra_tujuan.renstra_tujuan_kode', '=', 'ref_rpjmd_program.renstra_tujuan_kode');
+		})
+		->leftJoin('ref_renstra_sasaran', function($join)
+		{
+			$join->on('ref_renstra_sasaran.opd_id', '=', 'ref_rpjmd_program.opd_id');
+			$join->on('ref_renstra_sasaran.renstra_tujuan_kode', '=', 'ref_rpjmd_program.renstra_tujuan_kode');
+			$join->on('ref_renstra_sasaran.renstra_sasaran_kode', '=', 'ref_rpjmd_program.renstra_sasaran_kode');
+		})
 		->where('ref_opd.id', session('opd'))
-		->orderBy('ref_rpjmd_tujuan.id')
-		->orderBy('ref_rpjmd_sasaran.id')
+		->orderBy('ref_rpjmd_program.renstra_tujuan_kode')
+		->orderBy('ref_rpjmd_program.renstra_sasaran_kode')
 		->orderBy('ref_rpjmd_program.id')
 		->orderBy('ref_renstra_kegiatan.id')
 		->orderBy('ref_renstra_sub_kegiatan.id');
@@ -112,23 +125,26 @@ class RenstraController extends Controller
 
 		foreach($data as $row){
 			
-			if($tujuan_id != $row->rpjmd_tujuan_id){
-				$tujuan_id = $row->rpjmd_tujuan_id;
+			if($tujuan_id != $row->renstra_tujuan_kode){
+				$tujuan_id = $row->renstra_tujuan_kode;
 				$tujuan_index = $index;
-				$dataAll[$index]['uraian'] = $row->rpjmd_tujuan_nama;
-				$dataAll[$index]['data'] = DB::table('ta_rpjmd_tujuan_indikator')
-				->where('ta_rpjmd_tujuan_indikator.rpjmd_tujuan_id', $row->rpjmd_tujuan_id)
+				$dataAll[$index]['uraian'] = $row->renstra_tujuan_nama;
+				$dataAll[$index]['data'] = DB::table('ref_renstra_tujuan_indikator')
+				->where('ref_renstra_tujuan_indikator.opd_id', $row->opd_id)
+				->where('ref_renstra_tujuan_indikator.renstra_tujuan_kode', $row->renstra_tujuan_kode)
 				->get();
 				$dataAll[$index]['level'] = 1;
 				$index++;
 			}
 
-			if($sasaran_id != $row->rpjmd_sasaran_id){
-				$sasaran_id = $row->rpjmd_sasaran_id;
+			if($sasaran_id != $row->renstra_sasaran_kode){
+				$sasaran_id = $row->renstra_sasaran_kode;
 				$sasaran_index = $index;
-				$dataAll[$index]['uraian'] = $row->rpjmd_sasaran_nama;
-				$dataAll[$index]['data'] = DB::table('ta_rpjmd_sasaran_indikator')
-				->where('ta_rpjmd_sasaran_indikator.rpjmd_sasaran_id', $row->rpjmd_sasaran_id)
+				$dataAll[$index]['uraian'] = $row->renstra_sasaran_nama;
+				$dataAll[$index]['data'] = DB::table('ref_renstra_sasaran_indikator')
+				->where('ref_renstra_sasaran_indikator.opd_id', $row->opd_id)
+				->where('ref_renstra_sasaran_indikator.renstra_tujuan_kode', $row->renstra_tujuan_kode)
+				->where('ref_renstra_sasaran_indikator.renstra_sasaran_kode', $row->renstra_sasaran_kode)
 				->get();
 				$dataAll[$index]['level'] = 2;
 				$index++;

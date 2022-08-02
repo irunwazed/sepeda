@@ -45,6 +45,10 @@ Route::post('login', 'LoginController@cekLogin');
 Route::get('logout', 'LoginController@logout');
 
 
+Route::get('/import/contoh','ImportContohController@view');
+Route::post('/import/contoh','ImportContohController@import');
+
+
 Route::middleware(['verificationLevel:2'])->group(function () {
 
 	Route::prefix('/admin')->group(function () {
@@ -190,13 +194,30 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 		Route::prefix('/penyusunan/renstra')->group(function () {
 
+			Route::get('/tujuan/{kode}/indikator','PenyusunanRenstra\TujuanIndikatorController@view');
+			Route::get('/tujuan/{kode}/indikator/get-data','PenyusunanRenstra\TujuanIndikatorController@getData');
+			Route::get('/tujuan/{kode}/indikator/get-data/{id}','PenyusunanRenstra\TujuanIndikatorController@getData');
+			Route::post('/tujuan/{kode}/indikator/create','PenyusunanRenstra\TujuanIndikatorController@create');
+			Route::post('/tujuan/{kode}/indikator/update','PenyusunanRenstra\TujuanIndikatorController@update');
+			Route::get('/tujuan/{kode}/indikator/delete/{id}','PenyusunanRenstra\TujuanIndikatorController@delete');
+
+			Route::get('/sasaran/{kode}/indikator','PenyusunanRenstra\SasaranIndikatorController@view');
+			Route::get('/sasaran/{kode}/indikator/get-data','PenyusunanRenstra\SasaranIndikatorController@getData');
+			Route::get('/sasaran/{kode}/indikator/get-data/{id}','PenyusunanRenstra\SasaranIndikatorController@getData');
+			Route::post('/sasaran/{kode}/indikator/create','PenyusunanRenstra\SasaranIndikatorController@create');
+			Route::post('/sasaran/{kode}/indikator/update','PenyusunanRenstra\SasaranIndikatorController@update');
+			Route::get('/sasaran/{kode}/indikator/delete/{id}','PenyusunanRenstra\SasaranIndikatorController@delete');
+
 			Route::get('/program','PenyusunanRenstra\ProgramController@view')->name('admin.penyusunan.renstra');
 			Route::get('/program/get-data','PenyusunanRenstra\ProgramController@getData');
 			Route::get('/program/get-data/{id}','PenyusunanRenstra\ProgramController@getData');
 			Route::post('/program/create','PenyusunanRenstra\ProgramController@create');
 			Route::post('/program/update','PenyusunanRenstra\ProgramController@update');
 			Route::get('/program/delete/{id}','PenyusunanRenstra\ProgramController@delete');
-
+			Route::post('/program/create-tusa','PenyusunanRenstra\ProgramController@createTusa');
+			Route::get('/program/get-tujuan','PenyusunanRenstra\ProgramController@getTujuan');
+			Route::get('/program/get-sasaran','PenyusunanRenstra\ProgramController@getSasaran');
+			
 			Route::get('/program/{kode}','PenyusunanRenstra\KegiatanController@view');
 			Route::get('/program/{kode}/get-data','PenyusunanRenstra\KegiatanController@getData');
 			Route::get('/program/{kode}/get-data/{id}','PenyusunanRenstra\KegiatanController@getData');
@@ -240,6 +261,20 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::post('/sasaran/create','Realisasi\SasaranController@create');
 			Route::post('/sasaran/update','Realisasi\SasaranController@update');
 			Route::get('/sasaran/delete/{id}','Realisasi\SasaranController@delete');
+
+			Route::get('/tujuan-opd','Realisasi\TujuanController@view');
+			Route::get('/tujuan-opd/get-data','Realisasi\TujuanController@getData');
+			Route::get('/tujuan-opd/get-data/{id}','Realisasi\TujuanController@getData');
+			Route::post('/tujuan-opd/create','Realisasi\TujuanController@create');
+			Route::post('/tujuan-opd/update','Realisasi\TujuanController@update');
+			Route::get('/tujuan-opd/delete/{id}','Realisasi\TujuanController@delete');
+
+			Route::get('/sasaran-opd','Realisasi\SasaranController@view');
+			Route::get('/sasaran-opd/get-data','Realisasi\SasaranController@getData');
+			Route::get('/sasaran-opd/get-data/{id}','Realisasi\SasaranController@getData');
+			Route::post('/sasaran-opd/create','Realisasi\SasaranController@create');
+			Route::post('/sasaran-opd/update','Realisasi\SasaranController@update');
+			Route::get('/sasaran-opd/delete/{id}','Realisasi\SasaranController@delete');
 
 			Route::get('/program','Realisasi\ProgramController@view')->name('admin.realisasi.program');
 			Route::get('/program/get-data','Realisasi\ProgramController@getData');
@@ -301,9 +336,9 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/program','PenyusunanRenstra\ProgramController@view')->name('opd.penyusunan.renstra');
 			Route::get('/program/get-data','PenyusunanRenstra\ProgramController@getData');
 			Route::get('/program/get-data/{id}','PenyusunanRenstra\ProgramController@getData');
-			Route::post('/program/create','PenyusunanRenstra\ProgramController@create');
-			Route::post('/program/update','PenyusunanRenstra\ProgramController@update');
-			Route::get('/program/delete/{id}','PenyusunanRenstra\ProgramController@delete');
+			// Route::post('/program/create','PenyusunanRenstra\ProgramController@create');
+			// Route::post('/program/update','PenyusunanRenstra\ProgramController@update');
+			// Route::get('/program/delete/{id}','PenyusunanRenstra\ProgramController@delete');
 
 			Route::get('/program/{kode}','PenyusunanRenstra\KegiatanController@view');
 			Route::get('/program/{kode}/get-data','PenyusunanRenstra\KegiatanController@getData');

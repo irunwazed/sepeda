@@ -554,13 +554,13 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 						<div class="form-group col-sm-5" >\
 							<label for="basicInput">Nilai Max</label>\
 							<fieldset class="form-group">\
-								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control">\
+								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="form-group col-sm-6">\
 							<label for="basicInput">Nomenklatur</label>\
 							<fieldset class="form-group">\
-								<input type="text" name="indikator_nama[]" class="form-control">\
+								<input type="text" name="indikator_nama[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="col-sm-1">\

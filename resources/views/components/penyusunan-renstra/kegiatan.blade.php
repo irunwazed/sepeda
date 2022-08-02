@@ -54,7 +54,7 @@
 														<th rowspan="2">Kegiatan</th>
 														<th rowspan="2">Indikator</th>
 														<th rowspan="2">Satuan</th>
-														<th colspan="6">Target (Tahun)</th>
+														<th colspan="7">Target (Tahun)</th>
 														<th width="10" rowspan="2">Aksi</th>
 													</tr>
 													<tr>
@@ -64,6 +64,7 @@
 														<th>{{ @session('rpjmd_tahun')+2 }}</th>
 														<th>{{ @session('rpjmd_tahun')+3 }}</th>
 														<th>{{ @session('rpjmd_tahun')+4 }}</th>
+														<th>Akhir</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -175,6 +176,12 @@
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+4 }}</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th5_target" class="form-control" required>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-4">
+							<label for="basicInput">Target Tahun Akhir</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th6_target" class="form-control" required>
 							</fieldset>
 						</div>
 					</div>
@@ -299,6 +306,9 @@ $(document).ready(function() {
 				data: 'th5_target',
 			},
 			{
+				data: 'th6_target',
+			},
+			{
 				data: 'action',
 				name: 'action'
 			},
@@ -325,7 +335,7 @@ $(document).ready(function() {
 						if (idx == 1) {
 
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="10">' + groupColumn[idx].name + ' : ' + name +
+								'<tr class="group"><td colspan="11">' + groupColumn[idx].name + ' : ' + name +
 								'</td><td>\
 				<div class="btn-group mb-2 mr-2">\
 					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>\
@@ -337,7 +347,7 @@ $(document).ready(function() {
 						} else {
 
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="11">' + groupColumn[idx].name + ' : ' + name +
+								'<tr class="group"><td colspan="12">' + groupColumn[idx].name + ' : ' + name +
 								'</td></tr>'
 							);
 						}
@@ -436,6 +446,7 @@ function setUpdate(id) {
 			$('input[name="renstra_kegiatan_indikator_th3_target"]').val(res.data.renstra_kegiatan_indikator_th3_target);
 			$('input[name="renstra_kegiatan_indikator_th4_target"]').val(res.data.renstra_kegiatan_indikator_th4_target);
 			$('input[name="renstra_kegiatan_indikator_th5_target"]').val(res.data.renstra_kegiatan_indikator_th5_target);
+			$('input[name="renstra_kegiatan_indikator_th6_target"]').val(res.data.renstra_kegiatan_indikator_th6_target);
 		} else {
 			pesanSweet('Gagal!', res.pesan, 'warning');
 		}
@@ -490,13 +501,13 @@ $('select[name="renstra_kegiatan_indikator_nilai_jenis"]').change(function() {
 						<div class="form-group col-sm-5" >\
 							<label for="basicInput">Nilai Max</label>\
 							<fieldset class="form-group">\
-								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control">\
+								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="form-group col-sm-6">\
 							<label for="basicInput">Nomenklatur</label>\
 							<fieldset class="form-group">\
-								<input type="text" name="indikator_nama[]" class="form-control">\
+								<input type="text" name="indikator_nama[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="col-sm-1">\

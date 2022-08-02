@@ -28,7 +28,7 @@ class ProgramController extends Controller
 
 	public function getQuery($request){
 		$data = DB::table($this->table)
-		->select($this->table.'.*', 'rpjmd_tujuan_nama', 'rpjmd_sasaran_nama'
+		->select($this->table.'.*', 'rpjmd_tujuan_nama', 'rpjmd_sasaran_nama', 'renstra_tujuan_nama', 'renstra_sasaran_nama'
 		, 'ref_program.urusan_kode'
 		, 'ref_program.bidang_kode'
 		, 'ref_program.program_kode'
@@ -39,6 +39,17 @@ class ProgramController extends Controller
 			$join->on('ref_program.urusan_kode', '=', 'ref_rpjmd_program.urusan_kode');
 			$join->on('ref_program.bidang_kode', '=', 'ref_rpjmd_program.bidang_kode');
 			$join->on('ref_program.program_kode', '=', 'ref_rpjmd_program.program_kode');
+		})
+		->leftJoin('ref_renstra_tujuan', function($join)
+		{
+			$join->on('ref_renstra_tujuan.opd_id', '=', 'ref_rpjmd_program.opd_id');
+			$join->on('ref_renstra_tujuan.renstra_tujuan_kode', '=', 'ref_rpjmd_program.renstra_tujuan_kode');
+		})
+		->leftJoin('ref_renstra_sasaran', function($join)
+		{
+			$join->on('ref_renstra_sasaran.opd_id', '=', 'ref_rpjmd_program.opd_id');
+			$join->on('ref_renstra_sasaran.renstra_tujuan_kode', '=', 'ref_rpjmd_program.renstra_tujuan_kode');
+			$join->on('ref_renstra_sasaran.renstra_sasaran_kode', '=', 'ref_rpjmd_program.renstra_sasaran_kode');
 		})
 		->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 		->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
@@ -75,10 +86,7 @@ class ProgramController extends Controller
 					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
 							
-						<a class="dropdown-item" href="../program/{{$id}}/indikator"><i class="feather icon-plus"></i> Indikator</a>
-						<a class="dropdown-item" href="#" onclick="setUpdate(\'{{$id}}\')"><i class="feather icon-edit"></i> Ubah</a>
-						<a class="dropdown-item" href="#" onclick="setView(\'{{$id}}\')"><i class="feather icon-search"></i> Detail</a>
-						<a class="dropdown-item" href="#" onclick="setDelete(\'{{$id}}\')"><i class="feather icon-trash"></i> Hapus</a>
+						<a class="dropdown-item" href="#" onclick="setUpdate(\'{{$id}}\')"><i class="feather icon-edit"></i> Ubah Tujuan Sasaran</a>
 
 					</div>
 				</div>
@@ -128,30 +136,34 @@ class ProgramController extends Controller
     }else{
 			$date = date('Y-m-d H:i:s');
 
-			$permenKode = explode("-", @$request->program);
+			$kode = explode("-", @$request->renstra_sasaran_kode);
+			// $data = [
+			// 	'permen_ver' => $permenKode[0],
+			// 	'urusan_kode' => $permenKode[1],
+			// 	'bidang_kode' => $permenKode[2],
+			// 	'program_kode' => $permenKode[3],
+			// 	'opd_id' => $request->opd,
+			// 	'updated_at' => $date,
+			// ];
 			$data = [
-				'permen_ver' => $permenKode[0],
-				'urusan_kode' => $permenKode[1],
-				'bidang_kode' => $permenKode[2],
-				'program_kode' => $permenKode[3],
-				'opd_id' => $request->opd,
-				'updated_at' => $date,
+				'renstra_tujuan_kode' => $kode[1],
+				'renstra_sasaran_kode' => $kode[2],
 			];
 
-			if($action == 'create'){
-				$data['rpjmd_sasaran_id'] = $request->kode;
-				$data['created_at'] = $date;
+			if(@$request->id){
+				$status = DB::table($this->table)->where('id', $request->id)->update($data);
+			}
+			$status?$pesan = 'Berhasil Mengubah Data':$pesan = 'Gagal Mengubah Data';
+			// if($action == 'create'){
+			// 	$data['rpjmd_sasaran_id'] = $request->kode;
+			// 	$data['created_at'] = $date;
 
 				
-				$status = DB::table($this->table)->insert($data);
-				$status?$pesan = 'Berhasil Menambahkan Data':$pesan = 'Gagal Menambahkan Data';
-			}else if($action == 'update'){
-				if(@$request->id){
-					$status = DB::table($this->table)->where('id', $request->id)->update($data);
-				}
-				$status?$pesan = 'Berhasil Mengubah Data':$pesan = 'Gagal Mengubah Data';
-				// print_r($request->all());
-			}
+			// 	$status = DB::table($this->table)->insert($data);
+			// 	$status?$pesan = 'Berhasil Menambahkan Data':$pesan = 'Gagal Menambahkan Data';
+			// }else if($action == 'update'){
+			// 	// print_r($request->all());
+			// }
     }
 
     $kirim = array(
@@ -162,8 +174,31 @@ class ProgramController extends Controller
     return $kirim;
   }
 
-  public function delete(Request $request, $id){
-    $validator = Validator::make($request->all(), [
+  // public function delete(Request $request, $id){
+  //   $validator = Validator::make($request->all(), [
+  //   ]);
+  //   $pesan = 'Gagal Terhubung Pada Server!';
+  //   $status = FALSE;
+  //   $error = [];
+  //   if ($validator->fails()) {
+  //     $error = $validator->errors()->all();
+  //   }else{
+  //     $status = DB::table($this->table)->where('id', $id)->delete();
+  //     $status?$pesan = 'Berhasil Menghapus Data':$pesan = 'Gagal Menghapus Data';
+  //   }
+
+  //   $kirim = array(
+  //     'pesan' => $pesan,
+  //     'error' => $error,
+  //     'status' => $status,
+  //   );
+  //   return response($kirim);
+  // }
+
+
+	public function createTusa(Request $request){
+		$validator = Validator::make($request->all(), [
+			
     ]);
     $pesan = 'Gagal Terhubung Pada Server!';
     $status = FALSE;
@@ -171,16 +206,86 @@ class ProgramController extends Controller
     if ($validator->fails()) {
       $error = $validator->errors()->all();
     }else{
-      $status = DB::table($this->table)->where('id', $id)->delete();
-      $status?$pesan = 'Berhasil Menghapus Data':$pesan = 'Gagal Menghapus Data';
+			$date = date('Y-m-d H:i:s');
+
+
+			
+			if($request->jenis == 1){
+				$table = 'ref_renstra_tujuan';
+				$dataTujuan = DB::table($table)->orderBy('renstra_tujuan_kode', 'DESC')->first();
+				$kode = 1;
+				if(@$dataTujuan->renstra_tujuan_kode){
+					$kode = $dataTujuan->renstra_tujuan_kode+1;
+				}
+
+				$data = [
+					'renstra_tujuan_kode' => $kode,
+					'renstra_tujuan_nama' => $request->tusa,
+					'opd_id' => session('opd'),
+					'created_at' => $date,
+					'updated_at' => $date,
+				];
+
+			}else if($request->jenis == 2){
+				$table = 'ref_renstra_sasaran';
+				$dataSasaran = DB::table($table)->orderBy('renstra_sasaran_kode', 'DESC')->first();
+				$kode = 1;
+				if(@$dataSasaran->renstra_sasaran_kode){
+					$kode = $dataSasaran->renstra_sasaran_kode+1;
+				}
+				$tujuanKode = explode("-", $request->tujuan);
+				$data = [
+					'renstra_tujuan_kode' => @$tujuanKode[1],
+					'renstra_sasaran_kode' => $kode,
+					'renstra_sasaran_nama' => $request->tusa,
+					'opd_id' => session('opd'),
+					'created_at' => $date,
+					'updated_at' => $date,
+				];
+
+			}
+			
+
+			$status = DB::table($table)->insert($data);
+			$status?$pesan = 'Berhasil Menambah Data':$pesan = 'Gagal Menambah Data';
+
     }
 
     $kirim = array(
       'pesan' => $pesan,
       'error' => $error,
-      'status' => $status,
+      'status' => $status
     );
-    return response($kirim);
-  }
+    return $kirim;
+	}
+
+	public function getTujuan(){
+		$table = 'ref_renstra_tujuan';
+		$data = DB::table($table)
+		->where('opd_id', session('opd'))
+		->get();
+
+		return $kirim = [
+			'data' => $data,
+			'status' => true,
+		];
+	}
+
+	public function getSasaran(Request $request){
+		$table = 'ref_renstra_sasaran';
+		$kode = explode("-", $request->tujuan);
+		$data = DB::table($table)
+		->where('opd_id', session('opd'))
+		->where('renstra_tujuan_kode', $kode[1])
+		->get();
+
+		return $kirim = [
+			'data' => $data,
+			'status' => true,
+		];
+	}
+
+	
+	
 
 }

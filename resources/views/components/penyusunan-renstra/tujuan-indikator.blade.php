@@ -2,7 +2,7 @@
 
 @section('content')
 <?php
-$judul = "Sub Kegiatan";
+$judul = "Tujuan Indikator";
 $icon = "feather icon-file";
 $levelName = \Request::get('levelPath');
 ?>
@@ -23,7 +23,7 @@ $levelName = \Request::get('levelPath');
 									<li class="breadcrumb-item"><a href="{{ url($levelName) }}"><i class="feather icon-home"></i></a></li>
 									<li class="breadcrumb-item"><a href="#">Penyusunan</a></li>
 									<li class="breadcrumb-item"><a href="#">RENSTRA</a></li>
-									<li class="breadcrumb-item"><a href="#">Program</a></li>
+									<li class="breadcrumb-item"><a href="#">Tujuan</a></li>
 									<li class="breadcrumb-item"><a href="javascript:">{{ $judul }}</a></li>
 								</ul>
 							</div>
@@ -44,37 +44,21 @@ $levelName = \Request::get('levelPath');
 									</div>
 									<div class="card-block">
 										<div class="table-responsive">
-
 											<table class="my-datatable table table-striped table-bordered">
 												<thead>
 													<tr>
-														<th width="10" colspan="2" rowspan="2">Kode</th>
-														<th rowspan="2">Program</th>
-														<th rowspan="2">Kegiatan</th>
-														<th rowspan="2">Sub Kegiatan</th>
-														<th rowspan="2">Indikator</th>
-														<th rowspan="2">Satuan</th>
-														<th colspan="2">Realisasi Tahun Awal</th>
-														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun') }}</th>
-														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+1 }}</th>
-														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+2 }}</th>
-														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+3 }}</th>
-														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+4 }}</th>
-														<th width="10" rowspan="2">Aksi</th>
-													</tr>
-													<tr>
-														<th>Kinerja</th>
-														<th>Pagu</th>
-														<th>Kinerja</th>
-														<th>Pagu</th>
-														<th>Kinerja</th>
-														<th>Pagu</th>
-														<th>Kinerja</th>
-														<th>Pagu</th>
-														<th>Kinerja</th>
-														<th>Pagu</th>
-														<th>Kinerja</th>
-														<th>Pagu</th>
+														<th width="10"></th>
+														<th>Tujuan</th>
+														<th>Indikator</th>
+														<th>Satuan</th>
+														<th>Tahun Awal</th>
+														<th>Tahun {{ @session('rpjmd_tahun') }}</th>
+														<th>Tahun {{ @session('rpjmd_tahun')+1 }}</th>
+														<th>Tahun {{ @session('rpjmd_tahun')+2 }}</th>
+														<th>Tahun {{ @session('rpjmd_tahun')+3 }}</th>
+														<th>Tahun {{ @session('rpjmd_tahun')+4 }}</th>
+														<th>Tahun Akhir</th>
+														<th width="10">Aksi</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -112,29 +96,28 @@ $levelName = \Request::get('levelPath');
 					<input type="hidden" name="id">
 					<input type="hidden" name="kode" value="{{ @$kode }}">
 					<div class="form-group">
-						<label>Sub Kegiatan</label>
+						<label for="basicInput">Tujuan</label>
 						<fieldset class="form-group">
-							<select name="sub_kegiatan" class="form-control select2" required>
-								<option value="">-= Pilih Sub Kegiatan =-</option>
-								@foreach(@$dataSubKegiatan as $row)
-								<option value="{{ $row->permen_ver.'-'.$row->urusan_kode.'-'.$row->bidang_kode.'-'.$row->program_kode.'-'.$row->kegiatan_kode.'-'.$row->sub_kegiatan_kode }}">
-									{{ $row->sub_kegiatan_nama }}
-								</option>
-								@endforeach
-							</select>
+							<textarea name="renstra_tujuan_nama" class="form-control" cols="30" rows="5" readonly></textarea>
 						</fieldset>
 					</div>
 					<div class="form-group">
-						<label for="basicInput">Sub Kegiatan Indikator</label>
+						<label for="basicInput">Tujuan Indikator</label>
 						<fieldset class="form-group">
-							<textarea name="renstra_sub_kegiatan_indikator_nama" class="form-control" cols="30" rows="5"></textarea>
+							<textarea name="renstra_tujuan_indikator_nama" class="form-control" cols="30" rows="5" required></textarea>
+						</fieldset>
+					</div>
+					<div class="form-group">
+						<label for="basicInput">Satuan</label>
+						<fieldset class="form-group">
+							<input type="text" name="renstra_tujuan_indikator_satuan" class="form-control" required>
 						</fieldset>
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Jenis Kinerja</label>
 							<fieldset class="form-group">
-								<select name="renstra_sub_kegiatan_indikator_nilai_jenis" class="form-control">
+								<select name="renstra_tujuan_indikator_nilai_jenis" class="form-control">
 									<option value="">-= Pilih Jenis Nilai =-</option>
 									<option value="1">Nilai</option>
 									<option value="2">Pilihan</option>
@@ -145,82 +128,46 @@ $levelName = \Request::get('levelPath');
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Realisasi Tahun Awal</label>
+						<div class="form-group col-sm-4">
+							<label for="basicInput">Target Tahun Awal</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th0_realisasi_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th0_realisasi_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Satuan</label>
-							<fieldset class="form-group">
-								<input type="text" name="renstra_sub_kegiatan_indikator_satuan" class="form-control">
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun') }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th1_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th1_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Pagu {{ session('rpjmd_tahun') }}</label>
-							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th1_pagu" class="form-control">
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+1 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th2_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th2_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+1 }}</label>
-							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th2_pagu" class="form-control">
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+2 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th3_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th3_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+2 }}</label>
-							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th3_pagu" class="form-control">
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+3 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th4_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th4_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+3 }}</label>
-							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th4_pagu" class="form-control">
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+4 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th5_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th5_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+4 }}</label>
-							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th5_pagu" class="form-control">
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Target Tahun Akhir</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_sub_kegiatan_indikator_th6_target" class="form-control">
+								<input type="number" step="0.001" name="renstra_tujuan_indikator_th6_target" class="form-control" required>
 							</fieldset>
 						</div>
 					</div>
@@ -252,26 +199,17 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 	var linkAction = '/create';
 	var dataPilih = {};
 	var kode = '{{ @$kode }}';
+	var renstra_tujuan_nama = '{{ @$dataAwal->renstra_tujuan_nama }}';
 	$(document).ready(function() {
 
-		$('select[name="sub_kegiatan"]').select2({
-			dropdownParent: $("#modal-form"),
-		});
-		var groupColumn = [{
-			name: 'Program',
-			data: 'program_nama',
-			column: 2
-		}, {
-			name: 'Kegiatan',
-			data: 'kegiatan_nama',
-			column: 3
-		}, {
-			name: 'Sub Kegiatan',
-			data: 'sub_kegiatan_nama',
-			column: 4
-		}, ];
+		var groupColumn = [
+			{
+				name: 'Tujuan',
+				data: 'renstra_tujuan_nama',
+				column: 1
+			},
+		];
 		var table = $('.my-datatable').DataTable({
-
 			responsive: true,
 			ordering: false,
 			autoWidth: false,
@@ -298,14 +236,6 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 					"visible": false,
 					"targets": groupColumn[0].column
 				},
-				{
-					"visible": false,
-					"targets": groupColumn[1].column
-				},
-				{
-					"visible": false,
-					"targets": groupColumn[2].column
-				},
 			],
 			columns: [{
 					"class": "details-control",
@@ -314,93 +244,42 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 					"defaultContent": "<center><img src='https://datatables.net/examples/resources/details_open.png' /></center>"
 				},
 				{
-					data: 'kode',
+					data: 'renstra_tujuan_nama',
 				},
 				{
-					data: 'program_nama',
+					data: 'renstra_tujuan_indikator_nama',
 				},
 				{
-					data: 'kegiatan_nama',
-				},
-				{
-					data: 'sub_kegiatan_nama',
-				},
-				// {
-				// 	data: null,
-				// 	render: function(e) {
-				// 		return '<a href="../misi/' + e.id + '"> ' + e.program_nama + ' </a>';
-				// 	}
-				// },
-				{
-					data: 'renstra_sub_kegiatan_indikator_nama',
-				},
-				{
-					data: 'renstra_sub_kegiatan_indikator_satuan',
+					data: 'renstra_tujuan_indikator_satuan',
 				},
 				{
 					data: 'th0_target',
 				},
 				{
-					data: 'renstra_sub_kegiatan_indikator_th0_realisasi_pagu',
-					render: function(e) {
-						return formatRupiah(e);
-					}
-				},
-				{
 					data: 'th1_target',
-				},
-				{
-					data: 'renstra_sub_kegiatan_indikator_th1_pagu',
-					render: function(e) {
-						return formatRupiah(e);
-					}
 				},
 				{
 					data: 'th2_target',
 				},
 				{
-					data: 'renstra_sub_kegiatan_indikator_th2_pagu',
-					render: function(e) {
-						return formatRupiah(e);
-					}
-				},
-				{
 					data: 'th3_target',
-				},
-				{
-					data: 'renstra_sub_kegiatan_indikator_th3_pagu',
-					render: function(e) {
-						return formatRupiah(e);
-					}
 				},
 				{
 					data: 'th4_target',
 				},
 				{
-					data: 'renstra_sub_kegiatan_indikator_th4_pagu',
-					render: function(e) {
-						return formatRupiah(e);
-					}
-				},
-				{
 					data: 'th5_target',
 				},
 				{
-					data: 'renstra_sub_kegiatan_indikator_th5_pagu',
-					render: function(e) {
-						return formatRupiah(e);
-					}
+					data: 'th6_target',
 				},
 				{
 					data: 'action',
-					name: 'action'
 				},
 			],
 			"displayLength": 25,
 			"order": [
 				[groupColumn[0].column, 'asc'],
-				[groupColumn[1].column, 'asc'],
-				[groupColumn[2].column, 'asc'],
 			],
 			"drawCallback": function(settings) {
 				var api = this.api();
@@ -409,16 +288,16 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 				}).nodes();
 				var last = null;
 
-				let space = '';
+
 				for (let idx = 0; idx < groupColumn.length; idx++) {
-					space += '';
 					api.column({
 						page: 'current'
 					}).data().each(function(group, i) {
+
 						let name = group[groupColumn[idx].data];
 						if (last !== name) {
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="17">' + groupColumn[idx].name + ' : ' + name +
+								'<tr class="group"><td colspan="11">' + groupColumn[idx].name + ' : ' + name +
 								'</td></tr>'
 							);
 							last = name;
@@ -489,9 +368,10 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 		$("#form-data :input").prop("disabled", false);
 		$('#modal-form').modal('show');
 		$('#form-data')[0].reset();
-		$('select[name="sub_kegiatan"]').val('').trigger("change");
-		$('textarea[name="renstra_sub_kegiatan_indikator_nama"]').html('');
+
 		$('input[name="kode"]').val(kode);
+		$('textarea[name="renstra_tujuan_nama"]').html(renstra_tujuan_nama);
+		$('textarea[name="renstra_tujuan_indikator_nama"]').html('');
 	}
 
 	function setUpdate(id) {
@@ -501,29 +381,24 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 		linkAction = '/update';
 		$('#modal-form').modal('show');
 		$('#form-data')[0].reset();
-		$('select[name="sub_kegiatan"]').val('').trigger("change");
+		$('textarea[name="renstra_tujuan_nama"]').html('');
 
 		let url = link + '/get-data/' + id;
 		$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
 			if (res.status) {
-				$('input[name="id"]').val(res.data.id);
+				$('input[name="id"]').val(id);
 				$('input[name="kode"]').val(kode);
-				$('select[name="sub_kegiatan"]').val(res.data.permen_ver + '-' + res.data.urusan_kode + '-' + res.data
-					.bidang_kode + '-' + res.data.program_kode + '-' + res.data.kegiatan_kode + '-' + res.data.sub_kegiatan_kode).trigger("change");
-				$('textarea[name="renstra_sub_kegiatan_indikator_nama"]').html(res.data.renstra_sub_kegiatan_indikator_nama);
-				$('input[name="renstra_sub_kegiatan_indikator_satuan"]').val(res.data.renstra_sub_kegiatan_indikator_satuan);
-				$('input[name="renstra_sub_kegiatan_indikator_th0_realisasi_target"]').val(res.data.renstra_sub_kegiatan_indikator_th0_realisasi_target);
-				$('input[name="renstra_sub_kegiatan_indikator_th1_target"]').val(res.data.renstra_sub_kegiatan_indikator_th1_target);
-				$('input[name="renstra_sub_kegiatan_indikator_th2_target"]').val(res.data.renstra_sub_kegiatan_indikator_th2_target);
-				$('input[name="renstra_sub_kegiatan_indikator_th3_target"]').val(res.data.renstra_sub_kegiatan_indikator_th3_target);
-				$('input[name="renstra_sub_kegiatan_indikator_th4_target"]').val(res.data.renstra_sub_kegiatan_indikator_th4_target);
-				$('input[name="renstra_sub_kegiatan_indikator_th5_target"]').val(res.data.renstra_sub_kegiatan_indikator_th5_target);
-				$('input[name="renstra_sub_kegiatan_indikator_th1_pagu"]').val(res.data.renstra_sub_kegiatan_indikator_th1_pagu);
-				$('input[name="renstra_sub_kegiatan_indikator_th2_pagu"]').val(res.data.renstra_sub_kegiatan_indikator_th2_pagu);
-				$('input[name="renstra_sub_kegiatan_indikator_th3_pagu"]').val(res.data.renstra_sub_kegiatan_indikator_th3_pagu);
-				$('input[name="renstra_sub_kegiatan_indikator_th4_pagu"]').val(res.data.renstra_sub_kegiatan_indikator_th4_pagu);
-				$('input[name="renstra_sub_kegiatan_indikator_th5_pagu"]').val(res.data.renstra_sub_kegiatan_indikator_th5_pagu);
-				$('input[name="renstra_sub_kegiatan_indikator_th6_pagu"]').val(res.data.renstra_sub_kegiatan_indikator_th6_pagu);
+				$('textarea[name="renstra_tujuan_nama"]').html(renstra_tujuan_nama);
+				$('textarea[name="renstra_tujuan_indikator_nama"]').html(res.data.renstra_tujuan_indikator_nama);
+				$('input[name="renstra_tujuan_indikator_satuan"]').val(res.data.renstra_tujuan_indikator_satuan);
+				$('input[name="renstra_tujuan_indikator_th0_realisasi_target"]').val(res.data
+					.renstra_tujuan_indikator_th0_realisasi_target);
+				$('input[name="renstra_tujuan_indikator_th1_target"]').val(res.data.renstra_tujuan_indikator_th1_target);
+				$('input[name="renstra_tujuan_indikator_th2_target"]').val(res.data.renstra_tujuan_indikator_th2_target);
+				$('input[name="renstra_tujuan_indikator_th3_target"]').val(res.data.renstra_tujuan_indikator_th3_target);
+				$('input[name="renstra_tujuan_indikator_th4_target"]').val(res.data.renstra_tujuan_indikator_th4_target);
+				$('input[name="renstra_tujuan_indikator_th5_target"]').val(res.data.renstra_tujuan_indikator_th5_target);
+				$('input[name="renstra_tujuan_indikator_th6_target"]').val(res.data.renstra_tujuan_indikator_th6_target);
 			} else {
 				pesanSweet('Gagal!', res.pesan, 'warning');
 			}
@@ -559,8 +434,7 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 		init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
 	}
 
-
-	$('select[name="renstra_sub_kegiatan_indikator_nilai_jenis"]').change(function() {
+	$('select[name="renstra_tujuan_indikator_nilai_jenis"]').change(function() {
 		let val = $(this).val();
 		console.log(val);
 		if (val == 2) {

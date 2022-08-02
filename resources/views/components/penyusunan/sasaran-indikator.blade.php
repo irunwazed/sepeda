@@ -64,6 +64,7 @@ $levelName = \Request::get('levelPath');
 														<th>Tahun {{ @session('rpjmd_tahun')+2 }}</th>
 														<th>Tahun {{ @session('rpjmd_tahun')+3 }}</th>
 														<th>Tahun {{ @session('rpjmd_tahun')+4 }}</th>
+														<th>Tahun Akhir</th>
 														<th width="10">Aksi</th>
 													</tr>
 												</thead>
@@ -134,40 +135,46 @@ $levelName = \Request::get('levelPath');
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target Tahun Awal</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th0_realisasi_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun') }}</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th1_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+1 }}</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th2_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+2 }}</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th3_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+3 }}</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th4_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+4 }}</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th5_target" class="form-control" required>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="basicInput">Target Tahun Akhir</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.001" name="rpjmd_sasaran_indikator_th6_target" class="form-control" required>
 							</fieldset>
 						</div>
 					</div>
@@ -312,6 +319,9 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 					data: 'th5_target',
 				},
 				{
+					data: 'th6_target',
+				},
+				{
 					data: 'action',
 				},
 			],
@@ -338,7 +348,7 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 						let name = group[groupColumn[idx].data];
 						if (last !== name) {
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="11">' + groupColumn[idx].name + ' : ' + name +
+								'<tr class="group"><td colspan="12">' + groupColumn[idx].name + ' : ' + name +
 								'</td></tr>'
 							);
 							last = name;
@@ -437,6 +447,7 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 				$('input[name="rpjmd_sasaran_indikator_th3_target"]').val(res.data.rpjmd_sasaran_indikator_th3_target);
 				$('input[name="rpjmd_sasaran_indikator_th4_target"]').val(res.data.rpjmd_sasaran_indikator_th4_target);
 				$('input[name="rpjmd_sasaran_indikator_th5_target"]').val(res.data.rpjmd_sasaran_indikator_th5_target);
+				$('input[name="rpjmd_sasaran_indikator_th6_target"]').val(res.data.rpjmd_sasaran_indikator_th6_target);
 			} else {
 				pesanSweet('Gagal!', res.pesan, 'warning');
 			}
@@ -491,13 +502,13 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 						<div class="form-group col-sm-5" >\
 							<label for="basicInput">Nilai Max</label>\
 							<fieldset class="form-group">\
-								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control">\
+								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="form-group col-sm-6">\
 							<label for="basicInput">Nomenklatur</label>\
 							<fieldset class="form-group">\
-								<input type="text" name="indikator_nama[]" class="form-control">\
+								<input type="text" name="indikator_nama[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="col-sm-1">\
