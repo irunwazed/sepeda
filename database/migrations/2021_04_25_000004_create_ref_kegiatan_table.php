@@ -335,7 +335,7 @@ class CreateRefKegiatanTable extends Migration
 ['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '2', 'kegiatan_kode' => '204', 'kegiatan_nama' => 'Penetapan Tanda Daftar Usaha Pariwisata Daerah Kabupaten/Kota'],
 ['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '3', 'kegiatan_kode' => '201', 'kegiatan_nama' => 'Pemasaran Pariwisata Dalam dan Luar Negeri Daya Tarik, Destinasi dan Kawasan Strategis Pariwisata Kabupaten/Kota'],
 ['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '4', 'kegiatan_kode' => '201', 'kegiatan_nama' => 'Penyediaan Prasarana (Zona Kreatif/Ruang Kreatif/Kota Kreatif) sebagai Ruang Berekspresi, Berpromosi dan Berinteraksi bagi Insan Kreatif di Daerah Kabupaten/Kota'],
-['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '4', 'kegiatan_kode' => '202', 'kegiatan_nama' => 'Pengembangan Ekosistem Ekonomi Kreatif聽'],
+['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '4', 'kegiatan_kode' => '202', 'kegiatan_nama' => 'Pengembangan Ekosistem Ekonomi Kreatif '],
 ['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '5', 'kegiatan_kode' => '201', 'kegiatan_nama' => 'Pelaksanaan Peningkatan Kapasitas Sumber Daya Manusia Pariwisata dan Ekonomi Kreatif Tingkat Dasar'],
 ['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '26', 'program_kode' => '5', 'kegiatan_kode' => '202', 'kegiatan_nama' => 'Pengembangan Kapasitas Pelaku Ekonomi Kreatif'],
 ['permen_ver' => 1, 'urusan_kode' => '3', 'bidang_kode' => '27', 'program_kode' => '2', 'kegiatan_kode' => '201', 'kegiatan_nama' => 'Pengawasan Penggunaan Sarana Pertanian'],

@@ -142,43 +142,43 @@
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target Tahun Awal</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th0_realisasi_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th0_realisasi_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun') }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th1_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th1_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+1 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th2_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th2_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+2 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th3_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th3_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+3 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th4_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th4_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+4 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th5_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th5_target" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Target Tahun Akhir</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rpjmd_program_indikator_th6_target" class="form-control" required>
+								<input type="number" step="0.0001" name="rpjmd_program_indikator_th6_target" class="form-control" required>
 							</fieldset>
 						</div>
 					</div>
@@ -519,7 +519,7 @@ $('select[name="rpjmd_program_indikator_nilai_jenis"]').change(function() {
 						<div class="form-group col-sm-5" >\
 							<label for="basicInput">Nilai Max</label>\
 							<fieldset class="form-group">\
-								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control" required>\
+								<input type="number" step="0.0001" name="indikator_nilai[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="form-group col-sm-6">\

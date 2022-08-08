@@ -319,6 +319,12 @@ class KegiatanController extends Controller
 				'renstra_kegiatan_indikator_th4_target' => $request->renstra_kegiatan_indikator_th4_target,
 				'renstra_kegiatan_indikator_th5_target' => $request->renstra_kegiatan_indikator_th5_target,
 				'renstra_kegiatan_indikator_th6_target' => $request->renstra_kegiatan_indikator_th6_target,
+
+				'renstra_kegiatan_indikator_th1_pagu' => $request->renstra_kegiatan_indikator_th1_pagu,
+				'renstra_kegiatan_indikator_th2_pagu' => $request->renstra_kegiatan_indikator_th2_pagu,
+				'renstra_kegiatan_indikator_th3_pagu' => $request->renstra_kegiatan_indikator_th3_pagu,
+				'renstra_kegiatan_indikator_th4_pagu' => $request->renstra_kegiatan_indikator_th4_pagu,
+				'renstra_kegiatan_indikator_th5_pagu' => $request->renstra_kegiatan_indikator_th5_pagu,
 				'updated_at' => $date,
 			];
 

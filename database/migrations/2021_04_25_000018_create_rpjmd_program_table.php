@@ -30,6 +30,11 @@ class CreateRpjmdProgramTable extends Migration
 					$table->foreign('rpjmd_sasaran_id')->references('id')->on('ref_rpjmd_sasaran')->onDelete('cascade')->onUpdate('cascade');
 					$table->foreign('opd_id')->references('id')->on('ref_opd')->onDelete('cascade')->onUpdate('cascade');
         });
+
+
+				// DB::table('ref_rpjmd_program')->insert([
+				// 	['rpjmd_sasaran_id' => 1, 'rpjmd_tujuan_nama' => 'Menciptakan pemerintahan yang baik dan bersih'],
+				// ]);
     }
 
     /**

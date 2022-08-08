@@ -237,8 +237,6 @@ class TujuanIndikatorController extends Controller
 				$data['created_at'] = $date;
 
 
-
-
 				$status = DB::table($this->table)->insert($data);
 				$status ? $pesan = 'Berhasil Menambahkan Data' : $pesan = 'Gagal Menambahkan Data';
 			} else if ($action == 'update') {

@@ -54,17 +54,28 @@
 														<th rowspan="2">Kegiatan</th>
 														<th rowspan="2">Indikator</th>
 														<th rowspan="2">Satuan</th>
-														<th colspan="7">Target (Tahun)</th>
+														<th>Realisasi Tahun Awal</th>
+														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun') }}</th>
+														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+1 }}</th>
+														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+2 }}</th>
+														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+3 }}</th>
+														<th colspan="2">Target Tahun {{ @session('rpjmd_tahun')+4 }}</th>
+														<th>Target Tahun Akhir</th>
 														<th width="10" rowspan="2">Aksi</th>
 													</tr>
 													<tr>
-														<th>Awal</th>
-														<th>{{ @session('rpjmd_tahun') }}</th>
-														<th>{{ @session('rpjmd_tahun')+1 }}</th>
-														<th>{{ @session('rpjmd_tahun')+2 }}</th>
-														<th>{{ @session('rpjmd_tahun')+3 }}</th>
-														<th>{{ @session('rpjmd_tahun')+4 }}</th>
-														<th>Akhir</th>
+														<th>Kinerja</th>
+														<th>Kinerja</th>
+														<th>Pagu</th>
+														<th>Kinerja</th>
+														<th>Pagu</th>
+														<th>Kinerja</th>
+														<th>Pagu</th>
+														<th>Kinerja</th>
+														<th>Pagu</th>
+														<th>Kinerja</th>
+														<th>Pagu</th>
+														<th>Kinerja</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -142,46 +153,76 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-sm-4">
-							<label for="basicInput">Realisasi Tahun Awal</label>
+						<div class="form-group col-sm-12">
+							<label for="basicInput">Target Tahun Awal</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th0_realisasi_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th0_realisasi_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun') }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th1_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th1_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
+							<label for="basicInput">Pagu {{ session('rpjmd_tahun') }}</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th1_pagu" class="form-control">
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+1 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th2_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th2_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
+							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+1 }}</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th2_pagu" class="form-control">
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+2 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th3_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th3_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
+							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+2 }}</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th3_pagu" class="form-control">
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+3 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th4_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th4_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
+							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+3 }}</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th4_pagu" class="form-control">
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-6">
 							<label for="basicInput">Target {{ session('rpjmd_tahun')+4 }}</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th5_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th5_target" class="form-control" required>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-6">
+							<label for="basicInput">Pagu {{ session('rpjmd_tahun')+4 }}</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th5_pagu" class="form-control">
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-12">
 							<label for="basicInput">Target Tahun Akhir</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="renstra_kegiatan_indikator_th6_target" class="form-control" required>
+								<input type="number" step="0.0001" name="renstra_kegiatan_indikator_th6_target" class="form-control" required>
 							</fieldset>
 						</div>
 					</div>
@@ -294,16 +335,46 @@ $(document).ready(function() {
 				data: 'th1_target',
 			},
 			{
+				data: 'renstra_kegiatan_indikator_th1_pagu',
+				render: function(e) {
+					return formatRupiah(e);
+				}
+			},
+			{
 				data: 'th2_target',
+			},
+			{
+				data: 'renstra_kegiatan_indikator_th2_pagu',
+				render: function(e) {
+					return formatRupiah(e);
+				}
 			},
 			{
 				data: 'th3_target',
 			},
 			{
+				data: 'renstra_kegiatan_indikator_th3_pagu',
+				render: function(e) {
+					return formatRupiah(e);
+				}
+			},
+			{
 				data: 'th4_target',
 			},
 			{
+				data: 'renstra_kegiatan_indikator_th4_pagu',
+				render: function(e) {
+					return formatRupiah(e);
+				}
+			},
+			{
 				data: 'th5_target',
+			},
+			{
+				data: 'renstra_kegiatan_indikator_th5_pagu',
+				render: function(e) {
+					return formatRupiah(e);
+				}
 			},
 			{
 				data: 'th6_target',
@@ -335,19 +406,19 @@ $(document).ready(function() {
 						if (idx == 1) {
 
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="11">' + groupColumn[idx].name + ' : ' + name +
+								'<tr class="group"><td colspan="16">' + groupColumn[idx].name + ' : ' + name +
 								'</td><td>\
 				<div class="btn-group mb-2 mr-2">\
 					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>\
 					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">\
-						<a class="dropdown-item" href="../kegiatan/'+group['renstra_kegiatan_id']+'"><i class="feather icon-plus"></i> Tambah Sub Kegiatan</a>\
+					<!--	<a class="dropdown-item" href="../kegiatan/'+group['renstra_kegiatan_id']+'"><i class="feather icon-plus"></i> Tambah Sub Kegiatan</a> -->\
 					</div>\
 				</div></td></tr>'
 							);
 						} else {
 
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="12">' + groupColumn[idx].name + ' : ' + name +
+								'<tr class="group"><td colspan="17">' + groupColumn[idx].name + ' : ' + name +
 								'</td></tr>'
 							);
 						}
@@ -501,7 +572,7 @@ $('select[name="renstra_kegiatan_indikator_nilai_jenis"]').change(function() {
 						<div class="form-group col-sm-5" >\
 							<label for="basicInput">Nilai Max</label>\
 							<fieldset class="form-group">\
-								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control" required>\
+								<input type="number" step="0.0001" name="indikator_nilai[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="form-group col-sm-6">\

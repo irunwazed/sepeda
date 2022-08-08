@@ -159,7 +159,7 @@ $levelName = \Request::get('levelPath');
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Realisasi Kinerja</label>
 							<fieldset class="form-group">
-								<input type="number" name="realisasi_kinerja" class="form-control" required>
+								<input type="number" step="0.0001" name="realisasi_kinerja" class="form-control" required>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">

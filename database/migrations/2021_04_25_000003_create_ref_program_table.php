@@ -35,6 +35,7 @@ class CreateRefProgramTable extends Migration
         });
 				DB::table('ref_program')->insert([
 					['permen_ver' => 1, 'urusan_kode' => '0', 'bidang_kode' => '0', 'program_kode' => '1', 'program_nama' => 'PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH KABUPATEN/KOTA'],
+
 					['permen_ver' => 1, 'urusan_kode' => '1', 'bidang_kode' => '1', 'program_kode' => '2', 'program_nama' => 'PROGRAM PENGELOLAAN PENDIDIKAN'],
 ['permen_ver' => 1, 'urusan_kode' => '1', 'bidang_kode' => '1', 'program_kode' => '3', 'program_nama' => 'PROGRAM PENGEMBANGAN KURIKULUM'],
 ['permen_ver' => 1, 'urusan_kode' => '1', 'bidang_kode' => '1', 'program_kode' => '4', 'program_nama' => 'PROGRAM PENDIDIK DAN TENAGA KEPENDIDIKAN'],

@@ -194,7 +194,7 @@ $levelName = \Request::get('levelPath');
 						<div class="form-group col-sm-6">
 							<label for="basicInput">Pagu</label>
 							<fieldset class="form-group">
-								<input type="number" step="0.001" name="rkpd_sub_kegiatan_indikator_pagu" class="form-control">
+								<input type="number" step="0.0001" name="rkpd_sub_kegiatan_indikator_pagu" class="form-control">
 							</fieldset>
 						</div>
 					</div>
@@ -554,7 +554,7 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 						<div class="form-group col-sm-5" >\
 							<label for="basicInput">Nilai Max</label>\
 							<fieldset class="form-group">\
-								<input type="number" step="0.001" name="indikator_nilai[]" class="form-control" required>\
+								<input type="number" step="0.0001" name="indikator_nilai[]" class="form-control" required>\
 							</fieldset>\
 						</div>\
 						<div class="form-group col-sm-6">\
