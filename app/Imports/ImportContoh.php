@@ -15,7 +15,7 @@ class ImportContoh implements ToModel
      */
 
 
-    private $no, $urusan_kode, $bidang_kode, $program_kode, $kegiatan_kode, $opd_id, $uraian, $level;
+    private $no, $urusan_kode, $bidang_kode, $program_kode, $kegiatan_kode, $opd_id, $uraian, $indikator, $level;
     public function __construct()
     {
         $this->data = [];
@@ -27,6 +27,7 @@ class ImportContoh implements ToModel
     {
 
 
+			echo "<pre>";
 
                 
         
@@ -40,16 +41,18 @@ class ImportContoh implements ToModel
             && $row[2] == ''
             && $row[3] == ''
             && $row[4] == ''
-            && $row[5] == '')
+            && $row[5] == '') && $row[4] != '' && $row[2] != ''
         ){
 
             //program kegiatan
             if($row[2] != ''){
                 $kode = explode(".", $row[2]);
-                $this->urusan_kode = $kode[0];
-                $this->bidang_kode = $kode[1];
-                $this->program_kode = $kode[2];
-                $this->opd_id = $row[19];
+                $this->urusan_kode = (int)$kode[0];
+                $this->bidang_kode = (int)@$kode[1];
+                $this->program_kode = (int)@$kode[2];
+                $this->uraian = $row[3];
+                $this->indikator = @$row[4];
+                $this->opd_id = @$row[19];
                 
                 $data['urusan_kode'] = $this->urusan_kode;
                 $data['bidang_kode'] = $this->bidang_kode;
@@ -57,32 +60,149 @@ class ImportContoh implements ToModel
                 $data['opd_id'] = $this->opd_id;
                 $where = $data;
 
-                
-                $data['uraian'] = $row[3];
-                $data['uraian'] = $row[3];
-                $data['indikator'] = $row[4];
-                
-                if(count($kode) == 3){
+								$dataRPJMD = DB::table('ref_rpjmd_program')->where($where)->get();
+
+								if(count($dataRPJMD) > 0){
+									if(count($kode) == 3){
                     //program
                     $data['level'] = 3;
+
+
+										$exp = explode(" ", @$row[5]);
+										$satuan = @$exp[1];
+										$target[0] = @$exp[0]?$exp[0]:0;
+
+										$exp = explode(" ", @$row[6]);
+										$target[1] = @$exp[0]?(double)$exp[0]:0;
+										$exp = explode(" ", @$row[8]);
+										$target[2] = @$exp[0]?(double)$exp[0]:0;
+										$exp = explode(" ", @$row[10]);
+										$target[3] = @$exp[0]?(double)$exp[0]:0;
+										$exp = explode(" ", @$row[12]);
+										$target[4] = @$exp[0]?(double)$exp[0]:0;
+										$exp = explode(" ", @$row[14]);
+										$target[5] = @$exp[0]?(double)$exp[0]:0;
+										$exp = explode(" ", @$row[16]);
+										$target[6] = @$exp[0]?(double)$exp[0]:0;
+
+											$data = [
+												'rpjmd_program_id' => @$dataRPJMD[0]->id,
+												'rpjmd_program_indikator_nama' => $this->indikator,
+												'rpjmd_program_indikator_nilai_jenis' => 1,
+												'rpjmd_program_indikator_nilai_json' => @$row[20],
+												'rpjmd_program_indikator_satuan' => $satuan,
+												'rpjmd_program_indikator_th0_realisasi_target' => $target[0],
+												'rpjmd_program_indikator_th1_capaian_target' => $target[1],
+												'rpjmd_program_indikator_th1_capaian_pagu' => $row[7],
+												'rpjmd_program_indikator_th2_capaian_target' => $target[2],
+												'rpjmd_program_indikator_th2_capaian_pagu' => $row[9],
+												'rpjmd_program_indikator_th3_capaian_target' => $target[3],
+												'rpjmd_program_indikator_th3_capaian_pagu' => $row[11],
+												'rpjmd_program_indikator_th4_capaian_target' => $target[4],
+												'rpjmd_program_indikator_th4_capaian_pagu' => $row[13],
+												'rpjmd_program_indikator_th5_capaian_target' => $target[5],
+												'rpjmd_program_indikator_th5_capaian_pagu' => $row[15],
+												'rpjmd_program_indikator_th6_capaian_target' => $target[6],
+												'rpjmd_program_indikator_th6_capaian_pagu' => $row[17],
+
+											];
+
+											$kegiatanId = DB::table('ta_rpjmd_program_indikator')->insertGetId($data);
+
                     
-                    $dataRPJMD = DB::table('ref_rpjmd_program')->where($where)->get();
-                    if(count($dataRPJMD) > 0){
-
-                    }else{
-                        echo "<pre>";
-                        // print_r($dataRPJMD);
-                        print_r($row);
-                        echo "</pre>";
-                    }
-
-                }else if(count($kode) == 5){
+                	}else if(count($kode) == 5){
                     // kegiatan
-                    $this->kegiatan_kode = $kode[3].".".$kode[4];
-                    $data['kegiatan_kode'] = $this->kegiatan_kode;
-                    $data['level'] = 4;
+                    $this->kegiatan_kode = (int)($kode[3].$kode[4]);
 
-                }
+										$kegiatanId = DB::table('ref_renstra_kegiatan')->where([
+											'rpjmd_program_id' => $dataRPJMD[0]->id,
+											'permen_ver' => 1,
+											'urusan_kode' => $this->urusan_kode,
+											'bidang_kode' => $this->bidang_kode,
+											'program_kode' => $this->program_kode,
+											'kegiatan_kode' => $this->kegiatan_kode,
+										])->first();
+										if(!@$kegiatanId->id){
+
+											$kegiatanId = DB::table('ref_renstra_kegiatan')->insertGetId([
+												'rpjmd_program_id' => $dataRPJMD[0]->id,
+												'permen_ver' => 1,
+												'urusan_kode' => $this->urusan_kode,
+												'bidang_kode' => $this->bidang_kode,
+												'program_kode' => $this->program_kode,
+												'kegiatan_kode' => $this->kegiatan_kode,
+											]);
+										}else{
+											$kegiatanId = $kegiatanId->id;
+										}
+										if($this->indikator != ''){
+
+											$target[0] = explode(" ", $row[16]);
+
+											$exp = explode(" ", @$row[5]);
+											$satuan = @$exp[1];
+											$target[0] = @$exp[0]?$exp[0]:0;
+
+											$exp = explode(" ", @$row[6]);
+											$target[1] = @$exp[0]?(double)$exp[0]:0;
+											$exp = explode(" ", @$row[8]);
+											$target[2] = @$exp[0]?(double)$exp[0]:0;
+											$exp = explode(" ", @$row[10]);
+											$target[3] = @$exp[0]?(double)$exp[0]:0;
+											$exp = explode(" ", @$row[12]);
+											$target[4] = @$exp[0]?(double)$exp[0]:0;
+											$exp = explode(" ", @$row[14]);
+											$target[5] = @$exp[0]?(double)$exp[0]:0;
+											$exp = explode(" ", @$row[16]);
+											$target[6] = @$exp[0]?(double)$exp[0]:0;
+
+											$data = [
+												'renstra_kegiatan_id' => @$kegiatanId,
+												'renstra_kegiatan_indikator_nama' => $this->indikator,
+												'renstra_kegiatan_indikator_nilai_jenis' => 1,
+												'renstra_kegiatan_indikator_nilai_json' => '[]',
+												'renstra_kegiatan_indikator_satuan' => $satuan,
+												'renstra_kegiatan_indikator_th0_realisasi_target' => $target[0],
+												'renstra_kegiatan_indikator_th0_capaian_target' => $target[0],
+												'renstra_kegiatan_indikator_th1_capaian_target' => $target[1],
+												'renstra_kegiatan_indikator_th1_capaian_pagu' => $row[7],
+												'renstra_kegiatan_indikator_th2_capaian_target' => $target[2],
+												'renstra_kegiatan_indikator_th2_capaian_pagu' => $row[9],
+												'renstra_kegiatan_indikator_th3_capaian_target' => $target[3],
+												'renstra_kegiatan_indikator_th3_capaian_pagu' => $row[11],
+												'renstra_kegiatan_indikator_th4_capaian_target' => $target[4],
+												'renstra_kegiatan_indikator_th4_capaian_pagu' => $row[13],
+												'renstra_kegiatan_indikator_th5_capaian_target' => $target[5],
+												'renstra_kegiatan_indikator_th5_capaian_pagu' => $row[15],
+												'renstra_kegiatan_indikator_th6_capaian_target' => $target[6],
+												'renstra_kegiatan_indikator_th6_capaian_pagu' => $row[17],
+
+											];
+
+											// print_r($data);
+											$kegiatanId = DB::table('ta_renstra_kegiatan_indikator')->insertGetId($data);
+										}
+                    // $data['level'] = 4;
+                	}
+								}else{
+
+									// $OPD = DB::table('ref_opd')->where('id', $this->opd_id)->first();
+									// 	echo "<table>";
+									// 	echo "<tr>";
+									// 	echo "<td>".$row[2]."</td>";
+									// 	echo "<td>".$row[3]."</td>";
+									// 	echo "<td>".$row[4]."</td>";
+									// 	echo "<td>".@$OPD->opd_nama."</td>";
+									// 	echo "</tr>";
+									// 	echo "</table>";
+								}
+
+
+                
+                // $data['uraian'] = $row[3];
+                // $data['indikator'] = $row[4];
+                
+                
     
 
                 // ->where('ref_rpjmd_program.urusan_kode', $this->urusan_kode)
@@ -93,122 +213,7 @@ class ImportContoh implements ToModel
 
         }
 
+				echo "</pre>";
 
-        // $simpan = false;
-        // if (
-        //     is_numeric($row[0])
-        //     && is_numeric($row[1])
-        //     && is_numeric($row[2])
-        //     && is_numeric($row[3])
-        //     && is_numeric($row[4])
-        // ) {
-        //     $this->urusan_kode = $row[0];
-        //     $this->bidang_kode = $row[1];
-        //     $this->program_kode = $row[2];
-        //     $this->kegiatan_kode = @$row[3][0] . @$row[3][2] . @$row[3][3];
-        //     $this->sub_kegiatan_kode = $row[4];
-
-        //     if($this->program_kode == 1){
-        //         $this->urusan_kode = 0;
-        //         $this->bidang_kode = 0;
-        //     }
-            
-        //     $this->lokasi = (string)$row[9];
-        //     $this->sumber_data = (string)$row[10];
-        //     $this->opd = (int)$row[11];
-
-        //     if (
-        //         is_numeric($this->urusan_kode)
-        //         && is_numeric($this->bidang_kode)
-        //         && is_numeric($this->program_kode)
-        //         && is_numeric($this->kegiatan_kode)
-        //         && is_numeric($this->sub_kegiatan_kode)
-        //         && $row[6] != ''
-        //     ) {
-
-        //         $simpan = true;
-
-        //     }
-        // } else if (
-        //     $row[0] == ''
-        //     && $row[6] != ''
-        //     && is_numeric(@$this->urusan_kode)
-        // ) {
-
-        //     $simpan = true;
-        // }
-
-        // if ($simpan) {
-
-        //     $volume = str_replace("\xc2\xa0", ' ', $row[7]);
-        //     $volumeArr = explode(" ", $volume);
-        //     $target = (int)@$volumeArr[0];
-        //     array_shift($volumeArr);
-        //     $satuan = implode(" ", $volumeArr);
-
-        //     $dataSub = [
-        //         'tahun_ke' => session('tahun'),
-        //         'opd_id' => session('opd'), //$this->opd,
-        //         'permen_ver' => 1,
-        //         'urusan_kode' => $this->urusan_kode,
-        //         'bidang_kode' => $this->bidang_kode,
-        //         'program_kode' => $this->program_kode,
-        //         'kegiatan_kode' => $this->kegiatan_kode,
-        //         'sub_kegiatan_kode' => $this->sub_kegiatan_kode,
-        //     ];
-
-        //     $subId = DB::table('ref_rkpd_sub_kegiatan')->where($dataSub)->first();
-        //     if(@$subId->id){
-        //         $subId = $subId->id;
-        //     }else{
-        //         $subId = DB::table('ref_rkpd_sub_kegiatan')->insertGetId($dataSub);
-        //     }
-
-        //     $dataIndi = [
-        //         'rkpd_sub_kegiatan_id' => $subId,
-        //         'rkpd_sub_kegiatan_indikator_nama' => (string)$row[6],
-        //         'rkpd_sub_kegiatan_indikator_nilai_jenis' => 1,
-        //         'rkpd_sub_kegiatan_indikator_nilai_json' => '[]',
-        //         'rkpd_sub_kegiatan_indikator_target' => $target,
-        //         'rkpd_sub_kegiatan_indikator_satuan' => $satuan,
-        //         'rkpd_sub_kegiatan_indikator_pagu' => (float)$row[8],
-        //         'rkpd_sub_kegiatan_indikator_pagu_perubahan' => (float)$row[8],
-        //         'rkpd_sub_kegiatan_indikator_lokasi' => $this->lokasi,
-        //     ];
-
-
-        //     // $status = DB::table('ref_rkpd_sub_kegiatan_indikator')->insert($dataIndi);
-
-        //     // echo "<pre>";
-        //     // print_r([
-        //     //     'urusan_kode' => $this->urusan_kode,
-        //     //     'bidang_kode' => $this->bidang_kode,
-        //     //     'program_kode' => $this->program_kode,
-        //     //     'kegiatan_kode' => $this->kegiatan_kode,
-        //     //     'sub_kegiatan_kode' => $this->sub_kegiatan_kode,
-        //     //     'uraian' => $row[5],
-        //     //     'indikator' => $row[6],
-        //     //     'target' => @$target,
-        //     //     'satuan' => @$satuan,
-        //     //     'pagu' => (float)@$row[8],
-        //     //     'lokasi' => $this->lokasi,
-        //     //     'sumber_data' => $this->sumber_data,
-        //     //     'opd' => $this->opd,
-        //     //     'tahun' => session('tahun'),
-        //     // ]);
-        //     // // print_r($row);
-        //     // echo "</pre>";
-        // }
-
-        
-
-        // return $status;
-
-
-        // return new rkpd([
-        //     'urusan_kode' => $row[1],
-        //     'bidang_kode' => $row[2],
-        //     'program_kode' => $row[3],
-        // ]);
     }
 }
