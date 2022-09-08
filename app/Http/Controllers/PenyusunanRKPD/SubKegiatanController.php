@@ -221,6 +221,8 @@ class SubKegiatanController extends Controller
 				'program_kode' => @$permenKode[3],
 				'kegiatan_kode' => @$permenKode[4],
 				'sub_kegiatan_kode' => @$permenKode[5],
+				'sub_kegiatan_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
+				'sub_kegiatan_pagu_perubahan' => $request->rkpd_sub_kegiatan_indikator_pagu,
 			];
 			$cekKegiatan = DB::table('ref_rkpd_sub_kegiatan')
 				->where($data)->first();
@@ -229,6 +231,11 @@ class SubKegiatanController extends Controller
 			} else {
 				$kegiatanId = $cekKegiatan->id;
 			}
+
+			$dataSub = [
+				'sub_kegiatan_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
+				'sub_kegiatan_pagu_perubahan' => $request->rkpd_sub_kegiatan_indikator_pagu,
+			];
 
 			$data = [
 				'rkpd_sub_kegiatan_id' => $kegiatanId,
@@ -260,6 +267,7 @@ class SubKegiatanController extends Controller
 				$status ? $pesan = 'Berhasil Menambahkan Data' : $pesan = 'Gagal Menambahkan Data';
 			} else if ($action == 'update') {
 				if (@$request->id) {
+					$status = DB::table('ref_rkpd_sub_kegiatan')->where('id', $kegiatanId)->update($dataSub);
 					$status = DB::table($this->table)->where('id', $request->id)->update($data);
 				}
 				$status ? $pesan = 'Berhasil Mengubah Data' : $pesan = 'Gagal Mengubah Data';

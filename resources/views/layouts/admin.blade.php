@@ -13,8 +13,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="description" content="Free Datta Able Admin Template come up with latest Bootstrap 4 framework with basic components, form elements and lots of pre-made layout options" />
-	<meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template, free admin theme, free dashboard template" />
+	<meta name="description"
+		content="Free Datta Able Admin Template come up with latest Bootstrap 4 framework with basic components, form elements and lots of pre-made layout options" />
+	<meta name="keywords"
+		content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template, free admin theme, free dashboard template" />
 	<meta name="author" content="CodedThemes" />
 
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -30,55 +32,55 @@
 	<link rel="stylesheet" href="<?= $awalAssets ?>/admin/assets/css/style.css">
 
 	<style>
-		table.dataTable tr.odd {
-			background-color: #f2fdfe;
-		}
+	table.dataTable tr.odd {
+		background-color: #f2fdfe;
+	}
 
-		table.dataTable tr.even {
-			background-color: white;
-		}
+	table.dataTable tr.even {
+		background-color: white;
+	}
 
-		table.dataTable thead tr {
-			text-align: center;
-			background: rgb(0, 36, 32);
-			background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
-		}
+	table.dataTable thead tr {
+		text-align: center;
+		background: rgb(0, 36, 32);
+		background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
+	}
 
-		table.dataTable tfoot tr {
-			text-align: center;
-			background: rgb(0, 36, 32);
-			background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
-		}
+	table.dataTable tfoot tr {
+		text-align: center;
+		background: rgb(0, 36, 32);
+		background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
+	}
 
-		table.dataTable tr.odd td.sorting_1 {
-			background-color: #D3D6FF;
-		}
+	table.dataTable tr.odd td.sorting_1 {
+		background-color: #D3D6FF;
+	}
 
-		table.dataTable tr.odd td.sorting_2 {
-			background-color: #DADCFF;
-		}
+	table.dataTable tr.odd td.sorting_2 {
+		background-color: #DADCFF;
+	}
 
-		table.dataTable tr.odd td.sorting_3 {
-			background-color: #E0E2FF;
-		}
+	table.dataTable tr.odd td.sorting_3 {
+		background-color: #E0E2FF;
+	}
 
-		table.dataTable tr.even td.sorting_1 {
-			background-color: #EAEBFF;
-		}
+	table.dataTable tr.even td.sorting_1 {
+		background-color: #EAEBFF;
+	}
 
-		table.dataTable tr.even td.sorting_2 {
-			background-color: #F2F3FF;
-		}
+	table.dataTable tr.even td.sorting_2 {
+		background-color: #F2F3FF;
+	}
 
-		table.dataTable tr.even td.sorting_3 {
-			background-color: #F9F9FF;
-		}
+	table.dataTable tr.even td.sorting_3 {
+		background-color: #F9F9FF;
+	}
 
-		.my-bg-color {
-			/* background-color: red; */
-		}
+	.my-bg-color {
+		/* background-color: red; */
+	}
 
-		/* .nav-item .active {
+	/* .nav-item .active {
 			background-color: blue;
 		}
 
@@ -99,7 +101,7 @@
 		} */
 
 
-		/* .pcoded-submenu{
+	/* .pcoded-submenu{
 			background-color: red;
 		} */
 	</style>
@@ -120,8 +122,10 @@
 				<a href="#" class="b-brand">
 					<div class="b-bg">
 
-						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3F4D67" class="bi bi-bicycle" viewBox="0 0 16 16">
-							<path d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3F4D67" class="bi bi-bicycle"
+							viewBox="0 0 16 16">
+							<path
+								d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
 						</svg>
 					</div>
 					<span class="b-title">{{ env('APP_NAME') }}</span>
@@ -142,20 +146,25 @@
 						<label>Navigation</label>
 					</li>
 					<li data-menu="/{{ $levelName }}" class="nav-item">
-						<a href="{{ url('/'.$levelName) }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+						<a href="{{ url('/'.$levelName) }}" class="nav-link "><span class="pcoded-micon"><i
+									class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
 					</li>
 					<li class="nav-item pcoded-menu-caption">
 						<label>Penyusunan</label>
 					</li>
 
 					<li data-menu-bar="penyusunan" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Data</span></a>
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
+									class="feather icon-file-text"></i></span><span class="pcoded-mtext">Data</span></a>
 						<ul class="pcoded-submenu">
 							@if(in_array(session('login_level'), [1,2]))
-							<li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class=""><a href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="">RPJMD</a></li>
+							<li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class=""><a
+									href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="">RPJMD</a></li>
 							@endif
-							<li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class=""><a href="{{ route($levelName.'.penyusunan.renstra') }}" class="">Renstra</a></li>
-							<li data-menu="/{{ $levelName }}/penyusunan/renja/sub-kegiatan" class=""><a href="{{ route($levelName.'.penyusunan.renja') }}" class="">RENJA</a></li>
+							<li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class=""><a
+									href="{{ route($levelName.'.penyusunan.renstra') }}" class="">Renstra</a></li>
+							<li data-menu="/{{ $levelName }}/penyusunan/renja/sub-kegiatan" class=""><a
+									href="{{ route($levelName.'.penyusunan.renja') }}" class="">RENJA</a></li>
 						</ul>
 					</li>
 					@if(in_array(session('login_level'), [1,2]))
@@ -173,44 +182,41 @@
 						<label>Realisasi</label>
 					</li>
 
-<li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
-	<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD</span></a>
-	<ul class="pcoded-submenu">
-		<li data-menu="/{{ $levelName }}/realisasi/tujuan" class=""><a href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan</a></li>
-		<li data-menu="/{{ $levelName }}/realisasi/sasaran" class=""><a href="{{ route($levelName.'.realisasi.sasaran') }}" class="">Sasaran</a></li>
-		<li data-menu="/{{ $levelName }}/realisasi/program" class=""><a href="{{ route($levelName.'.realisasi.program') }}" class="">Program</a></li>
-	</ul>
-</li>
-
-<li data-menu-bar="realisasi-renstra" class="nav-item pcoded-hasmenu">
-	<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RENSTRA</span></a>
-	<ul class="pcoded-submenu">
-		<li data-menu="/{{ $levelName }}/realisasi/tujuan-opd" class=""><a href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan OPD</a></li>
-		<li data-menu="/{{ $levelName }}/realisasi/sasaran-opd" class=""><a href="{{ route($levelName.'.realisasi.sasaran') }}" class="">Sasaran OPD</a></li>
-		<li data-menu="/{{ $levelName }}/realisasi/kegiatan" class=""><a href="{{ route($levelName.'.realisasi.kegiatan') }}" class="">Kegiatan</a></li>
-	</ul>
-</li>
-					<li data-menu-bar="realisasi-renja" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">Renja</span></a>
+					@if(in_array(session('login_level'), [1,2]))
+					<li data-menu-bar="realisasi" class="nav-item pcoded-hasmenu">
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
+									class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD</span></a>
 						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/realisasi/renja" class=""><a href="{{ route($levelName.'.realisasi.renja') }}" class="">Sub Kegiatan</a></li>
+							<li data-menu="/{{ $levelName }}/realisasi/tujuan" class=""><a
+									href="{{ route($levelName.'.realisasi.tujuan') }}" class="">Tujuan</a></li>
+							<li data-menu="/{{ $levelName }}/realisasi/sasaran" class=""><a
+									href="{{ route($levelName.'.realisasi.sasaran') }}" class="">Sasaran</a></li>
+							<li data-menu="/{{ $levelName }}/realisasi/program" class=""><a
+									href="{{ route($levelName.'.realisasi.program') }}" class="">Program</a></li>
 						</ul>
 					</li>
-					<!-- <li data-menu="/{{ $levelName }}/realisasi/tujuan" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.tujuan') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Tujuan</span></a>
+					@endif
+
+					<li data-menu-bar="realisasi-renstra" class="nav-item pcoded-hasmenu">
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
+									class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RENSTRA</span></a>
+						<ul class="pcoded-submenu">
+							<li data-menu="/{{ $levelName }}/realisasi/tujuan-opd" class=""><a
+									href="{{ route($levelName.'.realisasi.tujuan-opd') }}" class="">Tujuan OPD</a></li>
+							<li data-menu="/{{ $levelName }}/realisasi/sasaran-opd" class=""><a
+									href="{{ route($levelName.'.realisasi.sasaran-opd') }}" class="">Sasaran OPD</a></li>
+							<li data-menu="/{{ $levelName }}/realisasi/kegiatan" class=""><a
+									href="{{ route($levelName.'.realisasi.kegiatan') }}" class="">Kegiatan</a></li>
+						</ul>
 					</li>
-					<li data-menu="/{{ $levelName }}/realisasi/sasaran" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.sasaran') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sasaran</span></a>
+					<li data-menu-bar="realisasi-renja" class="nav-item pcoded-hasmenu">
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
+									class="feather icon-server"></i></span><span class="pcoded-mtext">Renja</span></a>
+						<ul class="pcoded-submenu">
+							<li data-menu="/{{ $levelName }}/realisasi/renja" class=""><a
+									href="{{ route($levelName.'.realisasi.renja') }}" class="">Sub Kegiatan</a></li>
+						</ul>
 					</li>
-					<li data-menu="/{{ $levelName }}/realisasi/program" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.program') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Program</span></a>
-					</li>
-					<li data-menu="/{{ $levelName }}/realisasi/kegiatan" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.kegiatan') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Kegiatan</span></a>
-					</li>
-					<li data-menu="/{{ $levelName }}/realisasi/renja" class="nav-item">
-						<a href="{{ route($levelName.'.realisasi.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Renja</span></a>
-					</li> -->
 
 					<li class="nav-item pcoded-menu-caption">
 						<label>Laporan</label>
@@ -226,21 +232,28 @@
 					</li> -->
 
 					<li data-menu-bar="laporan" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-print"></i></span><span class="pcoded-mtext">Cetak</span></a>
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-print"></i></span><span
+								class="pcoded-mtext">Cetak</span></a>
 						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/laporan/rpjmd" class=""><a href="{{ route($levelName.'.laporan.rpjmd') }}" class="">RPJMD</a></li>
-							<li data-menu="/{{ $levelName }}/laporan/renstra" class=""><a href="{{ route($levelName.'.laporan.renstra') }}" class="">RENSTRA</a></li>
-							<li data-menu="/{{ $levelName }}/laporan/renja" class=""><a href="{{ route($levelName.'.laporan.renja') }}" class="">RENJA</a></li>
+							<li data-menu="/{{ $levelName }}/laporan/rpjmd" class=""><a
+									href="{{ route($levelName.'.laporan.rpjmd') }}" class="">RPJMD</a></li>
+							<li data-menu="/{{ $levelName }}/laporan/renstra" class=""><a
+									href="{{ route($levelName.'.laporan.renstra') }}" class="">RENSTRA</a></li>
+							<li data-menu="/{{ $levelName }}/laporan/renja" class=""><a
+									href="{{ route($levelName.'.laporan.renja') }}" class="">RENJA</a></li>
 						</ul>
 					</li>
 
 					<li data-menu-bar="rapor" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-file"></i></span><span class="pcoded-mtext">Rapor</span></a>
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-file"></i></span><span
+								class="pcoded-mtext">Rapor</span></a>
 						<ul class="pcoded-submenu">
 							@if(in_array(session('login_level'), [1,2]))
-							<li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}" class="">OPD</a></li>
+							<li data-menu="/{{ $levelName }}/rapor/opd" class=""><a href="{{ route($levelName.'.rapor.opd') }}"
+									class="">OPD</a></li>
 							@endif
-							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
+							<li data-menu="/{{ $levelName }}/rapor/predikat" class=""><a
+									href="{{ route($levelName.'.rapor.predikat') }}" class="">Predikat</a></li>
 						</ul>
 					</li>
 
@@ -250,17 +263,22 @@
 					</li>
 
 					<li data-menu-bar="pengaturan" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cog"></i></span><span class="pcoded-mtext">Pengaturan</span></a>
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cog"></i></span><span
+								class="pcoded-mtext">Pengaturan</span></a>
 						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/setting/pengguna" class=""><a href="{{ url('/'.$levelName.'/setting/pengguna') }}" class="">Pengguna</a></li>
-							<li data-menu="/{{ $levelName }}/setting/jadwal" class=""><a href="{{ url('/'.$levelName.'/setting/jadwal') }}" class="">Jadwal</a></li>
+							<li data-menu="/{{ $levelName }}/setting/pengguna" class=""><a
+									href="{{ url('/'.$levelName.'/setting/pengguna') }}" class="">Pengguna</a></li>
+							<li data-menu="/{{ $levelName }}/setting/jadwal" class=""><a
+									href="{{ url('/'.$levelName.'/setting/jadwal') }}" class="">Jadwal</a></li>
 						</ul>
 					</li>
 
 					<li data-menu-bar="import" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-upload"></i></span><span class="pcoded-mtext">Import</span></a>
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-upload"></i></span><span
+								class="pcoded-mtext">Import</span></a>
 						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/import/rkpd" class=""><a href="{{ url('/'.$levelName.'/import/rkpd') }}" class="">RKPD</a></li>
+							<li data-menu="/{{ $levelName }}/import/rkpd" class=""><a href="{{ url('/'.$levelName.'/import/rkpd') }}"
+									class="">RKPD</a></li>
 						</ul>
 					</li>
 					@endif
@@ -278,8 +296,10 @@
 			<a href="#" class="b-brand">
 				<div class="b-bg">
 					<!-- <i class="feather icon-trending-up"></i> -->
-					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#23b6e4" class="bi bi-bicycle" viewBox="0 0 16 16">
-						<path d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
+					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#23b6e4" class="bi bi-bicycle"
+						viewBox="0 0 16 16">
+						<path
+							d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z" />
 					</svg>
 				</div>
 				<span class="b-title">{{ env('APP_NAME') }}</span>
@@ -290,8 +310,10 @@
 		</a>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
-				<li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
-				<li>{{ @session('rpjmd_tahun')+@session('tahun')-1 }}</li>
+				<li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i
+							class="feather icon-maximize"></i></a></li>
+				<li><a href="#" data-toggle="modal"
+						data-target="#modal-tahunan">{{ @session('rpjmd_tahun')+@session('tahun')-1 }}</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<!-- 
@@ -361,7 +383,8 @@
 						</a>
 						<div class="dropdown-menu dropdown-menu-right profile-notification">
 							<div class="pro-head">
-								<img src="<?= $awalAssets ?>/admin/assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
+								<img src="<?= $awalAssets ?>/admin/assets/images/user/avatar-1.jpg" class="img-radius"
+									alt="User-Profile-Image">
 								<span>{{ session('login_nama') }}</span>
 								<!-- <a href="{{ url('logout') }}" class="dud-logout" title="Logout">
 									<i class="feather icon-log-out"></i>
@@ -386,6 +409,56 @@
 	@yield('content')
 
 
+	<!--Disabled Backdrop Modal -->
+	<div class="modal fade text-left" id="modal-tahunan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
+			<!-- class modal-xl -->
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h4 class="modal-title" style="color: #FFF" id="myModalLabel4"> <i class="feather icon-user"></i> Pengaturan Tahun
+					</h4>
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/{{ @$levelName }}/setting/tahun" id="form-tahunan" method="POST">
+						@csrf
+						<div class="form-group">
+							<label for="basicInput">Tahun</label>
+							<fieldset class="form-group">
+								<select class="form-control" name="tahun" required>
+									@for($i = 1; $i<= 5; $i++) 
+									<option value="{{ $i }}" {{ @$i==session('tahun')?'selected':'' }} >{{ ((int)session('rpjmd_tahun')+(int)$i-1) }}
+										</option>
+										@endfor
+								</select>
+							</fieldset>
+						</div>
+						<div class="form-group">
+							<label for="basicInput">Triwulan</label>
+							<fieldset class="form-group">
+								<select class="form-control" name="triwulan" required>
+									@for($i = 1; $i <= 4; $i++) 
+									<option value="{{ $i }}" {{ @$i==session('triwulan')?'selected':'' }}>{{ $i }}
+										</option>
+										@endfor
+								</select>
+							</fieldset>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button id="btn-form-data" type="submit" form="form-tahunan" class="btn btn-success ml-1">Tambah
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<!-- Required Js -->
 	<script src="<?= $awalAssets ?>/admin/assets/js/vendor-all.min.js"></script>
 	<script src="<?= $awalAssets ?>/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -399,181 +472,181 @@
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 	<script>
-		$('li[data-menu="' + window.location.pathname + '"]').addClass("active");
+	$('li[data-menu="' + window.location.pathname + '"]').addClass("active");
 	</script>
 
 
 
 	<script>
-		function init_hapus(url, dataTable = null) {
+	function init_hapus(url, dataTable = null) {
 
-			swal({
-					title: "Apakah anda yakin?",
-					text: "Data yang terhapus tidak dapat dikembalikan!",
-					icon: "warning",
-					buttons: true,
-					dangerMode: true,
-				})
-				.then((willDelete) => {
-					if (willDelete) {
-						swal("Poof! Your imaginary file has been deleted!", {
-							icon: "success",
-						});
-						$.when(sendAjax(url, {})).done(function(res) {
-							if (res.status) {
-								swal("Data anda berhasil terhapus!", {
-									icon: "success",
-								});
-								if (dataTable != null) dataTable.ajax.reload();
-							} else {
+		swal({
+				title: "Apakah anda yakin?",
+				text: "Data yang terhapus tidak dapat dikembalikan!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					swal("Poof! Your imaginary file has been deleted!", {
+						icon: "success",
+					});
+					$.when(sendAjax(url, {})).done(function(res) {
+						if (res.status) {
+							swal("Data anda berhasil terhapus!", {
+								icon: "success",
+							});
+							if (dataTable != null) dataTable.ajax.reload();
+						} else {
 
-								swal("Server sedang bermasalah!", {
-									icon: "warning",
-								});
-							}
-						});
-					} else {
-						swal("Data anda batal terhapus!");
-					}
-				});
-
-		}
-
-		// swal({
-		//   title: "Good job!",
-		//   text: "You clicked the button!",
-		//   icon: "success",
-		// });
-
-		function pesanSweet(judul, isi, status = 'success') {
-			// swalInit(
-			// 	judul,
-			// 	isi,
-			// 	status,
-			// ); 
-			swal({
-				icon: status,
-				title: judul,
-				text: isi,
-				// footer: '<a href>Why do I have this issue?</a>'
-			});
-		}
-
-
-		function sendAjax(url, data, type = 'get', loading = null) {
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				},
-			});
-			return $.ajax({
-				url: url,
-				type: type,
-				data: data,
-				dataType: "JSON",
-				beforeSend: function() {
-					if (loading != null) setLoading(loading, true);
-				},
-				success: function(result) {
-					console.log(result);
-				},
-				error: function(err) {
-					console.log(err);
-					// pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
-					// $('#my-error').html(err.responseText);
-					// $("Terjadi error : ");
-				},
-				complete: function() {
-					// setTimeout(function(){ if(loading!=null)setLoading(loading, false); }, 3000);
-					if (loading != null) setLoading(loading, false);
-				},
-			});
-		}
-
-		function sendAjaxUpload(url, data, type = 'POST', loading = null) {
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				},
-			});
-
-			let btn = false;
-			if(type == 'get'){
-				btn = true;
-			}
-
-			return $.ajax({
-				url: url,
-				type: type,
-				data: data,
-				contentType: false,
-				processData: false,
-				beforeSend: function() {
-					if (loading != null) setLoading(loading, true, '', btn);
-				},
-				success: function(result) {
-					console.log(result);
-				},
-				error: function(err) {
-					console.log(err);
-					pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
-					// $("Terjadi error : ");
-				},
-				complete: function() {
-					if (loading != null) setLoading(loading, false, '', btn);
-				},
-			});
-		}
-
-		function setLoading(name, status, style = '', btn = false) {
-			// console.log(name);
-			if (status) {
-				// $(name).block({
-				// 	message: '<div style="'+style+'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>',
-				// 	overlayCSS: {
-				// 			backgroundColor: '#FFF',
-				// 			opacity: 0.9,
-				// 			cursor: 'wait'
-				// 	},
-				// 	css: {
-				// 			border: 0,
-				// 			padding: 0,
-				// 			backgroundColor: 'transparent'
-				// 	}
-				// });
-				$(name).addClass('prevent-click');
-				$(name).css("display", "none");
-				$(name).before('<div class="loading-view" style=" ' + style +
-					'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>');
-
-				// tambahan
-				if (btn) {
-					$('#btn-form-data').hide();
+							swal("Server sedang bermasalah!", {
+								icon: "warning",
+							});
+						}
+					});
+				} else {
+					swal("Data anda batal terhapus!");
 				}
-			} else {
-				// $(name).unblock();
-				$(name).removeClass('prevent-click');
-				$(".loading-view").remove();
-				$(name).css("display", "block");
+			});
 
-				// tambahan
-				if (btn) {
-					$('#btn-form-data').show();
-				}
-			}
+	}
+
+	// swal({
+	//   title: "Good job!",
+	//   text: "You clicked the button!",
+	//   icon: "success",
+	// });
+
+	function pesanSweet(judul, isi, status = 'success') {
+		// swalInit(
+		// 	judul,
+		// 	isi,
+		// 	status,
+		// ); 
+		swal({
+			icon: status,
+			title: judul,
+			text: isi,
+			// footer: '<a href>Why do I have this issue?</a>'
+		});
+	}
+
+
+	function sendAjax(url, data, type = 'get', loading = null) {
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+		});
+		return $.ajax({
+			url: url,
+			type: type,
+			data: data,
+			dataType: "JSON",
+			beforeSend: function() {
+				if (loading != null) setLoading(loading, true);
+			},
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(err) {
+				console.log(err);
+				// pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
+				// $('#my-error').html(err.responseText);
+				// $("Terjadi error : ");
+			},
+			complete: function() {
+				// setTimeout(function(){ if(loading!=null)setLoading(loading, false); }, 3000);
+				if (loading != null) setLoading(loading, false);
+			},
+		});
+	}
+
+	function sendAjaxUpload(url, data, type = 'POST', loading = null) {
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+		});
+
+		let btn = false;
+		if (type == 'get') {
+			btn = true;
 		}
 
+		return $.ajax({
+			url: url,
+			type: type,
+			data: data,
+			contentType: false,
+			processData: false,
+			beforeSend: function() {
+				if (loading != null) setLoading(loading, true, '', btn);
+			},
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(err) {
+				console.log(err);
+				pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
+				// $("Terjadi error : ");
+			},
+			complete: function() {
+				if (loading != null) setLoading(loading, false, '', btn);
+			},
+		});
+	}
 
-		/* Fungsi formatRupiah */
-		function formatRupiah(angka) {
-			if (angka == null) {
-				return 0;
+	function setLoading(name, status, style = '', btn = false) {
+		// console.log(name);
+		if (status) {
+			// $(name).block({
+			// 	message: '<div style="'+style+'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>',
+			// 	overlayCSS: {
+			// 			backgroundColor: '#FFF',
+			// 			opacity: 0.9,
+			// 			cursor: 'wait'
+			// 	},
+			// 	css: {
+			// 			border: 0,
+			// 			padding: 0,
+			// 			backgroundColor: 'transparent'
+			// 	}
+			// });
+			$(name).addClass('prevent-click');
+			$(name).css("display", "none");
+			$(name).before('<div class="loading-view" style=" ' + style +
+				'"><h4><i class="spinner-border text-primary"></i>  Silahkan tunggu...</h4></div>');
+
+			// tambahan
+			if (btn) {
+				$('#btn-form-data').hide();
 			}
-			var reverse = parseInt(angka).toString().split('').reverse().join(''),
-				ribuan = reverse.match(/\d{1,3}/g);
-			ribuan = ribuan.join('.').split('').reverse().join('');
-			return ribuan;
+		} else {
+			// $(name).unblock();
+			$(name).removeClass('prevent-click');
+			$(".loading-view").remove();
+			$(name).css("display", "block");
+
+			// tambahan
+			if (btn) {
+				$('#btn-form-data').show();
+			}
 		}
+	}
+
+
+	/* Fungsi formatRupiah */
+	function formatRupiah(angka) {
+		if (angka == null) {
+			return 0;
+		}
+		var reverse = parseInt(angka).toString().split('').reverse().join(''),
+			ribuan = reverse.match(/\d{1,3}/g);
+		ribuan = ribuan.join('.').split('').reverse().join('');
+		return ribuan;
+	}
 	</script>
 	@yield('script')
 

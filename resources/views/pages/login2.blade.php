@@ -40,9 +40,9 @@
   background-repeat: no-repeat;
   background-size: 100%;">
 	<div class="auth-wrapper">
-			<img class="img-avatar" style="background-color: #2399E9;left: 80px;bottom: 80px" src="<?= $awalAssets ?>/images/kaban.png" alt="">
-			<img class="img-avatar" style="background-color: #CB4335;left: 80px;top: 80px" src="<?= $awalAssets ?>/images/bupati.png" alt="">
-			<img class="img-avatar" style="background-color: #FF8F3E;right: 100px;" src="<?= $awalAssets ?>/images/ikhsan.png" alt="">
+			<!-- <img class="img-avatar" style="background-color: #2399E9;left: 80px;bottom: 80px" src="<?= $awalAssets ?>/images/kaban.png" alt=""> -->
+			<!-- <img class="img-avatar" style="background-color: #CB4335;left: 80px;top: 80px" src="<?= $awalAssets ?>/images/bupati.png" alt=""> -->
+			<img class="img-avatar2" style="width: 10%; position: fixed; left: 100px;top: 60px" src="<?= $awalAssets ?>/images/logo-morowali.png" alt="">
 		<div class="auth-content">
 			<div class="auth-bg">
 				<span class="r"></span>

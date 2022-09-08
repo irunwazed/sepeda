@@ -2,11 +2,10 @@
 
 @section('content')
 <?php
-$judul = "Realisasi Program";
+$judul = "Realisasi Sasaran OPD";
 $icon = "feather icon-file";
 $levelName = \Request::get('levelPath');
 ?>
-
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
 	<div class="pcoded-wrapper">
@@ -78,7 +77,8 @@ $levelName = \Request::get('levelPath');
 												<thead>
 													<tr>
 														<th rowspan="2" width="10"></th>
-														<th rowspan="2">Program</th>
+														<th rowspan="2">Tujuan</th>
+														<th rowspan="2">Sasaran</th>
 														<th rowspan="2">Indikator</th>
 														<th rowspan="2" width="20">Satuan</th>
 														<th colspan="2">Target (Tahun {{ session('rpjmd_tahun')+session('tahun')-1 }})</th>
@@ -129,29 +129,27 @@ $levelName = \Request::get('levelPath');
 
 					<div class="row">
 						<div class="form-group col-sm-12">
-							<label>Program</label>
+							<label for="basicInput">Sasaran</label>
 							<fieldset class="form-group">
-								<select name="program" class="form-control select2" disabled>
-									<option value="">-= Pilih Program =-</option>
-								</select>
+								<textarea name="renstra_sasaran_nama" class="form-control" cols="30" rows="5" readonly></textarea>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-12">
 							<label for="basicInput">Indikator</label>
 							<fieldset class="form-group">
-								<textarea name="rpjmd_program_indikator_nama" class="form-control" cols="30" rows="5" readonly></textarea>
+								<textarea name="renstra_sasaran_indikator_nama" class="form-control" cols="30" rows="5" readonly></textarea>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Target Kinerja</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_target" class="form-control" readonly>
+								<input type="text" name="renstra_sasaran_indikator_target" class="form-control" readonly>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Satuan</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_satuan" class="form-control" readonly>
+								<input type="text" name="renstra_sasaran_indikator_satuan" class="form-control" readonly>
 							</fieldset>
 						</div>
 						<div class="form-group col-sm-3" id="indikator-json" style="border: solid #CCCCCC 1px;">
@@ -165,7 +163,7 @@ $levelName = \Request::get('levelPath');
 						<div class="form-group col-sm-4">
 							<label for="basicInput">Satuan</label>
 							<fieldset class="form-group">
-								<input type="text" name="rpjmd_program_indikator_satuan" class="form-control" readonly>
+								<input type="text" name="renstra_sasaran_indikator_satuan" class="form-control" readonly>
 							</fieldset>
 						</div>
 					</div>
@@ -192,7 +190,7 @@ $levelName = \Request::get('levelPath');
 	}
 </style>
 <script>
-$('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
+$('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 	var link = window.location.pathname;
 	var linkAction = '/create';
 	var dataPilih = {};
@@ -203,25 +201,18 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 
 	$(document).ready(function() {
 
-		$('select[name="opd"]').select2();
-		$('select[name="program"]').select2({
-			dropdownParent: $("#modal-form"),
-		});
-		$('select[name="kegiatan"]').select2({
-			dropdownParent: $("#modal-form"),
-		});
-		$('select[name="sub_kegiatan"]').select2({
-			dropdownParent: $("#modal-form"),
-		});
-
-		var groupColumn = [{
-			name: 'Program',
-			data: 'program',
+		var groupColumn = [{ 
+			name: 'Tujuan',
+			data: 'renstra_tujuan_nama',
 			column: 1
+		}, {
+			name: 'Sasaran',
+			data: 'renstra_sasaran_nama',
+			column: 2
 		}, ];
 
 		var table = $('.my-datatable').DataTable({
-			// fixedHeader: true,
+
 			responsive: true,
 			ordering: false,
 			autoWidth: false,
@@ -247,6 +238,9 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 			columnDefs: [{
 				"visible": false,
 				"targets": groupColumn[0].column
+			}, {
+				"visible": false,
+				"targets": groupColumn[1].column
 			}, ],
 			columns: [{
 					"class": "details-control",
@@ -255,13 +249,16 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 					"defaultContent": "<center><img src='https://datatables.net/examples/resources/details_open.png' /></center>"
 				},
 				{
-					data: 'program_nama',
+					data: 'renstra_tujuan_nama',
 				},
 				{
-					data: 'rpjmd_program_indikator_nama',
+					data: 'renstra_sasaran_nama',
 				},
 				{
-					data: 'rpjmd_program_indikator_satuan',
+					data: 'renstra_sasaran_indikator_nama',
+				},
+				{
+					data: 'renstra_sasaran_indikator_satuan',
 				},
 				{
 					data: 'target',
@@ -291,6 +288,7 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 			"displayLength": 25,
 			"order": [
 				[groupColumn[0].column, 'asc'],
+				[groupColumn[1].column, 'asc'],
 			],
 			"drawCallback": function(settings) {
 				var api = this.api();
@@ -310,10 +308,21 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 						console.log(group);
 						let name = group[groupColumn[idx].data];
 						if (last !== name) {
-							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="4">' + name +
-								'</td><td class="text-right">' + formatRupiah(group['pagu']) + '</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) + '</td><td></td></tr>'
-							);
+							if (idx == 1) {
+
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="2">' + groupColumn[idx].name + ' : ' + name +
+									'</td><td></td><td></td>' +
+									'</td><td class="text-right">' + formatRupiah(group['pagu']) +
+									'</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) +
+									'</td><td></td></tr>'
+								);
+
+							} else {
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="8">' + groupColumn[idx].name + ' : ' + name + '</td></tr>'
+								);
+							}
 							last = name;
 						}
 					});
@@ -383,7 +392,8 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 		$('#modal-form').modal('show');
 		$('#form-data')[0].reset();
 
-		$('textarea[name="rpjmd_program_indikator_nama"]').html('');
+		$('textarea[name="rpjmd_sasaran_nama"]').html('');
+		$('textarea[name="rpjmd_sasaran_indikator_nama"]').html('');
 		$('input[name="kode"]').val(kode);
 	}
 
@@ -395,30 +405,32 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 		$('#modal-form').modal('show');
 		$('#form-data')[0].reset();
 
-
 		let url = link + '/get-data/' + id;
 		$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
 			if (res.status) {
 				dataPilih = res.data;
-				$('input[name="id"]').val(res.data.id);
-				$('input[name="kode"]').val(kode);
-				$('select[name="program"]').empty().append('<option>' + res.data.program_nama + '</option>');
+				$('input[name="id"]').val(res.data.renstra_sasaran_kode);
+				$('input[name="kode"]').val(res.data.renstra_tujuan_kode
+				+"-"+res.data.renstra_sasaran_kode
+				+"-"+res.data.renstra_sasaran_indikator_kode);
 
-				$('input[name="realisasi_kinerja"]').val(dataPilih['rpjmd_program_indikator_th' + tahun_ke + '_realisasi_target']);
-				$('input[name="realisasi_pagu"]').val(dataPilih['rpjmd_program_indikator_th' + tahun_ke + '_realisasi_pagu']);
+				$('input[name="realisasi_kinerja"]').val(dataPilih['renstra_sasaran_indikator_th' + tahun_ke +
+					'_realisasi_target']);
+				$('input[name="realisasi_pagu"]').val(dataPilih['renstra_sasaran_indikator_th' + tahun_ke + '_realisasi_pagu']);
 
-				$('textarea[name="rpjmd_program_indikator_nama"]').html(res.data.rpjmd_program_indikator_nama);
-				$('input[name="rpjmd_program_indikator_satuan"]').val(res.data.rpjmd_program_indikator_satuan);
-				$('input[name="rpjmd_program_indikator_target"]').val(res.data['rpjmd_program_indikator_th' + tahun_ke + '_target']);
+				$('textarea[name="renstra_sasaran_nama"]').html(res.data.renstra_sasaran_nama);
+				$('textarea[name="renstra_sasaran_indikator_nama"]').html(res.data.renstra_sasaran_indikator_nama);
+				$('input[name="renstra_sasaran_indikator_satuan"]').val(res.data.renstra_sasaran_indikator_satuan);
+				$('input[name="renstra_sasaran_indikator_target"]').val(res.data['renstra_sasaran_indikator_th' + tahun_ke +
+					'_target']);
 
 
-				let arrJson = JSON.parse(res.data.rpjmd_program_indikator_nilai_json);
+				let arrJson = JSON.parse(res.data.renstra_sasaran_indikator_nilai_json);
 				let strJson = '';
 				for (let j = 0; j < arrJson.length; j++) {
 					strJson += (j + 1) + '. ' + arrJson[j]['nilai'] + ' => ' + arrJson[j]['nama'] + '<br>';
 				}
 				$('#indikator-json').html(strJson);
-
 			} else {
 				pesanSweet('Gagal!', res.pesan, 'warning');
 			}

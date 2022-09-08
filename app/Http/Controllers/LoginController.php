@@ -49,25 +49,26 @@ class LoginController extends Controller
         // session()->put('permen_ver', 1);
         session()->put('rpjmd', 1); 
         session()->put('opd', 1); // sesuai login opd
-        if(@$user->login_level == 3){
-          $dataOPD = DB::table('ref_login_opd')->where('login_id', @$user->id)->first();
-          session()->put('opd', @$dataOPD->opd_id);
-        }
 
 
 				$temp = DB::table('pengaturan')
 				->where('nama', 'rpjmd_tahun')->first();
         session()->put('rpjmd_tahun', @$temp->value); // tahun awal RPJMD
 
-
 				$temp = DB::table('pengaturan')
 				->where('nama', 'tahun')->first();
         session()->put('tahun', @$temp->value); // tahun ke untuk RPKD
 
-
 				$temp = DB::table('pengaturan')
 				->where('nama', 'triwulan')->first();
         session()->put('triwulan', @$temp->value); // triwulan
+
+
+        if(@$user->login_level == 3){
+          $dataOPD = DB::table('ref_login_opd')->where('login_id', @$user->id)->first();
+          session()->put('opd', @$dataOPD->opd_id);
+					return redirect('opd');
+        }
 
         return redirect('admin');
       }

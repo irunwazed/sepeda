@@ -51,6 +51,8 @@ Route::post('/import/contoh','ImportContohController@import');
 
 Route::middleware(['verificationLevel:2'])->group(function () {
 
+
+
 	Route::prefix('/admin')->group(function () {
 
 		Route::get('/', 'AdminController@beranda');
@@ -67,6 +69,7 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 		
 		Route::get('/setting/jadwal','JadwalController@view');
 		Route::post('/setting/jadwal','JadwalController@update');
+		Route::post('/setting/tahun','JadwalController@setTahun');
 		
 		Route::get('/import/rkpd','ImportController@view');
 		Route::post('/import/rkpd','ImportController@import');
@@ -262,19 +265,19 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::post('/sasaran/update','Realisasi\SasaranController@update');
 			Route::get('/sasaran/delete/{id}','Realisasi\SasaranController@delete');
 
-			Route::get('/tujuan-opd','Realisasi\TujuanController@view');
-			Route::get('/tujuan-opd/get-data','Realisasi\TujuanController@getData');
-			Route::get('/tujuan-opd/get-data/{id}','Realisasi\TujuanController@getData');
-			Route::post('/tujuan-opd/create','Realisasi\TujuanController@create');
-			Route::post('/tujuan-opd/update','Realisasi\TujuanController@update');
-			Route::get('/tujuan-opd/delete/{id}','Realisasi\TujuanController@delete');
+			Route::get('/tujuan-opd','Realisasi\TujuanOPDController@view')->name('admin.realisasi.tujuan-opd');
+			Route::get('/tujuan-opd/get-data','Realisasi\TujuanOPDController@getData');
+			Route::get('/tujuan-opd/get-data/{id}','Realisasi\TujuanOPDController@getData');
+			Route::post('/tujuan-opd/create','Realisasi\TujuanOPDController@create');
+			Route::post('/tujuan-opd/update','Realisasi\TujuanOPDController@update');
+			Route::get('/tujuan-opd/delete/{id}','Realisasi\TujuanOPDController@delete');
 
-			Route::get('/sasaran-opd','Realisasi\SasaranController@view');
-			Route::get('/sasaran-opd/get-data','Realisasi\SasaranController@getData');
-			Route::get('/sasaran-opd/get-data/{id}','Realisasi\SasaranController@getData');
-			Route::post('/sasaran-opd/create','Realisasi\SasaranController@create');
-			Route::post('/sasaran-opd/update','Realisasi\SasaranController@update');
-			Route::get('/sasaran-opd/delete/{id}','Realisasi\SasaranController@delete');
+			Route::get('/sasaran-opd','Realisasi\SasaranOPDController@view')->name('admin.realisasi.sasaran-opd');
+			Route::get('/sasaran-opd/get-data','Realisasi\SasaranOPDController@getData');
+			Route::get('/sasaran-opd/get-data/{id}','Realisasi\SasaranOPDController@getData');
+			Route::post('/sasaran-opd/create','Realisasi\SasaranOPDController@create');
+			Route::post('/sasaran-opd/update','Realisasi\SasaranOPDController@update');
+			Route::get('/sasaran-opd/delete/{id}','Realisasi\SasaranOPDController@delete');
 
 			Route::get('/program','Realisasi\ProgramController@view')->name('admin.realisasi.program');
 			Route::get('/program/get-data','Realisasi\ProgramController@getData');
@@ -327,11 +330,31 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 Route::middleware(['verificationLevel:2'])->group(function () {
 
+	
+
 	Route::prefix('/opd')->group(function () {
 
 		Route::get('/', 'AdminController@beranda');
 
+
+		Route::post('/setting/tahun','JadwalController@setTahun');
+
 		Route::prefix('/penyusunan/renstra')->group(function () {
+
+
+			Route::get('/tujuan/{kode}/indikator','PenyusunanRenstra\TujuanIndikatorController@view');
+			Route::get('/tujuan/{kode}/indikator/get-data','PenyusunanRenstra\TujuanIndikatorController@getData');
+			Route::get('/tujuan/{kode}/indikator/get-data/{id}','PenyusunanRenstra\TujuanIndikatorController@getData');
+			Route::post('/tujuan/{kode}/indikator/create','PenyusunanRenstra\TujuanIndikatorController@create');
+			Route::post('/tujuan/{kode}/indikator/update','PenyusunanRenstra\TujuanIndikatorController@update');
+			Route::get('/tujuan/{kode}/indikator/delete/{id}','PenyusunanRenstra\TujuanIndikatorController@delete');
+
+			Route::get('/sasaran/{kode}/indikator','PenyusunanRenstra\SasaranIndikatorController@view');
+			Route::get('/sasaran/{kode}/indikator/get-data','PenyusunanRenstra\SasaranIndikatorController@getData');
+			Route::get('/sasaran/{kode}/indikator/get-data/{id}','PenyusunanRenstra\SasaranIndikatorController@getData');
+			Route::post('/sasaran/{kode}/indikator/create','PenyusunanRenstra\SasaranIndikatorController@create');
+			Route::post('/sasaran/{kode}/indikator/update','PenyusunanRenstra\SasaranIndikatorController@update');
+			Route::get('/sasaran/{kode}/indikator/delete/{id}','PenyusunanRenstra\SasaranIndikatorController@delete');
 
 			Route::get('/program','PenyusunanRenstra\ProgramController@view')->name('opd.penyusunan.renstra');
 			Route::get('/program/get-data','PenyusunanRenstra\ProgramController@getData');
@@ -339,6 +362,10 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			// Route::post('/program/create','PenyusunanRenstra\ProgramController@create');
 			// Route::post('/program/update','PenyusunanRenstra\ProgramController@update');
 			// Route::get('/program/delete/{id}','PenyusunanRenstra\ProgramController@delete');
+			Route::post('/program/update','PenyusunanRenstra\ProgramController@update');
+			Route::post('/program/create-tusa','PenyusunanRenstra\ProgramController@createTusa');
+			Route::get('/program/get-tujuan','PenyusunanRenstra\ProgramController@getTujuan');
+			Route::get('/program/get-sasaran','PenyusunanRenstra\ProgramController@getSasaran');
 
 			Route::get('/program/{kode}','PenyusunanRenstra\KegiatanController@view');
 			Route::get('/program/{kode}/get-data','PenyusunanRenstra\KegiatanController@getData');
@@ -370,19 +397,20 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 		Route::prefix('/realisasi')->group(function () {
 
-			Route::get('/tujuan','Realisasi\TujuanController@view')->name('opd.realisasi.tujuan');
-			Route::get('/tujuan/get-data','Realisasi\TujuanController@getData');
-			Route::get('/tujuan/get-data/{id}','Realisasi\TujuanController@getData');
-			Route::post('/tujuan/create','Realisasi\TujuanController@create');
-			Route::post('/tujuan/update','Realisasi\TujuanController@update');
-			Route::get('/tujuan/delete/{id}','Realisasi\TujuanController@delete');
 
-			Route::get('/sasaran','Realisasi\SasaranController@view')->name('opd.realisasi.sasaran');
-			Route::get('/sasaran/get-data','Realisasi\SasaranController@getData');
-			Route::get('/sasaran/get-data/{id}','Realisasi\SasaranController@getData');
-			Route::post('/sasaran/create','Realisasi\SasaranController@create');
-			Route::post('/sasaran/update','Realisasi\SasaranController@update');
-			Route::get('/sasaran/delete/{id}','Realisasi\SasaranController@delete');
+			Route::get('/tujuan-opd','Realisasi\TujuanOPDController@view')->name('opd.realisasi.tujuan-opd');
+			Route::get('/tujuan-opd/get-data','Realisasi\TujuanOPDController@getData');
+			Route::get('/tujuan-opd/get-data/{id}','Realisasi\TujuanOPDController@getData');
+			Route::post('/tujuan-opd/create','Realisasi\TujuanOPDController@create');
+			Route::post('/tujuan-opd/update','Realisasi\TujuanOPDController@update');
+			Route::get('/tujuan-opd/delete/{id}','Realisasi\TujuanOPDController@delete');
+
+			Route::get('/sasaran-opd','Realisasi\SasaranOPDController@view')->name('opd.realisasi.sasaran-opd');
+			Route::get('/sasaran-opd/get-data','Realisasi\SasaranOPDController@getData');
+			Route::get('/sasaran-opd/get-data/{id}','Realisasi\SasaranOPDController@getData');
+			Route::post('/sasaran-opd/create','Realisasi\SasaranOPDController@create');
+			Route::post('/sasaran-opd/update','Realisasi\SasaranOPDController@update');
+			Route::get('/sasaran-opd/delete/{id}','Realisasi\SasaranOPDController@delete');
 
 			Route::get('/program','Realisasi\ProgramController@view')->name('opd.realisasi.program');
 			Route::get('/program/get-data','Realisasi\ProgramController@getData');

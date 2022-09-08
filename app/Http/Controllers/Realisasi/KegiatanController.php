@@ -154,10 +154,9 @@ class KegiatanController extends Controller
 					->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
 					->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
 					->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
+					->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
 					// ->get();
 					->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_pagu');
-
-
 
 				return $temp;
 			})
@@ -173,6 +172,7 @@ class KegiatanController extends Controller
 					->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
 					->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
 					->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
+					->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
 					// ->get();
 					->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw' . session('triwulan') . '_pagu');
 

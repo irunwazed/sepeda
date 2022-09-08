@@ -2,10 +2,12 @@
 
 @section('content')
 <?php
-$judul = "Realisasi Program";
+$judul = "Realisasi Kegiatan";
 $icon = "feather icon-file";
 $levelName = \Request::get('levelPath');
 ?>
+
+
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
 	<div class="pcoded-wrapper">
@@ -74,11 +76,10 @@ $levelName = \Request::get('levelPath');
 										<div class="table-responsive">
 
 											<table class="my-datatable table table-striped table-bordered">
-												<thead>
+												<thead id="myHeader">
 													<tr>
 														<th rowspan="2" width="10"></th>
 														<th rowspan="2">Program</th>
-														<th rowspan="2">Kegiatan</th>
 														<th rowspan="2">Indikator</th>
 														<th rowspan="2" width="20">Satuan</th>
 														<th colspan="2">Target (Tahun {{ session('rpjmd_tahun')+session('tahun')-1 }})</th>
@@ -200,6 +201,7 @@ $levelName = \Request::get('levelPath');
 	}
 </style>
 <script>
+
 	$('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 	var link = window.location.pathname;
 	var linkAction = '/create';
@@ -233,7 +235,11 @@ $levelName = \Request::get('levelPath');
 		}, ];
 
 		var table = $('.my-datatable').DataTable({
-
+			fixedHeader : {
+    header : true,
+    footer : false,
+    headerOffset: 45
+},
 			responsive: true,
 			ordering: false,
 			autoWidth: false,
@@ -271,9 +277,6 @@ $levelName = \Request::get('levelPath');
 				},
 				{
 					data: 'program_nama',
-				},
-				{
-					data: 'kegiatan_nama',
 				},
 				{
 					data: 'renstra_kegiatan_indikator_nama',
@@ -333,14 +336,14 @@ $levelName = \Request::get('levelPath');
 							if (idx == 1) {
 
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="5">' + name +
+									'<tr class="group"><td colspan="4">' + name +
 									'</td><td class="text-right">' + formatRupiah(group['pagu']) +
 									'</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) +
 									'</td><td></td></tr>'
 								);
 							} else {
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="9">' + name +
+									'<tr class="group"><td colspan="8">' + name +
 									'</td></tr>'
 								);
 
@@ -351,6 +354,7 @@ $levelName = \Request::get('levelPath');
 				}
 			}
 		});
+		
 		var detailRows = [];
 
 		$('.my-datatable tbody').on('click', 'tr td.details-control', function() {

@@ -47,7 +47,10 @@ class RKPDImport implements ToModel
             
             $this->lokasi = (string)$row[9];
             $this->sumber_data = (string)$row[10];
-            $this->opd = (int)$row[11];
+						// $tempOpd = $this->opd;
+						if((int)$row[11] != 0){
+							$this->opd = (int)$row[11];
+						}
 
             if (
                 is_numeric($this->urusan_kode)
@@ -80,13 +83,15 @@ class RKPDImport implements ToModel
 
             $dataSub = [
                 'tahun_ke' => session('tahun'),
-                'opd_id' => session('opd'), //$this->opd,
+                'opd_id' => $this->opd,
                 'permen_ver' => 1,
                 'urusan_kode' => $this->urusan_kode,
                 'bidang_kode' => $this->bidang_kode,
                 'program_kode' => $this->program_kode,
                 'kegiatan_kode' => $this->kegiatan_kode,
                 'sub_kegiatan_kode' => $this->sub_kegiatan_kode,
+								'sub_kegiatan_pagu' => (float)$row[8],
+								'sub_kegiatan_pagu_perubahan' => (float)$row[8],
             ];
 
             $subId = DB::table('ref_rkpd_sub_kegiatan')->where($dataSub)->first();
@@ -103,8 +108,8 @@ class RKPDImport implements ToModel
                 'rkpd_sub_kegiatan_indikator_nilai_json' => '[]',
                 'rkpd_sub_kegiatan_indikator_target' => $target,
                 'rkpd_sub_kegiatan_indikator_satuan' => $satuan,
-                'rkpd_sub_kegiatan_indikator_pagu' => (float)$row[8],
-                'rkpd_sub_kegiatan_indikator_pagu_perubahan' => (float)$row[8],
+                // 'rkpd_sub_kegiatan_indikator_pagu' => (float)$row[8],
+                // 'rkpd_sub_kegiatan_indikator_pagu_perubahan' => (float)$row[8],
                 'rkpd_sub_kegiatan_indikator_lokasi' => $this->lokasi,
             ];
             $status = DB::table('ref_rkpd_sub_kegiatan_indikator')->insert($dataIndi);

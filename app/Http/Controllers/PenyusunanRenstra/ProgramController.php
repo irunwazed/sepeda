@@ -53,8 +53,8 @@ class ProgramController extends Controller
 		})
 		->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 		->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
-		->orderBy('ref_rpjmd_tujuan.id', 'ASC')
-		->orderBy('ref_rpjmd_sasaran.id', 'ASC')
+		->orderBy('ref_rpjmd_program.renstra_tujuan_kode', 'ASC')
+		->orderBy('ref_rpjmd_program.renstra_sasaran_kode', 'ASC')
 		->orderBy('ref_program.permen_ver', 'ASC')
 		->orderBy('ref_program.urusan_kode', 'ASC')
 		->orderBy('ref_program.bidang_kode', 'ASC')
@@ -208,7 +208,7 @@ class ProgramController extends Controller
     }else{
 			$date = date('Y-m-d H:i:s');
 
-
+			$simpan = true;
 			
 			if($request->jenis == 1){
 				$table = 'ref_renstra_tujuan';
@@ -216,6 +216,15 @@ class ProgramController extends Controller
 				$kode = 1;
 				if(@$dataTujuan->renstra_tujuan_kode){
 					$kode = $dataTujuan->renstra_tujuan_kode+1;
+				}
+
+				$dataTujuan = DB::table($table)->where([
+					'renstra_tujuan_nama' => $request->tusa,
+					'opd_id' => session('opd'),
+				])->count();
+				if($dataTujuan > 0){
+					$simpan = false;
+					$pesan = "Tujuan OPD sudah ada";
 				}
 
 				$data = [
@@ -233,6 +242,16 @@ class ProgramController extends Controller
 				if(@$dataSasaran->renstra_sasaran_kode){
 					$kode = $dataSasaran->renstra_sasaran_kode+1;
 				}
+
+				$dataTujuan = DB::table($table)->where([
+					'renstra_sasaran_nama' => $request->tusa,
+					'opd_id' => session('opd'),
+				])->count();
+				if($dataTujuan > 0){
+					$simpan = false;
+					$pesan = "Sasaran OPD sudah ada";
+				}
+
 				$tujuanKode = explode("-", $request->tujuan);
 				$data = [
 					'renstra_tujuan_kode' => @$tujuanKode[1],
@@ -245,9 +264,10 @@ class ProgramController extends Controller
 
 			}
 			
-
-			$status = DB::table($table)->insert($data);
-			$status?$pesan = 'Berhasil Menambah Data':$pesan = 'Gagal Menambah Data';
+			if($simpan){
+				$status = DB::table($table)->insert($data);
+				$status?$pesan = 'Berhasil Menambah Data':$pesan = 'Gagal Menambah Data';
+			}
 
     }
 

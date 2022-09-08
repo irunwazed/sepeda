@@ -25,7 +25,7 @@ class JadwalController extends Controller
       'tahun' => $tahun,
       'triwulan' => $triwulan,
     ];
-    print_r($kirim);
+    // print_r($kirim);
     return view('components/admin/jadwal', $kirim);
   }
 
@@ -56,5 +56,44 @@ class JadwalController extends Controller
 
     return redirect('logout');
   }
+
+	public function setTahun(Request $request){
+		$validator = Validator::make($request->all(), [
+      'tahun' => 'required',
+      'triwulan' => 'numeric|min:1|max:4',
+    ]);
+    $pesan = 'Gagal Terhubung Pada Server!';
+    $status = FALSE;
+    $error = [];
+    if ($validator->fails()) {
+      $error = $validator->errors()->all();
+    }else{
+
+			$tahun = $request->tahun;
+			$triwulan = $request->triwulan;
+
+			if($tahun > 5){
+				$tahun = 5;
+			}else if($tahun < 1){
+				$tahun = 1;
+			}
+
+			if($triwulan > 4){
+				$triwulan = 4;
+			}else if($triwulan < 1){
+				$triwulan = 1;
+			}
+
+
+			session()->put('tahun', @$tahun);
+			session()->put('triwulan', @$triwulan);
+
+
+      $status?$pesan = 'Berhasil Mengubah Data':$pesan = 'Gagal Mengubah Data';
+      
+    }
+
+    return redirect()->back();
+	}
 
 }

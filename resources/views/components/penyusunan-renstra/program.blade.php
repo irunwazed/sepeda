@@ -324,17 +324,20 @@ $(document).ready(function() {
 				api.column({
 					page: 'current'
 				}).data().each(function(group, i) {
-
+					let space = '';
 					let name = group[groupColumn[idx].data];
 					let kode = group[groupColumn[idx].kode];
 					if(idx == 1){
 						kode = group['renstra_tujuan_kode']+'-'+group[groupColumn[idx].kode];
+						space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					if (last !== name) {
-						$(rows).eq(i).before(
-							'<tr class="group"><td colspan="3">' + groupColumn[idx].name + ' : ' + name +
-							'</td><td><a href="'+groupColumn[idx].name.toLowerCase()+'/'+kode+'/indikator'+'"><i class="fa fa-cog"></i> indikator</a> </td></tr>'
-						);
+						if(name != null){
+							$(rows).eq(i).before(
+								'<tr class="group"><td colspan="3"><span style="font-weight: bold;font-size: 17px;">' +space+ groupColumn[idx].name + ' : ' + name +
+								'</span></td><td><a href="'+groupColumn[idx].name.toLowerCase()+'/'+kode+'/indikator'+'"><i class="fa fa-cog"></i> indikator</a> </td></tr>'
+							);
+						}
 						last = name;
 					}
 				});
@@ -464,6 +467,7 @@ function addTujuan() {
 	$('input[name="tujuan"]').val('');
 	$("#label-tusa").html("Data Tujuan");
 	$("#label-tusa-input").html("Tujuan");
+		$('input[name="tusa"]').val('');
 }
 function addSasaran() {
 	if($('select[name="renstra_tujuan_kode"]').val() == ''){
@@ -475,6 +479,7 @@ function addSasaran() {
 		$('input[name="tujuan"]').val($('select[name="renstra_tujuan_kode"]').val());
 		$("#label-tusa").html("Data Sasaran");
 		$("#label-tusa-input").html("Sasaran");
+		$('input[name="tusa"]').val('');
 	}
 }
 loadTujuan();
