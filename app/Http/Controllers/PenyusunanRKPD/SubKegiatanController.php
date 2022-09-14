@@ -229,6 +229,8 @@ class SubKegiatanController extends Controller
 			if (!@$cekKegiatan->id) {
 				$kegiatanId = DB::table('ref_rkpd_sub_kegiatan')->insertGetId($data);
 			} else {
+				
+
 				$kegiatanId = $cekKegiatan->id;
 			}
 

@@ -131,12 +131,12 @@ class RPJMDController extends Controller
 					->where('ta_rpjmd_program_indikator.rpjmd_program_id', $row->id)
 					->get();
 
-				$dataAll[$index]['renstra_sub_kegiatan'] = DB::table('ta_renstra_sub_kegiatan_indikator')
-				->leftJoin('ref_renstra_sub_kegiatan', 'ref_renstra_sub_kegiatan.id', '=', 'ta_renstra_sub_kegiatan_indikator.renstra_sub_kegiatan_id')
-				->where('ref_renstra_sub_kegiatan.permen_ver', $row->permen_ver)
-				->where('ref_renstra_sub_kegiatan.urusan_kode', $row->urusan_kode)
-				->where('ref_renstra_sub_kegiatan.bidang_kode', $row->bidang_kode)
-				->where('ref_renstra_sub_kegiatan.program_kode', $row->program_kode)
+				$dataAll[$index]['renstra_kegiatan'] = DB::table('ta_renstra_kegiatan_indikator')
+				->leftJoin('ref_renstra_kegiatan', 'ref_renstra_kegiatan.id', '=', 'ta_renstra_kegiatan_indikator.renstra_kegiatan_id')
+				->where('ref_renstra_kegiatan.permen_ver', $row->permen_ver)
+				->where('ref_renstra_kegiatan.urusan_kode', $row->urusan_kode)
+				->where('ref_renstra_kegiatan.bidang_kode', $row->bidang_kode)
+				->where('ref_renstra_kegiatan.program_kode', $row->program_kode)
 				->get();
 				
 				for ($idxTahun = 1; $idxTahun <= 5; $idxTahun++) {
@@ -145,10 +145,10 @@ class RPJMDController extends Controller
 					$dataAll[$tujuan_index]['dataPagu'][$idxTahun]['renstra_pagu'] = 0;
 				}
 
-				for ($idxRens = 0; $idxRens < count($dataAll[$index]['renstra_sub_kegiatan']); $idxRens++) {
+				for ($idxRens = 0; $idxRens < count($dataAll[$index]['renstra_kegiatan']); $idxRens++) {
 					for ($idxTahun = 1; $idxTahun <= 5; $idxTahun++) {
-						$temp = 'renstra_sub_kegiatan_indikator_th'.$idxTahun.'_pagu';
-						$sub_pagu = $dataAll[$index]['renstra_sub_kegiatan'][$idxRens]->$temp;
+						$temp = 'renstra_kegiatan_indikator_th'.$idxTahun.'_pagu';
+						$sub_pagu = $dataAll[$index]['renstra_kegiatan'][$idxRens]->$temp;
 						$dataAll[$index]['dataPagu'][$idxTahun]['renstra_pagu'] += $sub_pagu;
 						$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['renstra_pagu'] = $sub_pagu + @$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['renstra_pagu'];
 						$dataAll[$tujuan_index]['dataPagu'][$idxTahun]['renstra_pagu'] = $sub_pagu + @$dataAll[$tujuan_index]['dataPagu'][$idxTahun]['renstra_pagu'];
@@ -168,6 +168,19 @@ class RPJMDController extends Controller
 						->where('ref_rkpd_sub_kegiatan.opd_id', @$dataAll[$index]['data'][0]->opd_id)
 						->get();
 
+					$dataAll[$index]['sub_kegiatan'][$idxTahun]['data_pagu'] = DB::table('ref_rkpd_sub_kegiatan')
+						->where('ref_rkpd_sub_kegiatan.tahun_ke', $idxTahun)
+						->where('ref_rkpd_sub_kegiatan.permen_ver', @$dataAll[$index]['data'][0]->permen_ver)
+						->where('ref_rkpd_sub_kegiatan.urusan_kode', @$dataAll[$index]['data'][0]->urusan_kode)
+						->where('ref_rkpd_sub_kegiatan.bidang_kode', @$dataAll[$index]['data'][0]->bidang_kode)
+						->where('ref_rkpd_sub_kegiatan.program_kode', @$dataAll[$index]['data'][0]->program_kode)
+						->where('ref_rkpd_sub_kegiatan.opd_id', @$dataAll[$index]['data'][0]->opd_id)
+						->get();
+
+					// echo "<pre>";
+					// print_r($dataAll[$index]['sub_kegiatan'][$idxTahun]['data_pagu']);
+					// die();
+
 					$dataAll[$index]['dataPagu'][$idxTahun]['pagu'] = 0;
 					$dataAll[$index]['dataPagu'][$idxTahun]['realisasi_pagu'] = 0;
 					$dataAll[$index]['dataPagu'][$idxTahun]['capaian_pagu'] = 0;
@@ -176,18 +189,48 @@ class RPJMDController extends Controller
 					$dataAll[$index]['dataPagu'][$idxTahun]['capaian_target'] = 0;
 
 					foreach ($dataAll[$index]['sub_kegiatan'][$idxTahun]['data'] as $rowTahunan) {
-						$sub_pagu = @$rowTahunan->rkpd_sub_kegiatan_indikator_pagu;
-						$sub_pagu_realisasi = 0;
+						// $sub_pagu = @$rowTahunan->rkpd_sub_kegiatan_indikator_pagu;
+						// $sub_pagu_realisasi = 0;
 						$sub_target = @$rowTahunan->rkpd_sub_kegiatan_indikator_target;
 						$sub_target_realisasi = 0;
 						if ($idxTahun == session('tahun')) {
-							$temp = 'rkpd_sub_kegiatan_indikator_tw' . session('triwulan') . '_pagu';
-							$sub_pagu_realisasi += @$rowTahunan->$temp;
+							// $temp = 'rkpd_sub_kegiatan_indikator_tw' . session('triwulan') . '_pagu';
+							// $sub_pagu_realisasi += @$rowTahunan->$temp;
 							$temp = 'rkpd_sub_kegiatan_indikator_tw' . session('triwulan') . '_target';
 							$sub_target_realisasi += @$rowTahunan->$temp;
 						} else {
-							$sub_pagu_realisasi += @$rowTahunan->rkpd_sub_kegiatan_indikator_tw4_pagu;
+							// $sub_pagu_realisasi += @$rowTahunan->rkpd_sub_kegiatan_indikator_tw4_pagu;
 							$sub_target_realisasi += @$rowTahunan->rkpd_sub_kegiatan_indikator_tw4_target;
+						}
+						// $sub_pagu_capaian = 100 * $sub_pagu_realisasi / $sub_pagu;
+						// $sub_target_capaian = 100 * $sub_target_realisasi / $sub_target;
+
+						// $dataAll[$index]['dataPagu'][$idxTahun]['pagu'] += $sub_pagu;
+						// $dataAll[$index]['dataPagu'][$idxTahun]['realisasi_pagu'] += $sub_pagu_realisasi;
+						// $dataAll[$index]['dataPagu'][$idxTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$index]['dataPagu'][$idxTahun]['realisasi_pagu'], $dataAll[$index]['dataPagu'][$idxTahun]['renstra_pagu']);
+						$dataAll[$index]['dataPagu'][$idxTahun]['target'] += $sub_target;
+						$dataAll[$index]['dataPagu'][$idxTahun]['realisasi_target'] += $sub_target_realisasi;
+						$dataAll[$index]['dataPagu'][$idxTahun]['capaian_target'] += $this->setCapaian($dataAll[$index]['dataPagu'][$idxTahun]['realisasi_target'], $dataAll[$index]['dataPagu'][$idxTahun]['target']);
+
+						// $dataAll[$sasaran_index]['dataPagu'][$idxTahun]['pagu'] = $sub_pagu + @$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['pagu'];
+						// $dataAll[$sasaran_index]['dataPagu'][$idxTahun]['realisasi_pagu'] = $sub_pagu_realisasi + @$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['realisasi_pagu'];
+						// $dataAll[$sasaran_index]['dataPagu'][$idxTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$sasaran_index]['dataPagu'][$idxTahun]['realisasi_pagu'], $dataAll[$sasaran_index]['dataPagu'][$idxTahun]['renstra_pagu']);
+
+						// $dataAll[$tujuan_index]['dataPagu'][$idxTahun]['pagu'] = $sub_pagu + @$dataAll[$tujuan_index]['dataPagu'][$idxTahun]['pagu'];
+						// $dataAll[$tujuan_index]['dataPagu'][$idxTahun]['realisasi_pagu'] = $sub_pagu_realisasi + @$dataAll[$tujuan_index]['dataPagu'][$idxTahun]['realisasi_pagu'];
+						// $dataAll[$tujuan_index]['dataPagu'][$idxTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$tujuan_index]['dataPagu'][$idxTahun]['realisasi_pagu'], $dataAll[$tujuan_index]['dataPagu'][$idxTahun]['renstra_pagu']);
+					}
+
+
+					foreach ($dataAll[$index]['sub_kegiatan'][$idxTahun]['data_pagu'] as $rowTahunan) {
+						$sub_pagu = @$rowTahunan->sub_kegiatan_pagu;
+						$sub_pagu_realisasi = 0;
+						$arrTriwulan = [1,3,6,9,12];
+						if ($idxTahun == session('tahun')) {
+							$temp = 'sub_kegiatan_pagu_bln' . $arrTriwulan[session('triwulan')];
+							$sub_pagu_realisasi += @$rowTahunan->$temp;
+						} else {
+							$sub_pagu_realisasi += @$rowTahunan->sub_kegiatan_pagu_bln12;
 						}
 						// $sub_pagu_capaian = 100 * $sub_pagu_realisasi / $sub_pagu;
 						// $sub_target_capaian = 100 * $sub_target_realisasi / $sub_target;
@@ -195,9 +238,9 @@ class RPJMDController extends Controller
 						$dataAll[$index]['dataPagu'][$idxTahun]['pagu'] += $sub_pagu;
 						$dataAll[$index]['dataPagu'][$idxTahun]['realisasi_pagu'] += $sub_pagu_realisasi;
 						$dataAll[$index]['dataPagu'][$idxTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$index]['dataPagu'][$idxTahun]['realisasi_pagu'], $dataAll[$index]['dataPagu'][$idxTahun]['renstra_pagu']);
-						$dataAll[$index]['dataPagu'][$idxTahun]['target'] += $sub_target;
-						$dataAll[$index]['dataPagu'][$idxTahun]['realisasi_target'] += $sub_target_realisasi;
-						$dataAll[$index]['dataPagu'][$idxTahun]['capaian_target'] += $this->setCapaian($dataAll[$index]['dataPagu'][$idxTahun]['realisasi_target'], $dataAll[$index]['dataPagu'][$idxTahun]['target']);
+						// $dataAll[$index]['dataPagu'][$idxTahun]['target'] += $sub_target;
+						// $dataAll[$index]['dataPagu'][$idxTahun]['realisasi_target'] += $sub_target_realisasi;
+						// $dataAll[$index]['dataPagu'][$idxTahun]['capaian_target'] += $this->setCapaian($dataAll[$index]['dataPagu'][$idxTahun]['realisasi_target'], $dataAll[$index]['dataPagu'][$idxTahun]['target']);
 
 						$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['pagu'] = $sub_pagu + @$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['pagu'];
 						$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['realisasi_pagu'] = $sub_pagu_realisasi + @$dataAll[$sasaran_index]['dataPagu'][$idxTahun]['realisasi_pagu'];

@@ -60,6 +60,7 @@ class TujuanController extends Controller
     $tahun_ke = session('tahun');
     return DataTables::of($data->get())
 		->addColumn('target', function ($row) use ($tahun_ke) {
+			
 			$th = 'rpjmd_tujuan_indikator_th'.$tahun_ke.'_target';
 			$nilai = $row->$th;
 			$hasil = $nilai;
@@ -94,8 +95,7 @@ class TujuanController extends Controller
 		->addColumn('pagu', function($row){
 			$hasil = 0;
 
-			$temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
-			->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			$temp = DB::table('ref_rkpd_sub_kegiatan')
 			->leftJoin('ref_rpjmd_program', function($join)
 			{
 				$join->on('ref_rpjmd_program.permen_ver', '=', 'ref_rkpd_sub_kegiatan.permen_ver');
@@ -107,8 +107,7 @@ class TujuanController extends Controller
 			->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 			->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
 			->where('ref_rpjmd_tujuan.id', $row->rpjmd_tujuan_id)
-			->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_pagu');
-			// ->toSql();
+			->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu');
 
 
 
@@ -117,9 +116,9 @@ class TujuanController extends Controller
 		->addColumn('realisasi_pagu', function($row){
 			$hasil = 0;
 
+			$arrTri = [1,3,6,9,12];
 
-			$temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
-			->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			$temp = DB::table('ref_rkpd_sub_kegiatan')
 			->leftJoin('ref_rpjmd_program', function($join)
 			{
 				$join->on('ref_rpjmd_program.permen_ver', '=', 'ref_rkpd_sub_kegiatan.permen_ver');
@@ -131,8 +130,7 @@ class TujuanController extends Controller
 			->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 			->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
 			->where('ref_rpjmd_tujuan.id', $row->rpjmd_tujuan_id)
-			->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.session('triwulan').'_pagu');
-
+			->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln'.$arrTri[session('triwulan')]);
 
 
 			return $temp;

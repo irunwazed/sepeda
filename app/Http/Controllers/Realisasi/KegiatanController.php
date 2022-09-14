@@ -146,8 +146,20 @@ class KegiatanController extends Controller
 			->addColumn('pagu', function ($row) {
 				$hasil = 0;
 
-				$temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
-					->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+				// $temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
+				// 	->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+				// 	->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
+				// 	->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
+				// 	->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
+				// 	->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
+				// 	->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
+				// 	->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
+				// 	->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
+				// 	// ->get();
+				// 	->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_pagu');
+
+
+					$temp = DB::table('ref_rkpd_sub_kegiatan')
 					->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
 					->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
 					->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
@@ -155,8 +167,7 @@ class KegiatanController extends Controller
 					->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
 					->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
 					->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
-					// ->get();
-					->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_pagu');
+					->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu');
 
 				return $temp;
 			})
@@ -164,17 +175,30 @@ class KegiatanController extends Controller
 				$hasil = 0;
 
 
-				$temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
-					->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
-					->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
-					->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
-					->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
-					->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
-					->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
-					->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
-					->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
-					// ->get();
-					->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw' . session('triwulan') . '_pagu');
+				// $temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
+				// 	->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+				// 	->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
+				// 	->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
+				// 	->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
+				// 	->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
+				// 	->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
+				// 	->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
+				// 	->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
+				// 	// ->get();
+				// 	->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw' . session('triwulan') . '_pagu');
+
+				$arrTri = [1,3,6,9,12];
+
+				$temp = DB::table('ref_rkpd_sub_kegiatan')
+				->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
+				->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
+				->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
+				->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
+				->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
+				->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
+				->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
+				->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln'.$arrTri[session('triwulan')]);
+
 
 
 

@@ -298,6 +298,7 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/renja/get-data/{id}','Realisasi\SubKegiatanController@getData');
 			Route::post('/renja/create','Realisasi\SubKegiatanController@create');
 			Route::post('/renja/update','Realisasi\SubKegiatanController@update');
+			Route::post('/renja/update-pagu','Realisasi\SubKegiatanController@updatePagu');
 			Route::get('/renja/delete/{id}','Realisasi\SubKegiatanController@delete');
 
 		});

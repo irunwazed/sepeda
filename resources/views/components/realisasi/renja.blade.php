@@ -170,24 +170,6 @@ $levelName = \Request::get('levelPath');
 								<textarea name="rkpd_sub_kegiatan_indikator_nama" class="form-control" cols="30" rows="5" readonly></textarea>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-4">
-							<label for="basicInput">Target Kinerja</label>
-							<fieldset class="form-group">
-								<input type="text" name="rkpd_sub_kegiatan_indikator_target" class="form-control" readonly>
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-2">
-							<label for="basicInput">Satuan</label>
-							<fieldset class="form-group">
-								<input type="text" name="rkpd_sub_kegiatan_indikator_satuan" class="form-control" readonly>
-							</fieldset>
-						</div>
-						<div class="form-group col-sm-6">
-							<label for="basicInput">Pagu</label>
-							<fieldset class="form-group">
-								<input type="number" step="0.0001" name="rkpd_sub_kegiatan_indikator_pagu" class="form-control" readonly>
-							</fieldset>
-						</div>
 						<div class="form-group col-sm-6">
 							<label>Realisasi Triwulan</label>
 							<fieldset class="form-group">
@@ -203,6 +185,18 @@ $levelName = \Request::get('levelPath');
 						<div class="form-group col-sm-5" id="indikator-json" style="border: solid #CCCCCC 1px;">
 						</div>
 						<div class="form-group col-sm-4">
+							<label for="basicInput">Target Kinerja</label>
+							<fieldset class="form-group">
+								<input type="text" name="rkpd_sub_kegiatan_indikator_target" class="form-control" readonly>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-2">
+							<label for="basicInput">Satuan</label>
+							<fieldset class="form-group">
+								<input type="text" name="rkpd_sub_kegiatan_indikator_satuan" class="form-control" readonly>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Realisasi Kinerja</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.0001" name="realisasi_kinerja" class="form-control" required>
@@ -214,7 +208,81 @@ $levelName = \Request::get('levelPath');
 								<input type="text" name="rkpd_sub_kegiatan_indikator_satuan" class="form-control" readonly>
 							</fieldset>
 						</div>
-						<div class="form-group col-sm-6">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button id="btn-form-data" type="submit" form="form-data" class="btn btn-success ml-1">Tambah
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--Disabled Backdrop Modal -->
+<div class="modal fade text-left" id="modal-form-pagu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable " role="document">
+		<!-- class modal-xl -->
+		<div class="modal-content">
+			<div class="modal-header bg-info">
+				<h4 class="modal-title" style="color: #FFF" id="myModalLabel4"> <i class="{{ $icon }}"></i> Data {{ $judul }}
+				</h4>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="" id="form-data-pagu">
+					@csrf
+					<input type="hidden" name="id">
+					<input type="hidden" name="kode" value="{{ @$kode }}">
+
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<label>Program</label>
+							<fieldset class="form-group">
+								<select name="program" class="form-control select2" disabled>
+									<option value="">-= Pilih Program =-</option>
+								</select>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-12">
+							<label>Kegiatan</label>
+							<fieldset class="form-group">
+								<select name="kegiatan" class="form-control select2" disabled>
+									<option value="">-= Pilih Kegiatan =-</option>
+								</select>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-12">
+							<label>Sub Kegiatan</label>
+							<fieldset class="form-group">
+								<select name="sub_kegiatan" class="form-control select2" disabled>
+									<option value="">-= Pilih Sub Kegiatan =-</option>
+								</select>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-4">
+							<label>Realisasi Triwulan</label>
+							<fieldset class="form-group">
+								<select name="triwulan" class="form-control select2" required>
+									<option value="">-= Pilih Triwulan =-</option>
+									<option value="1">Triwulan 1</option>
+									<option value="2">Triwulan 2</option>
+									<option value="3">Triwulan 3</option>
+									<option value="4">Triwulan 4</option>
+								</select>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-4">
+							<label for="basicInput">Pagu</label>
+							<fieldset class="form-group">
+								<input type="number" step="0.0001" name="rkpd_sub_kegiatan_indikator_pagu" class="form-control" readonly>
+							</fieldset>
+						</div>
+						<div class="form-group col-sm-4">
 							<label for="basicInput">Realisasi Pagu</label>
 							<fieldset class="form-group">
 								<input type="number" step="0.0001" name="realisasi_pagu" class="form-control">
@@ -225,7 +293,7 @@ $levelName = \Request::get('levelPath');
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button id="btn-form-data" type="submit" form="form-data" class="btn btn-success ml-1">Tambah
+				<button id="btn-form-data" type="submit" form="form-data-pagu" class="btn btn-success ml-1">Tambah
 				</button>
 			</div>
 		</div>
@@ -341,9 +409,9 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 					data: 'rkpd_sub_kegiatan_indikator_satuan',
 				},
 				{
-					data: 'rkpd_sub_kegiatan_indikator_pagu',
+					data: 'sub_kegiatan_pagu',
 					render: function(e) {
-						return formatRupiah(e);
+						return '-'; //formatRupiah(e);
 					},
 					className: "text-right"
 				},
@@ -351,9 +419,9 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 					data: 'tw1_target',
 				},
 				{
-					data: 'rkpd_sub_kegiatan_indikator_tw1_pagu',
+					data: 'sub_kegiatan_pagu_bln3',
 					render: function(e) {
-						return formatRupiah(e);
+						return '-'; //formatRupiah(e);
 					},
 					className: "text-right"
 				},
@@ -361,9 +429,9 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 					data: 'tw2_target',
 				},
 				{
-					data: 'rkpd_sub_kegiatan_indikator_tw2_pagu',
+					data: 'sub_kegiatan_pagu_bln6',
 					render: function(e) {
-						return formatRupiah(e);
+						return '-'; //formatRupiah(e);
 					},
 					className: "text-right"
 				},
@@ -371,9 +439,9 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 					data: 'tw3_target',
 				},
 				{
-					data: 'rkpd_sub_kegiatan_indikator_tw3_pagu',
+					data: 'sub_kegiatan_pagu_bln9',
 					render: function(e) {
-						return formatRupiah(e);
+						return '-'; //formatRupiah(e);
 					},
 					className: "text-right"
 				},
@@ -381,9 +449,9 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 					data: 'tw4_target',
 				},
 				{
-					data: 'rkpd_sub_kegiatan_indikator_tw4_pagu',
+					data: 'sub_kegiatan_pagu_bln12',
 					render: function(e) {
-						return formatRupiah(e);
+						return '-'; //formatRupiah(e);
 					},
 					className: "text-right"
 				},
@@ -411,13 +479,38 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 					api.column({
 						page: 'current'
 					}).data().each(function(group, i) {
-
 						let name = group[groupColumn[idx].data];
 						if (last !== name) {
-							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="17">' + name +
-								'</td></tr>'
-							);
+
+
+							if(idx == 2){
+								
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="4">' + name +
+									'</td><td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu'])+'</td>'+
+									'<td></td>' + 
+									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln3'])+'</td>'+
+									'<td></td>' + 
+									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln6'])+'</td>'+
+									'<td></td>' + 
+									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln9'])+'</td>'+
+									'<td></td>' + 
+									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln12'])+'</td>'+
+									'<td>'+
+										'<div class="btn-group mb-2 mr-2">'+
+											'<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>'+
+											'<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">'+
+												'<a class="dropdown-item" href="#" onclick="setUpdatePagu('+group['kegiatan_id']+')"><i class="feather icon-edit"></i> Realisasi</a>'+
+											'</div>'+
+										'</div>'+
+									'</td></tr>'
+								);
+							}else{
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="16">' + name +
+									'</td></tr>'
+								);
+							}
 							last = name;
 						}
 					});
@@ -528,8 +621,6 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 				$('input[name="rkpd_sub_kegiatan_indikator_pagu"]').val(res.data
 					.rkpd_sub_kegiatan_indikator_pagu);
 
-
-
 				let arrJson = JSON.parse(res.data.rkpd_sub_kegiatan_indikator_nilai_json);
 				let strJson = '';
 				for (let j = 0; j < arrJson.length; j++) {
@@ -615,10 +706,76 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 	// });
 
 	$('select[name="triwulan"]').change(function() {
+		arrTriwulan = [1,3,6,9,12];
 		triwulan = $(this).val();
 		$('input[name="realisasi_kinerja"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw' + triwulan + '_target']);
-		$('input[name="realisasi_pagu"]').val(dataPilih['rkpd_sub_kegiatan_indikator_tw' + triwulan + '_pagu']);
+		$('input[name="realisasi_pagu"]').val(dataPilih['sub_kegiatan_pagu_bln' + arrTriwulan[triwulan] ]);
 
 	})
+
+
+	function setUpdatePagu(id) {
+
+		$('#btn-form-data').show().html("Ubah");
+		$("#form-data :input").prop("disabled", false);
+		linkAction = '/update-pagu';
+		$('#modal-form-pagu').modal('show');
+		setClear();
+
+		let url = link + '/get-data/' + id;
+		$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
+			if (res.status) {
+				dataPilih = res.data;
+				$('input[name="id"]').val(res.data.kegiatan_id);
+				$('input[name="kode"]').val(kode);
+				$('select[name="program"]').empty().append('<option>' + res.data.program_nama + '</option>');
+				$('select[name="kegiatan"]').empty().append('<option>' + res.data.kegiatan_nama + '</option>');
+				$('select[name="sub_kegiatan"]').empty().append('<option value="' + res.data.permen_ver + '-' + res.data.urusan_kode + '-' + res.data.bidang_kode + '-' + res.data.program_kode + '-' + res.data.kegiatan_kode + '-' + res.data.sub_kegiatan_kode + '">' + res.data.sub_kegiatan_nama + '</option>');
+
+				$('input[name="triwulan"]').val(triwulan);
+				arr = [1,3,6,9,12];
+
+				$('input[name="realisasi_pagu"]').val(dataPilih['sub_kegiatan_pagu_bln' + arr[triwulan]]);
+
+				$('input[name="rkpd_sub_kegiatan_indikator_pagu"]').val(res.data
+					.sub_kegiatan_pagu);
+
+
+				let arrJson = JSON.parse(res.data.rkpd_sub_kegiatan_indikator_nilai_json);
+				let strJson = '';
+				for (let j = 0; j < arrJson.length; j++) {
+					strJson += (j + 1) + '. ' + arrJson[j]['nilai'] + ' => ' + arrJson[j]['nama'] + '<br>';
+				}
+				$('#indikator-json').html(strJson);
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
+		});
+	}
+
+	$('#form-data-pagu').submit(function(e) {
+		e.preventDefault();
+
+		let url = link + linkAction;
+		let data = $(this).serializeArray();
+		var fd = new FormData();
+		// var files = $('input[name="foto"]')[0].files;
+
+		// fd.append('foto',files[0]);
+		$.each(data, function(i, field) {
+			fd.append(field.name, field.value);
+		});
+		console.log(data);
+		$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
+			if (res.status == true) {
+				pesanSweet('Berhasil', res.pesan, 'success');
+				$('.my-datatable').DataTable().ajax.reload();
+				$('#modal-form-pagu').modal('hide');
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
+		});
+	});
+
 </script>
 @endsection

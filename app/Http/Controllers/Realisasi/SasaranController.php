@@ -95,8 +95,23 @@ class SasaranController extends Controller
 		->addColumn('pagu', function($row){
 			$hasil = 0;
 
-			$temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
-			->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			// $temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
+			// ->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			// ->leftJoin('ref_rpjmd_program', function($join)
+			// {
+			// 	$join->on('ref_rpjmd_program.permen_ver', '=', 'ref_rkpd_sub_kegiatan.permen_ver');
+			// 	$join->on('ref_rpjmd_program.urusan_kode', '=', 'ref_rkpd_sub_kegiatan.urusan_kode');
+			// 	$join->on('ref_rpjmd_program.bidang_kode', '=', 'ref_rkpd_sub_kegiatan.bidang_kode');
+			// 	$join->on('ref_rpjmd_program.program_kode', '=', 'ref_rkpd_sub_kegiatan.program_kode');
+			// 	$join->on('ref_rpjmd_program.opd_id', '=', 'ref_rkpd_sub_kegiatan.opd_id');
+			// })
+			// ->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
+			// ->where('ref_rpjmd_sasaran.id', $row->rpjmd_sasaran_id)
+			// ->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_pagu');
+			// ->toSql();
+
+
+			$temp = DB::table('ref_rkpd_sub_kegiatan')
 			->leftJoin('ref_rpjmd_program', function($join)
 			{
 				$join->on('ref_rpjmd_program.permen_ver', '=', 'ref_rkpd_sub_kegiatan.permen_ver');
@@ -107,8 +122,9 @@ class SasaranController extends Controller
 			})
 			->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 			->where('ref_rpjmd_sasaran.id', $row->rpjmd_sasaran_id)
-			->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_pagu');
-			// ->toSql();
+			->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu');
+
+
 
 
 
@@ -118,8 +134,23 @@ class SasaranController extends Controller
 			$hasil = 0;
 
 
-			$temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
-			->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			// $temp = DB::table('ref_rkpd_sub_kegiatan_indikator')
+			// ->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			// ->leftJoin('ref_rpjmd_program', function($join)
+			// {
+			// 	$join->on('ref_rpjmd_program.permen_ver', '=', 'ref_rkpd_sub_kegiatan.permen_ver');
+			// 	$join->on('ref_rpjmd_program.urusan_kode', '=', 'ref_rkpd_sub_kegiatan.urusan_kode');
+			// 	$join->on('ref_rpjmd_program.bidang_kode', '=', 'ref_rkpd_sub_kegiatan.bidang_kode');
+			// 	$join->on('ref_rpjmd_program.program_kode', '=', 'ref_rkpd_sub_kegiatan.program_kode');
+			// 	$join->on('ref_rpjmd_program.opd_id', '=', 'ref_rkpd_sub_kegiatan.opd_id');
+			// })
+			// ->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
+			// ->where('ref_rpjmd_sasaran.id', $row->rpjmd_sasaran_id)
+			// ->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.session('triwulan').'_pagu');
+			
+			$arrTri = [1,3,6,9,12];
+
+			$temp = DB::table('ref_rkpd_sub_kegiatan')
 			->leftJoin('ref_rpjmd_program', function($join)
 			{
 				$join->on('ref_rpjmd_program.permen_ver', '=', 'ref_rkpd_sub_kegiatan.permen_ver');
@@ -130,8 +161,7 @@ class SasaranController extends Controller
 			})
 			->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 			->where('ref_rpjmd_sasaran.id', $row->rpjmd_sasaran_id)
-			->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.session('triwulan').'_pagu');
-
+			->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln'.$arrTri[session('triwulan')]);
 
 
 			return $temp;

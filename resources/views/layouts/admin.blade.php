@@ -639,7 +639,7 @@
 
 	/* Fungsi formatRupiah */
 	function formatRupiah(angka) {
-		if (angka == null) {
+		if (angka == null || angka == 'null') {
 			return 0;
 		}
 		var reverse = parseInt(angka).toString().split('').reverse().join(''),

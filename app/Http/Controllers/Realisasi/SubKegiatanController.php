@@ -57,12 +57,18 @@ class SubKegiatanController extends Controller
 	public function getQuery($request){
 		$data = DB::table($this->table)
 		->select($this->table.'.*'
+		, 'ref_rkpd_sub_kegiatan.id as kegiatan_id'
 		, 'ref_rkpd_sub_kegiatan.permen_ver'
 		, 'ref_rkpd_sub_kegiatan.urusan_kode'
 		, 'ref_rkpd_sub_kegiatan.bidang_kode'
 		, 'ref_rkpd_sub_kegiatan.program_kode'
 		, 'ref_rkpd_sub_kegiatan.kegiatan_kode'
 		, 'ref_rkpd_sub_kegiatan.sub_kegiatan_kode'
+		, 'ref_rkpd_sub_kegiatan.sub_kegiatan_pagu'
+		, 'ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln3'
+		, 'ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln6'
+		, 'ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln9'
+		, 'ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln12'
 		, 'program_nama'
 		, 'kegiatan_nama'
 		, 'sub_kegiatan_nama')
@@ -277,6 +283,45 @@ class SubKegiatanController extends Controller
 			
 			if(@$request->id){
 				$status = DB::table($this->table)->where('id', $request->id)->update($data);
+			}
+			$status?$pesan = 'Berhasil Mengubah Data':$pesan = 'Gagal Mengubah Data';
+
+    }
+
+    $kirim = array(
+      'pesan' => $pesan,
+      'error' => $error,
+      'status' => $status
+    );
+    return $kirim;
+  }
+
+
+
+  public function updatePagu(Request $request){
+    $validator = Validator::make($request->all(), [
+      // 'login_nama' => 'required',
+      // 'login_username' => 'required',
+      // 'login_level' => 'required',
+    ]);
+    $pesan = 'Gagal Terhubung Pada Server!';
+    $status = FALSE;
+    $error = [];
+    if ($validator->fails()) {
+      $error = $validator->errors()->all();
+    }else{
+			$date = date('Y-m-d H:i:s');
+
+			$triwulan = $request->triwulan;
+			$arrTriwulan = [1,3,6,9,12];
+			$data = [
+				'sub_kegiatan_pagu_bln'.$arrTriwulan[$triwulan] => $request->realisasi_pagu,
+				'updated_at' => $date,
+			];
+
+			
+			if(@$request->id){
+				$status = DB::table('ref_rkpd_sub_kegiatan')->where('id', $request->id)->update($data);
 			}
 			$status?$pesan = 'Berhasil Mengubah Data':$pesan = 'Gagal Mengubah Data';
 
