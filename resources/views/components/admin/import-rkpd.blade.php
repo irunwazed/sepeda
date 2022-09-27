@@ -75,12 +75,51 @@ $icon = "feather icon-user";
 											@csrf
 											<div class="row">
 												<div class="form-group col-sm-3">
-													<label for="basicInput">Tahun</label>
-													<input type="file" class="form-control" name="file">
+													<label for="basicInput">File</label>
+													<input type="file" class="form-control" name="file" required>
 												</div>
 												<div class="form-group col-sm-2">
 													<label for="basicInput">Contoh File</label>
 													<a class="btn btn-info" href="<?= $awalAssets ?>/file/contoh-import-rkpd.xls" target="_blank" rel="noopener noreferrer"> Download </a>
+												</div>
+											</div>
+											<br>
+											<button type="submit" class="btn btn-primary">Simpan</button>
+										</form>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-header " style="background-color: #63cceb">
+										<h5 style="color: white"><i class="{{ $icon }}"></i> Import Pagu Renja</h5>
+									</div>
+									<div class="card-block">
+										<form action="./rkpd-pagu" method="POST" enctype="multipart/form-data">
+											@csrf
+											<div class="row">
+
+												<div class="form-group col-sm-3">
+													<label for="basicInput">File</label>
+													<input type="file" class="form-control" name="file" required>
+												</div>
+												<div class="col-sm-3">
+													<label for="basicInput">Pilih Pagu</label>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" name="pagu" >
+														<label class="form-check-label" for="flexCheckDefault">
+															Pagu
+														</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" name="paguPerubahan" checked>
+														<label class="form-check-label" for="flexCheckChecked">
+															Pagu Perubahan
+														</label>
+													</div>
+												</div>
+												<div class="form-group col-sm-2">
+													<label for="basicInput">Contoh File</label>
+													<a class="btn btn-info" href="<?= $awalAssets ?>/file/contoh-import-rkpd-pagu.xlsx" target="_blank" rel="noopener noreferrer"> Download </a>
 												</div>
 											</div>
 											<br>

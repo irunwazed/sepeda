@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="card">
-                                        <div class="card-header " style="background-color: #63cceb">
+                                        <div class="card-header" >
                                             <h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
                                         </div>
                                         <div class="card-block">

@@ -73,6 +73,7 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 		
 		Route::get('/import/rkpd','ImportController@view');
 		Route::post('/import/rkpd','ImportController@import');
+		Route::post('/import/rkpd-pagu','ImportController@importPagu');
 
 		Route::prefix('/penyusunan/rpjmd')->group(function () {
 

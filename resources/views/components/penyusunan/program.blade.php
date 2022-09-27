@@ -40,7 +40,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header">
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 										<div class="btn btn-success" onClick="setCreate()"
 											style="right:20px;top: 10px;;position: absolute;"><i class="feather icon-plus-circle"></i>Tambah

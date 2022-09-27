@@ -39,7 +39,7 @@ $levelName = \Request::get('levelPath');
 								@if(in_array(session('login_level'), [1,2]))
 
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header">
 										<h5 style="color: white"><i class="fa fa-cog"></i> Pengaturan OPD</h5>
 									</div>
 									<div class="card-block">
@@ -69,7 +69,7 @@ $levelName = \Request::get('levelPath');
 								@endif
 
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header">
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">

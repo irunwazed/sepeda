@@ -66,6 +66,7 @@ class SubKegiatanController extends Controller
 				'ref_rkpd_sub_kegiatan.program_kode',
 				'ref_rkpd_sub_kegiatan.kegiatan_kode',
 				'ref_rkpd_sub_kegiatan.sub_kegiatan_kode',
+				'ref_rkpd_sub_kegiatan.sub_kegiatan_pagu',
 				'program_nama',
 				'kegiatan_nama',
 				'sub_kegiatan_nama'
@@ -93,7 +94,10 @@ class SubKegiatanController extends Controller
 				$join->on('ref_sub_kegiatan.sub_kegiatan_kode', '=', 'ref_rkpd_sub_kegiatan.sub_kegiatan_kode');
 			})
 			->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
-			->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'));
+			->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
+			->orderBy('ref_sub_kegiatan.program_kode', 'ASC')
+			->orderBy('ref_sub_kegiatan.kegiatan_kode', 'ASC')
+			->orderBy('ref_sub_kegiatan.sub_kegiatan_kode', 'ASC');
 
 		return $data;
 	}
@@ -221,12 +225,14 @@ class SubKegiatanController extends Controller
 				'program_kode' => @$permenKode[3],
 				'kegiatan_kode' => @$permenKode[4],
 				'sub_kegiatan_kode' => @$permenKode[5],
-				'sub_kegiatan_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
-				'sub_kegiatan_pagu_perubahan' => $request->rkpd_sub_kegiatan_indikator_pagu,
+				// 'sub_kegiatan_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
+				// 'sub_kegiatan_pagu_perubahan' => $request->rkpd_sub_kegiatan_indikator_pagu,
 			];
 			$cekKegiatan = DB::table('ref_rkpd_sub_kegiatan')
 				->where($data)->first();
 			if (!@$cekKegiatan->id) {
+				$data['sub_kegiatan_pagu'] = $request->rkpd_sub_kegiatan_indikator_pagu;
+				$data['sub_kegiatan_pagu_perubahan'] = $request->rkpd_sub_kegiatan_indikator_pagu;
 				$kegiatanId = DB::table('ref_rkpd_sub_kegiatan')->insertGetId($data);
 			} else {
 				
@@ -244,7 +250,7 @@ class SubKegiatanController extends Controller
 				'rkpd_sub_kegiatan_indikator_nama' => $request->rkpd_sub_kegiatan_indikator_nama,
 				'rkpd_sub_kegiatan_indikator_satuan' => $request->rkpd_sub_kegiatan_indikator_satuan,
 				'rkpd_sub_kegiatan_indikator_target' => $request->rkpd_sub_kegiatan_indikator_target,
-				'rkpd_sub_kegiatan_indikator_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
+				// 'rkpd_sub_kegiatan_indikator_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
 				'updated_at' => $date,
 			];
 
@@ -265,7 +271,10 @@ class SubKegiatanController extends Controller
 				$data['rkpd_sub_kegiatan_indikator_nilai_jenis'] = $jenis;
 				$data['rkpd_sub_kegiatan_indikator_nilai_json'] = $json;
 				$data['created_at'] = $date;
+
+				$status = DB::table('ref_rkpd_sub_kegiatan')->where('id', $kegiatanId)->update($dataSub);
 				$status = DB::table($this->table)->insert($data);
+				
 				$status ? $pesan = 'Berhasil Menambahkan Data' : $pesan = 'Gagal Menambahkan Data';
 			} else if ($action == 'update') {
 				if (@$request->id) {
@@ -285,8 +294,13 @@ class SubKegiatanController extends Controller
 		return $kirim;
 	}
 
-	public function delete(Request $request, $kode, $id)
+	public function delete(Request $request, $id)
 	{
+
+		// return response([
+		// 	'status' => false
+		// ]);
+		// die();
 		$validator = Validator::make($request->all(), []);
 		$pesan = 'Gagal Terhubung Pada Server!';
 		$status = FALSE;
@@ -294,7 +308,7 @@ class SubKegiatanController extends Controller
 		if ($validator->fails()) {
 			$error = $validator->errors()->all();
 		} else {
-			// $status = DB::table($this->table)->where('id', $id)->delete();
+			$status = DB::table($this->table)->where('id', $id)->delete();
 			$status ? $pesan = 'Berhasil Menghapus Data' : $pesan = 'Gagal Menghapus Data';
 		}
 

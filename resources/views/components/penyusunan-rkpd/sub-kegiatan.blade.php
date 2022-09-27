@@ -39,7 +39,7 @@ $levelName = \Request::get('levelPath');
 								@if(in_array(session('login_level'), [1,2]))
 
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header">
 										<h5 style="color: white"><i class="fa fa-cog"></i> Pengaturan OPD</h5>
 									</div>
 									<div class="card-block">
@@ -69,7 +69,7 @@ $levelName = \Request::get('levelPath');
 								@endif
 
 								<div class="card">
-									<div class="card-header " style="background-color: #63cceb">
+									<div class="card-header">
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 										<div class="btn btn-success" onClick="setCreate()" style="right:20px;top: 10px;;position: absolute;"><i class="feather icon-plus-circle"></i>Tambah
 										</div>
@@ -317,7 +317,7 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 				{
 					data: 'rkpd_sub_kegiatan_indikator_pagu',
 					render: function(e) {
-						return formatRupiah(e);
+						return '-'; //formatRupiah(e);
 					},
 					className: "text-right"
 				},
@@ -348,10 +348,18 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 
 						let name = group[groupColumn[idx].data];
 						if (last !== name) {
-							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="17">' + name +
-								'</td></tr>'
-							);
+
+							if(idx == 2){
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="4">' + name +
+									'</td><td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu'])+'</td><td></td></tr>'
+								);
+							}else{
+								$(rows).eq(i).before(
+									'<tr class="group"><td colspan="17">' + name +
+									'</td></tr>'
+								);
+							}
 							last = name;
 						}
 					});
@@ -454,7 +462,7 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 				$('input[name="rkpd_sub_kegiatan_indikator_target"]').val(res.data
 					.rkpd_sub_kegiatan_indikator_target);
 				$('input[name="rkpd_sub_kegiatan_indikator_pagu"]').val(res.data
-					.rkpd_sub_kegiatan_indikator_pagu);
+					.sub_kegiatan_pagu);
 			} else {
 				pesanSweet('Gagal!', res.pesan, 'warning');
 			}

@@ -7,6 +7,7 @@ use DB;
 use Validator;
 use DataTables;
 use App\Imports\RKPDImport;
+use App\Imports\RKPDPaguImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
@@ -45,5 +46,22 @@ class ImportController extends Controller
     return redirect(\Request::get('levelPath').'/penyusunan/renja/sub-kegiatan');
 
 	}
+
+	public function importPagu(Request $request){
+
+		$pagu = @$request->pagu=='on'?true:false;
+		$paguPerubahan = @$request->paguPerubahan=='on'?true:false;
+
+    Excel::import(new RKPDPaguImport($pagu, $paguPerubahan), $request->file('file'));
+
+    //             echo "<pre>";
+    //             print_r($request->all());
+    //             echo "</pre>";
+    // die();
+    return redirect(\Request::get('levelPath').'/penyusunan/renja/sub-kegiatan');
+
+	}
+
+	
 
 }
