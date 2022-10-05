@@ -75,7 +75,7 @@ class RKPDPaguImport implements ToModel
 	
 				}else{
 
-					$dataSub = [];
+					// $dataSub = [];
 					if($this->pagu){
 						$dataSub['sub_kegiatan_pagu'] = $pagu;
 						$dataSub['sub_kegiatan_pagu_perubahan'] = 0;
@@ -89,9 +89,6 @@ class RKPDPaguImport implements ToModel
 					}
 				}
 	
-				// echo "<pre>";
-				// print_r($this->pagu);
-				// echo "</pre>";
 			}
 
 

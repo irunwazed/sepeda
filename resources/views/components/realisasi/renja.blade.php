@@ -497,12 +497,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 									'<td></td>' + 
 									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln12'])+'</td>'+
 									'<td>'+
-										'<div class="btn-group mb-2 mr-2">'+
-											'<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>'+
-											'<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">'+
-												'<a class="dropdown-item" href="#" onclick="setUpdatePagu('+group['kegiatan_id']+')"><i class="feather icon-edit"></i> Realisasi</a>'+
-											'</div>'+
-										'</div>'+
+										'<span class="btn btn-success feather icon-aperture" onclick="setUpdatePagu('+group['id']+')"></span>'+
 									'</td></tr>'
 								);
 							}else{
@@ -524,7 +519,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 			var tr = $(this).closest('tr');
 			var row = table.row(tr);
 			var idx = $.inArray(tr.attr('id'), detailRows);
-			console.log(tr.attr('id'));
+			// console.log(tr.attr('id'));
 			if (row.child.isShown()) {
 				tr.removeClass('details');
 				row.child.hide();
@@ -574,7 +569,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 	}
 
 	function setClear(){
-		console.log('tes');
+		// console.log('tes');
 		$('#form-data')[0].reset();
 		$('#indikator-json').html('');
 		$('select[name="triwulan"]').val(triwulan);
@@ -584,7 +579,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 
 	function setCreate() {
 		linkAction = '/create';
-		$('#btn-form-data').show().html("Tambah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		$('#modal-form').modal('show');
 
@@ -593,7 +588,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 
 	function setUpdate(id) {
 
-		$('#btn-form-data').show().html("Ubah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		linkAction = '/update';
 		$('#modal-form').modal('show');
@@ -645,7 +640,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 		$.each(data, function(i, field) {
 			fd.append(field.name, field.value);
 		});
-		console.log(data);
+		// console.log(data);
 		$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
 			if (res.status == true) {
 				pesanSweet('Berhasil', res.pesan, 'success');
@@ -716,7 +711,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 
 	function setUpdatePagu(id) {
 
-		$('#btn-form-data').show().html("Ubah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		linkAction = '/update-pagu';
 		$('#modal-form-pagu').modal('show');
@@ -724,6 +719,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 
 		let url = link + '/get-data/' + id;
 		$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
+			// console.log(res)
 			if (res.status) {
 				dataPilih = res.data;
 				$('input[name="id"]').val(res.data.kegiatan_id);
@@ -736,7 +732,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 				arr = [1,3,6,9,12];
 
 				$('input[name="realisasi_pagu"]').val(dataPilih['sub_kegiatan_pagu_bln' + arr[triwulan]]);
-
+				console.log(res.data);
 				$('input[name="rkpd_sub_kegiatan_indikator_pagu"]').val(res.data
 					.sub_kegiatan_pagu);
 
@@ -765,7 +761,7 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 		$.each(data, function(i, field) {
 			fd.append(field.name, field.value);
 		});
-		console.log(data);
+		// console.log(data);
 		$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
 			if (res.status == true) {
 				pesanSweet('Berhasil', res.pesan, 'success');

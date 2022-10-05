@@ -43,13 +43,13 @@
 	table.dataTable thead tr {
 		text-align: center;
 		background: rgb(0, 36, 32);
-		background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
+		background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(151, 211, 247, 0.6965161064425771) 0%, rgba(224, 240, 249, 0.7049194677871149) 68%);
 	}
 
 	table.dataTable tfoot tr {
 		text-align: center;
 		background: rgb(0, 36, 32);
-		background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(73, 187, 221, 0.6965161064425771) 0%, rgba(242, 254, 253, 0.7049194677871149) 68%);
+		background: linear-gradient(164deg, rgba(0, 36, 32, 1) 0%, rgba(151, 211, 247, 0.6965161064425771) 0%, rgba(224, 240, 249, 0.7049194677871149) 68%);
 	}
 
 	table.dataTable tr.odd td.sorting_1 {
@@ -79,35 +79,9 @@
 	.my-bg-color {
 		/* background-color: red; */
 	}
-
 	.main-body .card .card-header {
-		background-color: #63cceb;
+		background-color: #48B6F8;
 	}
-
-	/* .nav-item .active {
-			background-color: blue;
-		}
-
-		.navbar-content {
-			background-color: orange;
-		}
-
-		.nav-item ul {
-			background-color: green;
-		}
-
-		.nav-item {
-			background-color: red;
-		}
-
-		.nav-item li {
-			background-color: red;
-		} */
-
-
-	/* .pcoded-submenu{
-			background-color: red;
-		} */
 	</style>
 </head>
 
@@ -120,7 +94,7 @@
 	</div>
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
-	<nav class="pcoded-navbar icon-colored">
+	<nav class="pcoded-navbar icon-colored brand-blue navbar-dark">
 		<div class="navbar-wrapper">
 			<div class="navbar-brand header-logo">
 				<a href="#" class="b-brand">
@@ -171,17 +145,6 @@
 									href="{{ route($levelName.'.penyusunan.renja') }}" class="">RENJA</a></li>
 						</ul>
 					</li>
-					@if(in_array(session('login_level'), [1,2]))
-					<!-- <li data-menu="/{{ $levelName }}/penyusunan/rpjmd" class="nav-item">
-						<a href="{{ route($levelName.'.penyusunan.rpjmd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">RPJMD</span></a>
-					</li> -->
-					@endif
-					<!-- <li data-menu="/{{ $levelName }}/penyusunan/renstra/program" class="nav-item">
-						<a href="{{ route($levelName.'.penyusunan.renstra') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Renstra</span></a>
-					</li>
-					<li data-menu="/{{ $levelName }}/penyusunan/renja/sub-kegiatan" class="nav-item">
-						<a href="{{ route($levelName.'.penyusunan.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">RENJA</span></a>
-					</li> -->
 					<li class="nav-item pcoded-menu-caption">
 						<label>Realisasi</label>
 					</li>
@@ -225,15 +188,6 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Laporan</label>
 					</li>
-					<!-- <li data-menu="/{{ $levelName }}/laporan/rpjmd" class="nav-item">
-						<a href="{{ route($levelName.'.laporan.rpjmd') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">RPJMD</span></a>
-					</li>
-					<li data-menu="/{{ $levelName }}/laporan/renstra" class="nav-item">
-						<a href="{{ route($levelName.'.laporan.renstra') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">RENSTRA</span></a>
-					</li>
-					<li data-menu="/{{ $levelName }}/laporan/renja" class="nav-item">
-						<a href="{{ route($levelName.'.laporan.renja') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Renja</span></a>
-					</li> -->
 
 					<li data-menu-bar="laporan" class="nav-item pcoded-hasmenu">
 						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-print"></i></span><span
@@ -293,7 +247,7 @@
 	<!-- [ navigation menu ] end -->
 
 	<!-- [ Header ] start -->
-	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-lightblue">
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-blue">
 		<!-- <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-dark" style="background-color: gray;"> -->
 		<div class="m-header">
 			<a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
@@ -316,70 +270,10 @@
 			<ul class="navbar-nav mr-auto">
 				<li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i
 							class="feather icon-maximize"></i></a></li>
-				<li><a href="#" data-toggle="modal"
-						data-target="#modal-tahunan">{{ @session('rpjmd_tahun')+@session('tahun')-1 }}</a></li>
+				<li><a href="#" data-toggle="modal" style="border: #DDDDDD solid 1px; padding: 10px"
+						data-target="#modal-tahunan"> Tahun {{ @session('rpjmd_tahun')+@session('tahun')-1 }}</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<!-- 
-				<li>
-					<div class="dropdown">
-						<a class="dropdown-toggle" href="javascript:" data-toggle="dropdown"><i
-								class="icon feather icon-bell"></i></a>
-						<div class="dropdown-menu dropdown-menu-right notification">
-							<div class="noti-head">
-								<h6 class="d-inline-block m-b-0">Notifications</h6>
-								<div class="float-right">
-									<a href="javascript:" class="m-r-10">mark as read</a>
-									<a href="javascript:">clear all</a>
-								</div>
-							</div>
-							<ul class="noti-body">
-								<li class="n-title">
-									<p class="m-b-0">NEW</p>
-								</li>
-								<li class="notification">
-									<div class="media">
-										<img class="img-radius" src="<?= $awalAssets ?>/admin/assets/images/user/avatar-1.jpg"
-											alt="Generic placeholder image">
-										<div class="media-body">
-											<p><strong>John Doe</strong><span class="n-time text-muted"><i
-														class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-											<p>New ticket Added</p>
-										</div>
-									</div>
-								</li>
-								<li class="n-title">
-									<p class="m-b-0">EARLIER</p>
-								</li>
-								<li class="notification">
-									<div class="media">
-										<img class="img-radius" src="<?= $awalAssets ?>/admin/assets/images/user/avatar-2.jpg"
-											alt="Generic placeholder image">
-										<div class="media-body">
-											<p><strong>Joseph William</strong><span class="n-time text-muted"><i
-														class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-											<p>Prchace New Theme and make payment</p>
-										</div>
-									</div>
-								</li>
-								<li class="notification">
-									<div class="media">
-										<img class="img-radius" src="<?= $awalAssets ?>/admin/assets/images/user/avatar-3.jpg"
-											alt="Generic placeholder image">
-										<div class="media-body">
-											<p><strong>Sara Soudein</strong><span class="n-time text-muted"><i
-														class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-											<p>currently login</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-							<div class="noti-footer">
-								<a href="javascript:">show all</a>
-							</div>
-						</div>
-					</div>
-				</li> -->
 				<li>
 					<div class="dropdown drp-user">
 						<a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">

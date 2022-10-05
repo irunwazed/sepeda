@@ -208,14 +208,7 @@ class SubKegiatanController extends Controller
 			return (@$row->urusan_kode==0?'X':$row->urusan_kode).".".$this->setKode(@$row->bidang_kode).'.'.$this->setKode(@$row->program_kode).'.'.$this->setKode(@$row->kegiatan_kode, 2).'.'.$this->setKode(@$row->sub_kegiatan_kode, 3)." ".@$row->sub_kegiatan_nama;
 		})
 			->addColumn('action', '
-				<div class="btn-group mb-2 mr-2">
-					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
-							
-						<a class="dropdown-item" href="#" onclick="setUpdate(\'{{$id}}\')"><i class="feather icon-edit"></i> Realisasi</a>
-
-					</div>
-				</div>
+				<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\'{{$id}}\')"></span>
 				')
 			->rawColumns(['action'])
 			->make(true);

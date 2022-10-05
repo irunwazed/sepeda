@@ -368,7 +368,7 @@ $('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 
 	function setCreate() {
 		linkAction = '/create';
-		$('#btn-form-data').show().html("Tambah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		$('#modal-form').modal('show');
 		$('#form-data')[0].reset();
@@ -380,7 +380,7 @@ $('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 
 	function setUpdate(id) {
 
-		$('#btn-form-data').show().html("Ubah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		linkAction = '/update';
 		$('#modal-form').modal('show');

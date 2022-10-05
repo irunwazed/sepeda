@@ -205,14 +205,7 @@ class KegiatanController extends Controller
 				return $temp;
 			})
 			->addColumn('action', '
-				<div class="btn-group mb-2 mr-2">
-					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
-							
-						<a class="dropdown-item" href="#" onclick="setUpdate(\'{{$id}}\')"><i class="feather icon-edit"></i> Realisasi</a>
-
-					</div>
-				</div>
+					<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\'{{$id}}\')"></span>
 				')
 			->rawColumns(['action'])
 			->make(true);

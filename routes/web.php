@@ -393,13 +393,10 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::post('/sub-kegiatan/create','PenyusunanRKPD\SubKegiatanController@create');
 			Route::post('/sub-kegiatan/update','PenyusunanRKPD\SubKegiatanController@update');
 			Route::get('/sub-kegiatan/delete/{id}','PenyusunanRKPD\SubKegiatanController@delete');
-
 		});
 
 
 		Route::prefix('/realisasi')->group(function () {
-
-
 			Route::get('/tujuan-opd','Realisasi\TujuanOPDController@view')->name('opd.realisasi.tujuan-opd');
 			Route::get('/tujuan-opd/get-data','Realisasi\TujuanOPDController@getData');
 			Route::get('/tujuan-opd/get-data/{id}','Realisasi\TujuanOPDController@getData');
@@ -433,8 +430,8 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/renja/get-data/{id}','Realisasi\SubKegiatanController@getData');
 			Route::post('/renja/create','Realisasi\SubKegiatanController@create');
 			Route::post('/renja/update','Realisasi\SubKegiatanController@update');
+			Route::post('/renja/update-pagu','Realisasi\SubKegiatanController@updatePagu');
 			Route::get('/renja/delete/{id}','Realisasi\SubKegiatanController@delete');
-
 		});
 
 		Route::prefix('/laporan')->group(function () {
@@ -447,8 +444,6 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 			Route::get('/renja','Laporan\RenjaController@view')->name('opd.laporan.renja');
 			Route::get('/renja/cetak','Laporan\RenjaController@cetak');
-
-			
 		});
 		Route::prefix('/rapor')->group(function () {
 			Route::get('/predikat','Laporan\RenstraController@viewRapor')->name('opd.rapor.predikat');

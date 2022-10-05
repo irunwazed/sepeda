@@ -413,7 +413,7 @@ $levelName = \Request::get('levelPath');
 
 	function setCreate() {
 		linkAction = '/create';
-		$('#btn-form-data').show().html("Tambah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		$('#modal-form').modal('show');
 		$('#form-data')[0].reset();
@@ -424,7 +424,7 @@ $levelName = \Request::get('levelPath');
 
 	function setUpdate(id) {
 
-		$('#btn-form-data').show().html("Ubah");
+		$('#btn-form-data').show().html("Simpan");
 		$("#form-data :input").prop("disabled", false);
 		linkAction = '/update';
 		$('#modal-form').modal('show');

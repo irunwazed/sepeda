@@ -352,7 +352,8 @@ $('li[data-menu-bar="penyusunan"]').addClass("active pcoded-trigger");
 							if(idx == 2){
 								$(rows).eq(i).before(
 									'<tr class="group"><td colspan="4">' + name +
-									'</td><td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu'])+'</td><td></td></tr>'
+									'</td><td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu'])+'</td>'+
+									'<td></td>'+'</tr>'
 								);
 							}else{
 								$(rows).eq(i).before(

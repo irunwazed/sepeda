@@ -144,19 +144,10 @@ class TujuanOPDController extends Controller
 			->where('ref_rpjmd_program.renstra_tujuan_kode', $row->renstra_tujuan_kode)
 			->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
 			->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln'.$arrTri[session('triwulan')]);
-
-
-			return @$temp;
-		})
+				return @$temp;
+			})
 			->addColumn('action', '
-				<div class="btn-group mb-2 mr-2">
-					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
-							
-						<a class="dropdown-item" href="#" onclick="setUpdate(\'{{@$renstra_tujuan_kode}}\')"><i class="feather icon-edit"></i> Realisasi</a>
-
-					</div>
-				</div>
+				<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\'{{@$renstra_tujuan_kode}}\')"></span>
 				')
 			->rawColumns(['action'])
 			->make(true);
