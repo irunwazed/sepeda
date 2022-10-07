@@ -332,10 +332,15 @@ class RenstraController extends Controller
 		// echo "<pre>";
 		// print_r($dataTotal);
 		// echo "</pre>";
+
+
+
+		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
 		
 		$kirim = [
 			'dataAll' => $dataAll,
 			'dataTotal' => $dataTotal,
+			'opd_nama' => @$opd->opd_nama,
 		];
 
 
@@ -347,6 +352,7 @@ class RenstraController extends Controller
 		
 		$cetak = $request->cetak;
 		$kirim = $this->setDataLaporan($request);
+
 
     if($cetak == 'pdf'){
       $pdf = PDF::loadView('pdf/renstra', $kirim)->setPaper('a4', 'landscape');

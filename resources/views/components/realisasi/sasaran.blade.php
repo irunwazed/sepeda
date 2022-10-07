@@ -222,6 +222,9 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 		}, ];
 
 		var table = $('.my-datatable').DataTable({
+			scrollY: "500px",
+			scrollX: true,
+			scrollCollapse: true,
 
 			responsive: true,
 			ordering: false,

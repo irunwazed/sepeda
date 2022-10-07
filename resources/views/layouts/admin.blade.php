@@ -108,6 +108,10 @@
 	/* .pcoded-submenu{
 			background-color: red;
 		} */
+		.text-bold{
+			font-weight: bold;
+			font-size: 15px;
+		}
 	</style>
 </head>
 
@@ -120,7 +124,7 @@
 	</div>
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
-	<nav class="pcoded-navbar icon-colored">
+	<nav class="pcoded-navbar icon-colored navbar-collapsed">
 		<div class="navbar-wrapper">
 			<div class="navbar-brand header-logo">
 				<a href="#" class="b-brand">
@@ -134,7 +138,7 @@
 					</div>
 					<span class="b-title">{{ env('APP_NAME') }}</span>
 				</a>
-				<a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+				<a class="mobile-menu on" id="mobile-collapse" href="javascript:"><span></span></a>
 			</div>
 
 			<?php
@@ -416,10 +420,13 @@
 		display: table;
 		margin: 0 auto;
 		/* border: 1px solid black; */
-		/* background-color: rgb(50, 168, 50); */
-		padding: 15px;
-		font-size: 30px;
+		background-color: black;
+		padding: 10px;
+		padding-left: 30px;
+		padding-right: 30px;
+		/* font-size: 30px; */
 		color: #000000;
+		border-radius: 10px;
 	}
 
 	.outer {
@@ -429,11 +436,54 @@
 		/* padding: 20px; */
 		/* background-color: blue; */
 	}
+
+	.waktu-judul {
+		font-size: 13px;
+		margin: 0px;
+		top: -10px;
+		position: relative;
+		color: white;
+	}
+	.waktu-isi {
+		font-size: 30px;
+		margin: 0px;
+		text-align: center;
+	}
+
+	.hari .waktu-isi {
+		color: green;
+	}
+	.jam .waktu-isi {
+		color: yellow;
+	}
+	.menit .waktu-isi {
+		color: orange;
+	}
+	.detik .waktu-isi {
+		color: red;
+	}
 	</style>
 
 	<div class="outer">
 		<div class="inner">
-			0000000 
+			<div class="row">
+				<div class="col-sm-3 hari">
+					<div class="waktu-isi">0</div>
+					<span class="waktu-judul">Hari</span>
+				</div>
+				<div class="col-sm-3 jam">
+					<div class="waktu-isi">0</div>
+					<span class="waktu-judul">Jam</span>
+				</div>
+				<div class="col-sm-3 menit">
+					<div class="waktu-isi">0</div>
+					<span class="waktu-judul">Menit</span>
+				</div>
+				<div class="col-sm-3 detik">
+					<div class="waktu-isi">0</div>
+					<span class="waktu-judul">Detik</span>
+				</div>
+			</div> 
 		</div>
 	</div>
 
@@ -677,24 +727,37 @@
 		ribuan = ribuan.join('.').split('').reverse().join('');
 		return ribuan;
 	}
+	
 	const setJadwal = () => {
+		var date1 = new Date('2022-10-09 23:59');
+		var now = new Date().getTime();
+		var timeleft = date1 - now;
+				
+		var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+		var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
-		var date1 = new Date('2022-10-6 14:17');
-		var date2 = new Date();
-
-		console.log('difference in ms', (( date1 - date2)/1000));
-		console.log('date', toDateTime((( date1 - date2)/1000)));
+		$('.hari .waktu-isi').html(setTimeNol(days));
+		$('.jam .waktu-isi').html(setTimeNol(hours));
+		$('.menit .waktu-isi').html(setTimeNol(minutes));
+		$('.detik .waktu-isi').html(setTimeNol(seconds));
 	}
-	function toDateTime(secs) {
-    var t = new Date(1970, 0, 1); // Epoch
-    t.setSeconds(secs);
-    return t;
-}
+	var runTime = setInterval(function() {
+		setJadwal();
+	}, 1000);
 
-	setJadwal();
+	function setTimeNol(time){
+		if(time <= 0) return 0;
+		return time
+	}
+
+	// runTime
+	
 
 
-	$('.inner').css("background-color", 'rgb(168, 168, 50)');
+
+	// $('.inner').css("background-color", 'rgb(168, 168, 50)');
 
 	</script>
 	

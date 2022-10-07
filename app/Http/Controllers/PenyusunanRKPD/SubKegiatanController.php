@@ -308,6 +308,26 @@ class SubKegiatanController extends Controller
 		if ($validator->fails()) {
 			$error = $validator->errors()->all();
 		} else {
+
+			$sub_kegiatan = DB::table('ref_rkpd_sub_kegiatan')
+			->select("ref_rkpd_sub_kegiatan.*")
+			->leftJoin('ref_rkpd_sub_kegiatan_indikator', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+			->where('ref_rkpd_sub_kegiatan_indikator.id', $id)
+			->where('ref_rkpd_sub_kegiatan.tahun_ke', session('tahun'))
+			->where('ref_rkpd_sub_kegiatan.opd_id', session('opd'))
+			->first();
+			
+
+			$tmp = DB::table($this->table)->where('rkpd_sub_kegiatan_id', $sub_kegiatan->id)->count();
+			// echo "<pre>";
+			// print_r($tmp);
+			if($tmp == 1){
+				DB::table('ref_rkpd_sub_kegiatan')->where('id', $sub_kegiatan->id)->update([
+					'sub_kegiatan_pagu' => 0,
+					'sub_kegiatan_pagu_perubahan' => 0,
+				]);
+			}
+			
 			$status = DB::table($this->table)->where('id', $id)->delete();
 			$status ? $pesan = 'Berhasil Menghapus Data' : $pesan = 'Gagal Menghapus Data';
 		}

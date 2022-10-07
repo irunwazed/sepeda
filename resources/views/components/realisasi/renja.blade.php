@@ -348,7 +348,9 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 		}, ];
 
 		var table = $('.my-datatable').DataTable({
-
+			scrollY: "500px",
+			scrollX: true,
+			scrollCollapse: true,
 			responsive: true,
 			ordering: false,
 			autoWidth: false,
@@ -486,23 +488,23 @@ $('li[data-menu-bar="realisasi-renja"]').addClass("active pcoded-trigger");
 							if(idx == 2){
 								
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="4">' + name +
-									'</td><td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu'])+'</td>'+
+									'<tr class="group"><td colspan="4" class="text-bold">' + name + 
+									'</td><td class="text-right text-bold">'+formatRupiah(group['sub_kegiatan_pagu'])+'</td>'+
 									'<td></td>' + 
-									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln3'])+'</td>'+
+									'<td class="text-right text-bold">'+formatRupiah(group['sub_kegiatan_pagu_bln3'])+'</td>'+
 									'<td></td>' + 
-									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln6'])+'</td>'+
+									'<td class="text-right text-bold">'+formatRupiah(group['sub_kegiatan_pagu_bln6'])+'</td>'+
 									'<td></td>' + 
-									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln9'])+'</td>'+
+									'<td class="text-right text-bold">'+formatRupiah(group['sub_kegiatan_pagu_bln9'])+'</td>'+
 									'<td></td>' + 
-									'<td class="text-right">'+formatRupiah(group['sub_kegiatan_pagu_bln12'])+'</td>'+
+									'<td class="text-right text-bold">'+formatRupiah(group['sub_kegiatan_pagu_bln12'])+'</td>'+
 									'<td>'+
 										'<span class="btn btn-success feather icon-aperture" onclick="setUpdatePagu('+group['id']+')"></span>'+
 									'</td></tr>'
 								);
 							}else{
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="16">' + name +
+									'<tr class="group"><td colspan="16" class="text-bold">' + name +
 									'</td></tr>'
 								);
 							}

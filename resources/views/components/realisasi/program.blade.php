@@ -192,7 +192,8 @@ $levelName = \Request::get('levelPath');
 	}
 </style>
 <script>
-$('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
+// $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
+	$('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 	var link = window.location.pathname;
 	var linkAction = '/create';
 	var dataPilih = {};
@@ -221,6 +222,9 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 		}, ];
 
 		var table = $('.my-datatable').DataTable({
+			scrollY: "500px",
+			scrollX: true,
+			scrollCollapse: true,
 			// fixedHeader: true,
 			responsive: true,
 			ordering: false,
@@ -311,8 +315,8 @@ $('li[data-menu-bar="realisasi"]').addClass("active pcoded-trigger");
 						let name = group[groupColumn[idx].data];
 						if (last !== name) {
 							$(rows).eq(i).before(
-								'<tr class="group"><td colspan="4">' + name +
-								'</td><td class="text-right">' + formatRupiah(group['pagu']) + '</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) + '</td><td></td></tr>'
+								'<tr class="group"><td colspan="4" class="text-bold">' + name +
+								'</td><td class="text-right text-bold">' + formatRupiah(group['pagu']) + '</td><td></td><td class="text-right text-bold">' + formatRupiah(group['realisasi_pagu']) + '</td><td></td></tr>'
 							);
 							last = name;
 						}

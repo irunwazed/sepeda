@@ -212,6 +212,9 @@ $('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 		}, ];
 
 		var table = $('.my-datatable').DataTable({
+			scrollY: "500px",
+			scrollX: true,
+			scrollCollapse: true,
 
 			responsive: true,
 			ordering: false,
@@ -311,16 +314,16 @@ $('li[data-menu-bar="realisasi-renstra"]').addClass("active pcoded-trigger");
 							if (idx == 1) {
 
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="2">' + groupColumn[idx].name + ' : ' + name +
+									'<tr class="group"><td colspan="2" class="text-bold">' + groupColumn[idx].name + ' : ' + name +
 									'</td><td></td><td></td>' +
-									'</td><td class="text-right">' + formatRupiah(group['pagu']) +
-									'</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) +
+									'</td><td class="text-right text-bold">' + formatRupiah(group['pagu']) +
+									'</td><td></td><td class="text-right text-bold">' + formatRupiah(group['realisasi_pagu']) +
 									'</td><td></td></tr>'
 								);
 
 							} else {
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="8">' + groupColumn[idx].name + ' : ' + name + '</td></tr>'
+									'<tr class="group"><td colspan="8" class="text-bold">' + groupColumn[idx].name + ' : ' + name + '</td></tr>'
 								);
 							}
 							last = name;

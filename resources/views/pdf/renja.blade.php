@@ -110,6 +110,24 @@ $realisasiKegiatan = 'renstra_kegiatan_indikator_th' . $tahun . '_realisasi_targ
 		<h2>RENJA</h2>
 	</center>
 	<br>
+	<table>
+		<tr>
+			<td><b>OPD</b></td>
+			<td>:</td>
+			<td><b>{{ @$opd_nama }}</b></td>
+		</tr>
+		<tr>
+			<td><b>Tahun</b></td>
+			<td>:</td>
+			<td><b>{{ session('rpjmd_tahun')+$tahun-1 }}</b></td>
+		</tr>
+		<tr>
+			<td><b>Triwulan</b></td>
+			<td>:</td>
+			<td><b>{{ $triwulan }}</b></td>
+		</tr>
+	</table>
+	<br>
 	<table class="my-table">
 		<thead>
 			<tr>

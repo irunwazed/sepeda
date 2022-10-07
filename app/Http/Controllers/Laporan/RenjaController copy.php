@@ -270,13 +270,13 @@ class RenjaController extends Controller
 			}
 		}
 
-		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
+		// echo "<pre>";
+		// print_r($dataAll);
 
 		$cetak = $request->cetak;
 
 		$kirim = [
 			'dataAll' => $dataAll,
-			'opd_nama' => @$opd->opd_nama,
 		];
 
 		if ($cetak == 'pdf') {

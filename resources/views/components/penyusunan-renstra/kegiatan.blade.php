@@ -518,6 +518,14 @@ function setUpdate(id) {
 			$('input[name="renstra_kegiatan_indikator_th4_target"]').val(res.data.renstra_kegiatan_indikator_th4_target);
 			$('input[name="renstra_kegiatan_indikator_th5_target"]').val(res.data.renstra_kegiatan_indikator_th5_target);
 			$('input[name="renstra_kegiatan_indikator_th6_target"]').val(res.data.renstra_kegiatan_indikator_th6_target);
+
+			$('input[name="renstra_kegiatan_indikator_th1_pagu"]').val(res.data.renstra_kegiatan_indikator_th1_pagu);
+			$('input[name="renstra_kegiatan_indikator_th2_pagu"]').val(res.data.renstra_kegiatan_indikator_th2_pagu);
+			$('input[name="renstra_kegiatan_indikator_th3_pagu"]').val(res.data.renstra_kegiatan_indikator_th3_pagu);
+			$('input[name="renstra_kegiatan_indikator_th4_pagu"]').val(res.data.renstra_kegiatan_indikator_th4_pagu);
+			$('input[name="renstra_kegiatan_indikator_th5_pagu"]').val(res.data.renstra_kegiatan_indikator_th5_pagu);
+
+			
 		} else {
 			pesanSweet('Gagal!', res.pesan, 'warning');
 		}

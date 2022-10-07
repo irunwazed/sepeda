@@ -99,6 +99,14 @@ function setPredikat($nilai){
 		<h2>RENSTRA</h2>
 	</center>
 	<br>
+	<table>
+		<tr>
+			<td><b>OPD</b></td>
+			<td>:</td>
+			<td><b>{{ @$opd_nama }}</b></td>
+		</tr>
+	</table>
+	<br>
 	<table class="my-table">
 		<thead>
 			<tr>

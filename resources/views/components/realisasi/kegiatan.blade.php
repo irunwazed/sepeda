@@ -240,6 +240,9 @@ $levelName = \Request::get('levelPath');
     footer : false,
     headerOffset: 45
 },
+			scrollY: "500px",
+			scrollX: true,
+			scrollCollapse: true,
 			responsive: true,
 			ordering: false,
 			autoWidth: false,
@@ -336,14 +339,14 @@ $levelName = \Request::get('levelPath');
 							if (idx == 1) {
 
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="4">' + name +
-									'</td><td class="text-right">' + formatRupiah(group['pagu']) +
-									'</td><td></td><td class="text-right">' + formatRupiah(group['realisasi_pagu']) +
+									'<tr class="group"><td colspan="4" class="text-bold">' + name +
+									'</td><td class="text-right text-bold">' + formatRupiah(group['pagu']) +
+									'</td><td></td><td class="text-right text-bold">' + formatRupiah(group['realisasi_pagu']) +
 									'</td><td></td></tr>'
 								);
 							} else {
 								$(rows).eq(i).before(
-									'<tr class="group"><td colspan="8">' + name +
+									'<tr class="group"><td colspan="8" class="text-bold">' + name +
 									'</td></tr>'
 								);
 
