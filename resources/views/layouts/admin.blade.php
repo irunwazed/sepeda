@@ -145,6 +145,7 @@
 
 
 			$levelName = \Request::get('levelPath');
+			$setJadwal = \Request::get('setJadwal');
 			// $levelName = 'admin';
 			?>
 			<div class="navbar-content scroll-div">
@@ -421,7 +422,7 @@
 		margin: 0 auto;
 		/* border: 1px solid black; */
 		background-color: black;
-		padding: 10px;
+		padding-top: 3px;
 		padding-left: 30px;
 		padding-right: 30px;
 		/* font-size: 30px; */
@@ -430,8 +431,9 @@
 	}
 
 	.outer {
+		top: 65px;
 		width:100%;
-		z-index:100000;
+		z-index:10000;
 		position: fixed;
 		/* padding: 20px; */
 		/* background-color: blue; */
@@ -445,7 +447,7 @@
 		color: white;
 	}
 	.waktu-isi {
-		font-size: 30px;
+		font-size: 25px;
 		margin: 0px;
 		text-align: center;
 	}
@@ -612,7 +614,7 @@
 		});
 	}
 
-
+	
 	function sendAjax(url, data, type = 'get', loading = null) {
 		$.ajaxSetup({
 			headers: {
@@ -631,8 +633,12 @@
 				console.log(result);
 			},
 			error: function(err) {
-				console.log(err);
-				// pesanSweet('ERROR!', 'Gagal Terhubung Pada Server.', 'error');
+				if(err.responseJSON.status){
+					pesanSweet('Peringatan!', err.responseJSON.pesan, 'warning');
+				}else{
+					pesanSweet('ERROR!', 'Terjadi masalah, silahkan hubungi admin.', 'error');
+				}
+				// 
 				// $('#my-error').html(err.responseText);
 				// $("Terjadi error : ");
 			},
@@ -729,7 +735,8 @@
 	}
 	
 	const setJadwal = () => {
-		var date1 = new Date('2022-10-09 23:59');
+		console.log('{{ @$setJadwal }}');
+		var date1 = new Date('{{ @$setJadwal }}');
 		var now = new Date().getTime();
 		var timeleft = date1 - now;
 				

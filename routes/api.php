@@ -22,3 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/rpjmd/get-program','ApiController@getProgramByOPD');
 Route::get('/program/get-kegiatan','ApiController@getKegiatanByProgram');
 Route::get('/kegiatan/get-sub-kegiatan','ApiController@getSubKegiatanByKegiatan');
+
+Route::get('/sub-kegiatan/get-indikator','ApiController@getSubKegiatanIndikator');
+Route::get('/kegiatan/get-indikator','ApiController@getKegiatanIndikator');
+Route::get('/program/get-indikator','ApiController@getProgramIndikator');
+
