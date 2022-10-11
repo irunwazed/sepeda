@@ -52,16 +52,6 @@
 																								<th>Aksi</th>
 																							</tr>
 																						</thead>
-																						<!-- <tfoot>
-																							<tr>
-																								<th>-</th>
-																								<th>No</th>
-																								<th>Nama</th>
-																								<th>Username</th>
-																								<th>Level</th>
-																								<th>Aksi</th>
-																							</tr>
-																						</tfoot> -->
 																					</table>
                                         </div>
                                     </div>
@@ -268,6 +258,19 @@ $('li[data-menu-bar="pengaturan"]').addClass("active pcoded-trigger");
 				}
 			});
     }
+
+
+
+    function setResetPassword(id){
+        
+				$.when(sendAjax('/admin/reset-password', {id: id}, 'get', '#form-data')).done(function(res){
+					if (res.status == true) {
+						pesanSweet('Berhasil', res.pesan, 'success');
+					} else {
+						pesanSweet('Gagal!', res.pesan, 'warning');
+					}
+				});
+			}
 
     $('#form-data').submit(function(e){
 			e.preventDefault();

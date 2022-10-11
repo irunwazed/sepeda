@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Validator;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -85,4 +86,91 @@ class LoginController extends Controller
     session()->flush();
     return redirect('login');
   }
+
+	public function changePassword(Request $request){
+
+		// $rule = [
+    //   'password_lama' => 'required',
+    //   'password_baru' => 'required',
+    //   'password_ulang' => 'required',
+    // ];
+
+    // $messages = [
+    //   'required' => ':attribute kosong.',
+    // ];
+    // $validator = Validator::make($request->all(), $rule, $messages);
+
+    // if ($validator->fails()) {
+    //   return response([
+		// 		'status' => false,
+		// 		'pesan' => 'masukkan request dengan benar!',
+		// 	]);
+    // }
+
+    $password_lama = $request->password_lama;
+    $password_baru = $request->password_baru;
+    $password_ulang = $request->password_ulang;
+
+		if($password_baru == $password_lama){
+			return response([
+				'status' => false,
+				'pesan' => 'password lama anda sama dengan yg baru!',
+			]);
+		}
+
+		if($password_baru != $password_ulang){
+			return response([
+				'status' => false,
+				'pesan' => 'tolong ulangi password anda dengan benar!',
+			]);
+		}
+
+		$user = DB::table('login')->where('id', session('id'))->first();
+
+		if(!password_verify($password_lama, @$user->login_password)){
+			return response([
+				'status' => false,
+				'pesan' => 'password lama anda salah!',
+			]);
+		}
+
+		DB::table('login')->where('id', $user->id)->update([
+			'login_password' => Hash::make($password_baru),
+		]);
+
+		return response([
+			'status' => true,
+			'pesan' => 'password berhasil diubah',
+		]);
+	}
+
+	public function resetPassword(Request $request){
+
+		$rule = [
+      'id' => 'required',
+    ];
+
+    $messages = [
+      'required' => ':attribute kosong.',
+    ];
+    $validator = Validator::make($request->all(), $rule, $messages);
+
+    if ($validator->fails()) {
+			return response([
+				'status' => true,
+				'pesan' => 'masukkan akun yang akan direset',
+			]);
+    }
+
+		$id = $request->id;
+		$reset = '123456';
+		DB::table('login')->where('id', $id)->update([
+			'login_password' => Hash::make($reset),
+		]);
+
+		return response([
+			'status' => true,
+			'pesan' => 'password telah direset menjadi \''.$reset.'\'',
+		]);
+	}
 }

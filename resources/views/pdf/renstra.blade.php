@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 
+$triwulan = session('triwulan');
 function toRupiah($angka){
 	
 	$hasil_rupiah = number_format($angka,2,',','.');
@@ -93,8 +94,6 @@ function setPredikat($nilai){
 </head>
 
 <body>
-
-
 	<center>
 		<h2>RENSTRA</h2>
 	</center>
@@ -104,6 +103,11 @@ function setPredikat($nilai){
 			<td><b>OPD</b></td>
 			<td>:</td>
 			<td><b>{{ @$opd_nama }}</b></td>
+		</tr>
+		<tr>
+			<td><b>Realisasi</b></td>
+			<td>:</td>
+			<td><b>Triwulan ke-{{ @$triwulan }}</b></td>
 		</tr>
 	</table>
 	<br>

@@ -402,8 +402,8 @@
 								</a> -->
 							</div>
 							<ul class="pro-body">
-								<!-- <li><a href="javascript:" class="dropdown-item"><i class="feather icon-settings"></i> Settings</a></li>
-								<li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+								<li><a href="#"  data-toggle="modal" data-target="#modal-password" class="dropdown-item"><i class="feather icon-settings"></i> Ubah Password</a></li>
+								<!-- <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
 								<li><a href="message.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li> -->
 								<li><a href="{{ url('logout') }}" class="dropdown-item"><i class="feather icon-log-out"></i> Keluar</a>
 								</li>
@@ -469,19 +469,19 @@
 	<div class="outer">
 		<div class="inner">
 			<div class="row">
-				<div class="col-sm-3 hari">
+				<div class="col-3 hari">
 					<div class="waktu-isi">0</div>
 					<span class="waktu-judul">Hari</span>
 				</div>
-				<div class="col-sm-3 jam">
+				<div class="col-3 jam">
 					<div class="waktu-isi">0</div>
 					<span class="waktu-judul">Jam</span>
 				</div>
-				<div class="col-sm-3 menit">
+				<div class="col-3 menit">
 					<div class="waktu-isi">0</div>
 					<span class="waktu-judul">Menit</span>
 				</div>
-				<div class="col-sm-3 detik">
+				<div class="col-3 detik">
 					<div class="waktu-isi">0</div>
 					<span class="waktu-judul">Detik</span>
 				</div>
@@ -490,6 +490,8 @@
 	</div>
 
 	@yield('content')
+
+	<div id="my-error"></div>
 
 	<!--Disabled Backdrop Modal -->
 	<div class="modal fade text-left" id="modal-tahunan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4"
@@ -534,6 +536,52 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button id="btn-form-data" type="submit" form="form-tahunan" class="btn btn-success ml-1">Simpan
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--Modal password -->
+	<div class="modal fade text-left" id="modal-password" tabindex="-1" role="dialog" aria-labelledby="myModalPassword"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
+			<!-- class modal-xl -->
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h4 class="modal-title" style="color: #FFF" id="myModalPassword"> <i class="feather icon-user"></i> Ubah Password
+					</h4>
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/{{ @$levelName }}/change-password" id="form-password" method="POST">
+						@csrf
+						<div class="form-group">
+							<label for="basicInput">Password Lama</label>
+							<fieldset class="form-group">
+								<input type="text" class="form-control" name="password_lama">
+							</fieldset>
+						</div>
+						<div class="form-group">
+							<label for="basicInput">Password Baru</label>
+							<fieldset class="form-group">
+								<input type="text" class="form-control" name="password_baru">
+							</fieldset>
+						</div>
+						<div class="form-group">
+							<label for="basicInput">Ulangi Password Baru</label>
+							<fieldset class="form-group">
+								<input type="text" class="form-control" name="password_ulang">
+							</fieldset>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button id="btn-form-data" type="submit" form="form-password" class="btn btn-success ml-1">Simpan
 					</button>
 				</div>
 			</div>
@@ -633,11 +681,15 @@
 				console.log(result);
 			},
 			error: function(err) {
-				if(err.responseJSON.status){
-					pesanSweet('Peringatan!', err.responseJSON.pesan, 'warning');
-				}else{
-					pesanSweet('ERROR!', 'Terjadi masalah, silahkan hubungi admin.', 'error');
+				if(err.responseJSON != undefined){
+
+					if(err.responseJSON.status){
+						pesanSweet('Peringatan!', err.responseJSON.pesan, 'warning');
+					}else{
+						pesanSweet('ERROR!', 'Terjadi masalah, silahkan hubungi admin.', 'error');
+					}
 				}
+				console.log(err);
 				// 
 				// $('#my-error').html(err.responseText);
 				// $("Terjadi error : ");
@@ -735,8 +787,11 @@
 	}
 	
 	const setJadwal = () => {
-		console.log('{{ @$setJadwal }}');
-		var date1 = new Date('{{ @$setJadwal }}');
+		var txt = '{{ @$setJadwal }}';
+		if(txt == ''){
+			txt = '2022-10-10 09:51:34';
+		}
+		var date1 = new Date(txt);
 		var now = new Date().getTime();
 		var timeleft = date1 - now;
 				
@@ -761,10 +816,19 @@
 
 	// runTime
 	
+	$('#form-password').submit(function(e){
+		e.preventDefault();
 
-
-
-	// $('.inner').css("background-color", 'rgb(168, 168, 50)');
+		let data = $(this).serializeArray();
+		$.when(sendAjax($(this).attr('action'), data, 'post', '#form-password')).done(function(res) {
+			if (res.status == true) {
+				pesanSweet('Berhasil', res.pesan, 'success');
+				$('#modal-password').modal('hide');
+			} else {
+				pesanSweet('Gagal!', res.pesan, 'warning');
+			}
+		});
+	})
 
 	</script>
 	

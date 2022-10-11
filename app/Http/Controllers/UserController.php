@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Validator;
 use DataTables;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,6 +36,7 @@ class UserController extends Controller
 				<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 				<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
 						
+					<a class="dropdown-item" href="#" onclick="setResetPassword(\'{{$id}}\')"><i class="feather icon-settings"></i> Reset Password</a>
 					<a class="dropdown-item" href="#" onclick="setUpdate(\'{{$id}}\')"><i class="feather icon-edit"></i> Ubah</a>
 					<a class="dropdown-item" href="#" onclick="setView(\'{{$id}}\')"><i class="feather icon-search"></i> Detail</a>
 					<a class="dropdown-item" href="#" onclick="setDelete(\'{{$id}}\')"><i class="feather icon-trash"></i> Hapus</a>
@@ -104,7 +106,7 @@ class UserController extends Controller
 
 			if($action == 'create'){
 				$data['created_at'] = $date;
-				$data['login_password'] = $request->login_password;
+				$data['login_password'] = Hash::make($request->login_password);
 				$data['login_aktif'] = 1;
 				
 				$status = DB::table($this->table)->insert($data);

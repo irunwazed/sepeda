@@ -65,6 +65,33 @@ $icon = "feather icon-user";
 										</form>
 									</div>
 								</div>
+
+
+								<div class="card">
+									<div class="card-header " style="background-color: #63cceb">
+										<h5 style="color: white"><i class="{{ $icon }}"></i> Penjadwalan</h5>
+									</div>
+									<div class="card-block">
+										
+										<div class="btn btn-success" onClick="setCreate()" style="float:right;"><i class="feather icon-plus-circle"></i>Tambah</div>	
+										<br>
+										<br>
+										<br>
+											<table class="my-datatable table table-striped table-bordered" style="width:100%">
+												<thead>
+													<tr>
+														<th>-</th>
+														<th>No</th>
+														<th>Nama</th>
+														<th>Username</th>
+														<th>Level</th>
+														<th>Aksi</th>
+													</tr>
+												</thead>
+											</table>
+									</div>
+								</div>
+
 							</div>
 						</div>
 						<!-- [ Main Content ] end -->
@@ -94,11 +121,7 @@ $icon = "feather icon-user";
 					<input type="hidden" name="id">
 					<div class="form-group">
 						<label for="basicInput">Nama</label>
-						<input type="text" class="form-control" name="login_nama" placeholder="Masukkan Nama" required>
-					</div>
-					<div class="form-group">
-						<label for="basicInput">Username</label>
-						<input type="text" class="form-control" name="login_username" placeholder="Masukkan Username" required>
+						<input type="text" class="form-control" name="jadwal_nama" placeholder="Masukkan Jadwal Nama" required>
 					</div>
 					<div class="form-group" id="div-password">
 						<label for="basicInput">Password</label>
@@ -134,6 +157,68 @@ $icon = "feather icon-user";
 
 <script>
 $('li[data-menu-bar="pengaturan"]').addClass("active pcoded-trigger");
+
+
+function setCreate() {
+	linkAction = '/create';
+	$('#btn-form-data').show().html("Tambah");
+	$("#form-data :input").prop("disabled", false);
+	$('#modal-form').modal('show');
+	$('#form-data')[0].reset();
+
+	$('input[name="kode"]').val(kode);
+	$('textarea[name="rpjmd_tujuan_nama"]').html('');
+}
+
+function setUpdate(id) {
+
+	$('#btn-form-data').show().html("Ubah");
+	$("#form-data :input").prop("disabled", false);
+	linkAction = '/update';
+	$('#modal-form').modal('show');
+	$('#form-data')[0].reset();
+	$('textarea[name="rpjmd_tujuan_nama"]').html('');
+
+	let url = link + '/get-data/' + id;
+	$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
+		if (res.status) {
+			$('input[name="id"]').val(res.data.id);
+			$('input[name="kode"]').val(kode);
+			$('textarea[name="rpjmd_sasaran_nama"]').html(res.data.rpjmd_sasaran_nama);
+		} else {
+			pesanSweet('Gagal!', res.pesan, 'warning');
+		}
+	});
+}
+
+$('#form-data').submit(function(e) {
+	e.preventDefault();
+
+	let url = link + linkAction;
+	let data = $(this).serializeArray();
+	var fd = new FormData();
+	// var files = $('input[name="foto"]')[0].files;
+
+	// fd.append('foto',files[0]);
+	$.each(data, function(i, field) {
+		fd.append(field.name, field.value);
+	});
+	console.log(data);
+	$.when(sendAjax(url, data, 'post', '#form-data')).done(function(res) {
+		console.log(res);
+		if (res.status == true) {
+			pesanSweet('Berhasil', res.pesan, 'success');
+			$('.my-datatable').DataTable().ajax.reload();
+			$('#modal-form').modal('hide');
+		} else {
+			pesanSweet('Gagal!', res.pesan, 'warning');
+		}
+	});
+});
+
+function setDelete(id) {
+	init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
+}
 
 </script>
 @endsection

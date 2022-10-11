@@ -55,7 +55,11 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 	Route::prefix('/admin')->group(function () {
 
+	
 		Route::get('/', 'AdminController@beranda');
+
+		Route::get('/reset-password', 'LoginController@resetPassword');
+		Route::post('/change-password', 'LoginController@changePassword');
 
 		Route::post('/setting/user-opd','AdminController@setOPD')->name('admin.set.opd');
 
@@ -335,6 +339,8 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 	Route::prefix('/opd')->group(function () {
 
 		Route::get('/', 'AdminController@beranda');
+
+		Route::post('/change-password', 'LoginController@changePassword');
 
 
 		Route::post('/setting/tahun','JadwalController@setTahun');
