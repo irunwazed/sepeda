@@ -286,7 +286,7 @@ $realisasiKegiatan = 'renstra_kegiatan_indikator_th' . $tahun . '_realisasi_targ
 							<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ toRupiah(@$row['dataPagu']['realisasi_pagu']) }}</td>
 							<td style="text-align: right;">{{ setCapaian(@$row['data'][0]->$realisasiKegiatan, @$row['data'][0]->$targetKegiatan) }}%</td>
 							<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ setCapaian(@$row['dataPagu']['realisasi_pagu'], @$row['dataPagu']['pagu']) }}%</td>
-							<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->$realisasiKegiatan, @$row['data'][0]->$targetKegiatan)) }}</td>
+							<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][0]->$realisasiKegiatan, @$row['data'][0]->$realisasiKegiatan)) }}</td>
 						</tr>
 						@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++)
 						<tr class="row">
@@ -319,13 +319,9 @@ $realisasiKegiatan = 'renstra_kegiatan_indikator_th' . $tahun . '_realisasi_targ
 							@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++) <tr>
 								<td>{{ @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_nama }}</td>
 								<td>{{ @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_satuan }}</td>
-								<td>{{ setTarget(@$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_target, @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_nilai_json) }}</td>
-								<!-- <td>{{ @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_target }}</td> -->
-								<td>{{ setTarget(@$row['data'][$idxIndikator]->realisasi_target, @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_nilai_json) }}</td>
-								<td style="text-align: right;">{{ setCapaian(@$row['data'][$idxIndikator]->realisasi_target, @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_target) }}%</td>
-								<td style="text-align: center;">{{ setPredikat(setCapaian(@$row['data'][$idxIndikator]->realisasi_target, @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_target)) }}</td>
-								<!-- <td>{{ @$row['data'][$idxIndikator]->realisasi_target }}</td> -->
+								<td>{{ @$row['data'][$idxIndikator]->rkpd_sub_kegiatan_indikator_target }}</td>
 								<!-- <td style="text-align: right;">{{ toRupiah(@$row['data'][$idxIndikator]->pagu) }}</td> -->
+								<td>{{ @$row['data'][$idxIndikator]->realisasi_target }}</td>
 								<!-- <td style="text-align: right;">{{ toRupiah(@$row['data'][$idxIndikator]->realisasi_pagu) }}</td> -->
 								</tr>
 								@endfor

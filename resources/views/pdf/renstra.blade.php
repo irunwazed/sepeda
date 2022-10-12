@@ -61,6 +61,10 @@ function setPredikat($nilai){
 	return $hasil;
 }
 
+$clNoSubKegiatan = '#FFFFFF';
+if(@$_GET['status'] == 1){
+	$clNoSubKegiatan = '#F39D95';
+}
 
 
 ?>
@@ -673,17 +677,17 @@ function setPredikat($nilai){
 							</td>
 							<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">
 								{{ toRupiah(@$row['dataPagu'][2]['realisasi_pagu']) }}</td>
-							<td>
+							<td style="{{ (@$row['dataStatus'][3]['sub_kegiatan_indikator'])>0?'':'background-color: '.$clNoSubKegiatan }}">
 								{{ setTarget(@$row['data'][0]->renstra_kegiatan_indikator_th3_realisasi_target, @$row['data'][0]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][0]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
 							<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">
 								{{ toRupiah(@$row['dataPagu'][3]['realisasi_pagu']) }}</td>
-							<td>
+							<td style="{{ (@$row['dataStatus'][4]['sub_kegiatan_indikator'])>0?'':'background-color: '.$clNoSubKegiatan }}">
 								{{ setTarget(@$row['data'][0]->renstra_kegiatan_indikator_th4_realisasi_target, @$row['data'][0]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][0]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
 							<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">
 								{{ toRupiah(@$row['dataPagu'][4]['realisasi_pagu']) }}</td>
-							<td>
+							<td style="{{ (@$row['dataStatus'][5]['sub_kegiatan_indikator'])>0?'':'background-color: '.$clNoSubKegiatan }}">
 								{{ setTarget(@$row['data'][0]->renstra_kegiatan_indikator_th5_realisasi_target, @$row['data'][0]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][0]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
 							<td style="text-align: right;" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">
@@ -746,13 +750,13 @@ function setPredikat($nilai){
 							<td>
 								{{ setTarget(@$row['data'][$idxIndikator]->renstra_kegiatan_indikator_th2_realisasi_target, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
-							<td>
+							<td style="{{ (@$row['dataStatus'][3]['sub_kegiatan_indikator'])>0?'':'background-color: '.$clNoSubKegiatan }}">
 								{{ setTarget(@$row['data'][$idxIndikator]->renstra_kegiatan_indikator_th3_realisasi_target, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
-							<td>
+							<td style="{{ (@$row['dataStatus'][4]['sub_kegiatan_indikator'])>0?'':'background-color: '.$clNoSubKegiatan }}">
 								{{ setTarget(@$row['data'][$idxIndikator]->renstra_kegiatan_indikator_th4_realisasi_target, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
-							<td>
+							<td style="{{ (@$row['dataStatus'][5]['sub_kegiatan_indikator'])>0?'':'background-color: '.$clNoSubKegiatan }}">
 								{{ setTarget(@$row['data'][$idxIndikator]->renstra_kegiatan_indikator_th5_realisasi_target, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_json) }}
 							</td>
 							<td style="text-align: right;">
@@ -944,6 +948,15 @@ function setPredikat($nilai){
 								</tr>
 		</tbody>
 	</table>
+
+	<br>
+	@if(@$_GET['status'] == 1)
+	<span>Note : </span>
+	<ul>
+		<li> <span style="background-color: {{ $clNoSubKegiatan }};padding: 5px;">Kegiatan yang tidak memiliki Sub kegiatan di renja</span> </li>
+	</ul>
+	@endif
+
 </body>
 
 </html>

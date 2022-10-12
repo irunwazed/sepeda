@@ -303,6 +303,16 @@ function setPredikat($nilai){
 			@endforeach
 		</tbody>
 	</table>
+	@if(@$_GET['status'] == 1)
+	<br>
+	<div>
+		Note :
+		<ul>
+			<li><div>Kegiatan tanpa sub kegiatan indikator</div></li>
+			<li><div>Program </div></li>
+		</ul>
+	</div>
+	@endif
 </body>
 
 </html>

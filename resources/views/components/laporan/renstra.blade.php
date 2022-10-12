@@ -99,7 +99,6 @@
 							</div>
 						</div>
 
-
 						<row class="row" id="laporan-view" style="display: none;">
 							<div class="col-sm-12">
 								<div class="card">
@@ -109,11 +108,12 @@
 									<div class="card-block">
 										<a class="btn btn-info" target="_blank" href="./renstra/cetak?cetak=view"><i
 												class="fa fa-print"></i>Cetak</a>
+										<a class="btn btn-warning" target="_blank" href="./renstra/cetak?cetak=view&status=1"><i
+												class="fa fa-print"></i>Cetak dengan Status</a>
 										<!-- <a class="btn btn-warning" target="_blank" href="./renstra/cetak?cetak=pdf"><i
 												class="fa fa-file"></i>PDF</a> -->
 										<iframe src="./renstra/cetak?cetak=view" height="900" style="width: 100%"
 											title="Iframe Example"></iframe>
-
 									</div>
 								</div>
 							</div>
