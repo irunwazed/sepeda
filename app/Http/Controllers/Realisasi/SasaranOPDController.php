@@ -52,7 +52,12 @@ class SasaranOPDController extends Controller
   public function getData(Request $request, $id = null){
     $data = $this->getQuery($request);
 		if($id != null){
-			$data = $data->where($this->table.'.renstra_sasaran_kode', $id);
+			$kodeId = explode("-", $id);
+			$data = $data->where($this->table . '.opd_id', $kodeId[0])
+			->where($this->table . '.renstra_tujuan_kode', $kodeId[1])
+			->where($this->table . '.renstra_sasaran_kode', $kodeId[2])
+			->where($this->table . '.renstra_sasaran_indikator_kode', $kodeId[3]);
+		
 
 			$kirim = [
 				'status' => true,
@@ -161,9 +166,11 @@ class SasaranOPDController extends Controller
 
 			return $temp;
 		})
-			->addColumn('action', '
-				<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\'{{$renstra_sasaran_kode}}\')"></span>
-				')
+			->addColumn('action', function($row){
+				return '
+				<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\''.$row->opd_id."-".$row->renstra_tujuan_kode."-".$row->renstra_sasaran_kode."-".$row->renstra_sasaran_indikator_kode.'\')"></span>
+				';
+			})
 			->rawColumns(['action'])
 			->make(true);
   }
@@ -248,25 +255,25 @@ class SasaranOPDController extends Controller
     return $kirim;
   }
 
-  public function delete(Request $request, $kode, $id){
-    $validator = Validator::make($request->all(), [
-    ]);
-    $pesan = 'Gagal Terhubung Pada Server!';
-    $status = FALSE;
-    $error = [];
-    if ($validator->fails()) {
-      $error = $validator->errors()->all();
-    }else{
-      $status = DB::table($this->table)->where('id', $id)->delete();
-      $status?$pesan = 'Berhasil Menghapus Data':$pesan = 'Gagal Menghapus Data';
-    }
+  // public function delete(Request $request, $kode, $id){
+  //   $validator = Validator::make($request->all(), [
+  //   ]);
+  //   $pesan = 'Gagal Terhubung Pada Server!';
+  //   $status = FALSE;
+  //   $error = [];
+  //   if ($validator->fails()) {
+  //     $error = $validator->errors()->all();
+  //   }else{
+  //     $status = DB::table($this->table)->where('id', $id)->delete();
+  //     $status?$pesan = 'Berhasil Menghapus Data':$pesan = 'Gagal Menghapus Data';
+  //   }
 
-    $kirim = array(
-      'pesan' => $pesan,
-      'error' => $error,
-      'status' => $status,
-    );
-    return response($kirim);
-  }
+  //   $kirim = array(
+  //     'pesan' => $pesan,
+  //     'error' => $error,
+  //     'status' => $status,
+  //   );
+  //   return response($kirim);
+  // }
 
 }
