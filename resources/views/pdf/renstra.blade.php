@@ -108,11 +108,6 @@ if(@$_GET['status'] == 1){
 			<td>:</td>
 			<td><b>{{ @$opd_nama }}</b></td>
 		</tr>
-		<tr>
-			<td><b>Realisasi</b></td>
-			<td>:</td>
-			<td><b>Triwulan ke-{{ @$triwulan }}</b></td>
-		</tr>
 	</table>
 	<br>
 	<table class="my-table">

@@ -347,7 +347,6 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 		Route::prefix('/penyusunan/renstra')->group(function () {
 
-
 			Route::get('/tujuan/{kode}/indikator','PenyusunanRenstra\TujuanIndikatorController@view');
 			Route::get('/tujuan/{kode}/indikator/get-data','PenyusunanRenstra\TujuanIndikatorController@getData');
 			Route::get('/tujuan/{kode}/indikator/get-data/{id}','PenyusunanRenstra\TujuanIndikatorController@getData');
@@ -370,7 +369,7 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			// Route::get('/program/delete/{id}','PenyusunanRenstra\ProgramController@delete');
 			Route::post('/program/update','PenyusunanRenstra\ProgramController@update')->middleware('cekJadwal');
 			Route::post('/program/create-tusa','PenyusunanRenstra\ProgramController@createTusa')->middleware('cekJadwal');
-			Route::get('/program/get-tujuan','PenyusunanRenstra\ProgramController@getTujuan')->middleware('cekJadwal');
+			Route::get('/program/get-tujuan','PenyusunanRenstra\ProgramController@getTujuan');
 			Route::get('/program/get-sasaran','PenyusunanRenstra\ProgramController@getSasaran')->middleware('cekJadwal');
 
 			Route::get('/program/{kode}','PenyusunanRenstra\KegiatanController@view');
@@ -391,7 +390,7 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 		Route::prefix('/penyusunan/renja')->group(function () {
 
-			Route::get('/sub-kegiatan','PenyusunanRKPD\SubKegiatanController@view')->name('opd.penyusunan.renja')->middleware('cekJadwal');
+			Route::get('/sub-kegiatan','PenyusunanRKPD\SubKegiatanController@view')->name('opd.penyusunan.renja');
 			Route::get('/sub-kegiatan/get-data','PenyusunanRKPD\SubKegiatanController@getData');
 			Route::get('/sub-kegiatan/get-data/{id}','PenyusunanRKPD\SubKegiatanController@getData');
 			Route::post('/sub-kegiatan/create','PenyusunanRKPD\SubKegiatanController@create')->middleware('cekJadwal');

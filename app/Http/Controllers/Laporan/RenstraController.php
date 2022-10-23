@@ -97,8 +97,13 @@ class RenstraController extends Controller
 		->where('ref_opd.id', session('opd'))
 		->orderBy('ref_rpjmd_program.renstra_tujuan_kode')
 		->orderBy('ref_rpjmd_program.renstra_sasaran_kode')
-		->orderBy('ref_rpjmd_program.id')
-		->orderBy('ref_renstra_kegiatan.id');
+		->orderBy('ref_kegiatan.permen_ver')
+		->orderBy('ref_kegiatan.urusan_kode')
+		->orderBy('ref_kegiatan.bidang_kode')
+		->orderBy('ref_kegiatan.program_kode')
+		->orderBy('ref_kegiatan.kegiatan_kode');
+		// ->orderBy('ref_rpjmd_program.id')
+		// ->orderBy('ref_renstra_kegiatan.id');
 
 		return $data;
 
@@ -151,28 +156,43 @@ class RenstraController extends Controller
 				$index++;
 			}
 
-			if($program_id != $row->rpjmd_program_id){
-				$program_id = $row->rpjmd_program_id;
+			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode;
+			if($program_id != $temp){
+				$program_id = $temp;
 				$program_index = $index;
 				$dataAll[$index]['kode'] = $this->setKode($row->urusan_kode, 1).".".$this->setKode($row->bidang_kode,2).".".$this->setKode($row->program_kode,3);
 				$dataAll[$index]['uraian'] = @$row->program_nama;
 				$dataAll[$index]['data'] = DB::table('ta_rpjmd_program_indikator')
 				->leftJoin('ref_rpjmd_program', 'ref_rpjmd_program.id', '=', 'ta_rpjmd_program_indikator.rpjmd_program_id')
 				->leftJoin('ref_opd', 'ref_opd.id', '=', 'ref_rpjmd_program.opd_id')
-				->where('ta_rpjmd_program_indikator.rpjmd_program_id', $row->rpjmd_program_id)
+				->where('ref_rpjmd_program.permen_ver', $row->permen_ver)
+				->where('ref_rpjmd_program.urusan_kode', $row->urusan_kode)
+				->where('ref_rpjmd_program.bidang_kode', $row->bidang_kode)
+				->where('ref_rpjmd_program.program_kode', $row->program_kode)
+				->where('ref_rpjmd_program.opd_id', $row->opd_id)
+				// ->where('ta_rpjmd_program_indikator.rpjmd_program_id', $row->rpjmd_program_id)
 				->get();
 
 				$dataAll[$index]['level'] = 3;
 				$index++;
 			}
 
-			if($kegiatan_id != $row->renstra_kegiatan_id){
-				$kegiatan_id = $row->renstra_kegiatan_id;
+
+			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode."-".$row->kegiatan_kode;
+			if($kegiatan_id != $temp){
+				$kegiatan_id = $temp;
 				$kegiatan_index = $index;
 				$dataAll[$index]['kode'] = $this->setKode($row->urusan_kode, 1).".".$this->setKode($row->bidang_kode,2).".".$this->setKode($row->program_kode,3).".".$this->setKode($row->kegiatan_kode,4);
 				$dataAll[$index]['uraian'] = $row->kegiatan_nama;
 				$dataAll[$index]['data'] = DB::table('ta_renstra_kegiatan_indikator')
-				->where('ta_renstra_kegiatan_indikator.renstra_kegiatan_id', $row->renstra_kegiatan_id)
+				->leftJoin('ref_renstra_kegiatan', 'ref_renstra_kegiatan.id', '=', 'ta_renstra_kegiatan_indikator.renstra_kegiatan_id')
+				->leftJoin('ref_rpjmd_program', 'ref_rpjmd_program.id', '=', 'ref_renstra_kegiatan.rpjmd_program_id')
+				->where('ref_renstra_kegiatan.permen_ver', $row->permen_ver)
+				->where('ref_renstra_kegiatan.urusan_kode', $row->urusan_kode)
+				->where('ref_renstra_kegiatan.bidang_kode', $row->bidang_kode)
+				->where('ref_renstra_kegiatan.program_kode', $row->program_kode)
+				->where('ref_renstra_kegiatan.kegiatan_kode', $row->kegiatan_kode)
+				->where('ref_rpjmd_program.opd_id', $row->opd_id)
 				->get();
 
 
@@ -202,8 +222,16 @@ class RenstraController extends Controller
 
 					$triwulan = 4;
 					$arrTriwulan = ['1', '3', '6', '9', '12'];
-					if(session('tahun') == $rowTahun){
-						$triwulan = session('triwulan');
+					if(date('Y')-session('rpjmd_tahun')+1 == $rowTahun){
+						// $triwulan = session('triwulan');
+						$month = date('m');
+						if($month > 9){
+							$triwulan = 3;
+						}else if($month > 6){
+							$triwulan = 2;
+						}else{
+							$triwulan = 1;
+						}
 					}
 					
 
@@ -231,6 +259,7 @@ class RenstraController extends Controller
 					->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
 					->where('ref_rkpd_sub_kegiatan.opd_id', $row->opd_id)
 					->where('ref_rkpd_sub_kegiatan.tahun_ke', $rowTahun)
+					// ->groupBy('opd_id', 'tahun_ke', 'permen_ver', 'urusan_kode', 'bidang_kode', 'program_kode', 'kegiatan_kode')
 					->get();
 
 					$dataAll[$index]['dataStatus'][$rowTahun]['sub_kegiatan_indikator'] = count($data_realisasi_pagu);
@@ -238,34 +267,22 @@ class RenstraController extends Controller
 					// pagu
 					for($idxReal = 0; $idxReal < count($data_realisasi_pagu2); $idxReal++){
 						$temp = 'sub_kegiatan_pagu_bln'.$arrTriwulan[$triwulan];
-						$realisasi_pagu = @$data_realisasi_pagu[$idxReal]->$temp;
+						$realisasi_pagu = (float)@$data_realisasi_pagu2[$idxReal]->$temp;
 						$dataAll[$index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$index]['dataPagu'][$rowTahun]['realisasi_pagu'];
-						$dataAll[$index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($realisasi_pagu, $dataAll[$index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($realisasi_pagu, @$dataAll[$index]['dataPagu'][$rowTahun]['pagu']);
 						
 						// $dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 						$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'];
 						
-						$dataTotal['realisasi'][$rowTahun]['pagu'] = $realisasi_pagu + @$dataTotal['realisasi'][$rowTahun]['pagu'];
-					}
+						$dataAll[$program_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'], @$dataAll[$program_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'], @$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], @$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu']);
 
-					// target
-					for($idxReal = 0; $idxReal < count($data_realisasi_pagu); $idxReal++){
-						$temp = 'rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_target';
-						$realisasi_target = $data_realisasi_pagu[$idxReal]->$temp;
-						$temp = 'rkpd_sub_kegiatan_indikator_target';
-						$target = $data_realisasi_pagu[$idxReal]->$temp;
-						$dataAll[$index]['dataPagu'][$rowTahun]['target'] = $target;
-						$dataAll[$index]['dataPagu'][$rowTahun]['capaian_target'] = $this->setCapaian($realisasi_target, $target);
-	
-						// $dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$kegiatan_index]['dataPagu'][$rowTahun]['pagu']);
-						$dataAll[$program_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$program_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$program_index]['dataPagu'][$rowTahun]['pagu']);
-						$dataAll[$sasaran_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$sasaran_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$sasaran_index]['dataPagu'][$rowTahun]['pagu']);
-						$dataAll[$tujuan_index]['dataPagu'][$rowTahun]['capaian_pagu'] = $this->setCapaian($dataAll[$tujuan_index]['dataPagu'][$rowTahun]['realisasi_pagu'], $dataAll[$tujuan_index]['dataPagu'][$rowTahun]['pagu']);
+						$dataTotal['realisasi'][$rowTahun]['pagu'] = $realisasi_pagu + @$dataTotal['realisasi'][$rowTahun]['pagu'];
 						
 					}
-					// ->sum('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_indikator_tw'.$triwulan.'_pagu');
 
 				}
 				// . realisasi

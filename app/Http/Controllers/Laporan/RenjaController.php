@@ -68,7 +68,9 @@ class RenjaController extends Controller
 			->orderBy('ref_rkpd_sub_kegiatan.bidang_kode')
 			->orderBy('ref_rkpd_sub_kegiatan.program_kode')
 			->orderBy('ref_rkpd_sub_kegiatan.kegiatan_kode')
-			->orderBy('ref_rkpd_sub_kegiatan.sub_kegiatan_kode');
+			->orderBy('ref_rkpd_sub_kegiatan.sub_kegiatan_kode')
+			->orderBy('ref_rkpd_sub_kegiatan.sub_kegiatan_kode')
+			->orderBy('ref_rkpd_sub_kegiatan.id', 'asc');
 
 		return $data;
 	}
@@ -95,27 +97,6 @@ class RenjaController extends Controller
 
 		foreach ($data as $row) {
 
-			// if($tujuan_id != $row->rpjmd_tujuan_id){
-			// 	$tujuan_id = $row->rpjmd_tujuan_id;
-			// 	$tujuan_index = $index;
-			// 	$dataAll[$index]['uraian'] = $row->rpjmd_tujuan_nama;
-			// 	$dataAll[$index]['data'] = DB::table('ta_rpjmd_tujuan_indikator')
-			// 	->where('ta_rpjmd_tujuan_indikator.rpjmd_tujuan_id', $row->rpjmd_tujuan_id)
-			// 	->get();
-			// 	$dataAll[$index]['level'] = 1;
-			// 	$index++;
-			// }
-
-			// if($sasaran_id != $row->rpjmd_sasaran_id){
-			// 	$sasaran_id = $row->rpjmd_sasaran_id;
-			// 	$sasaran_index = $index;
-			// 	$dataAll[$index]['uraian'] = $row->rpjmd_sasaran_nama;
-			// 	$dataAll[$index]['data'] = DB::table('ta_rpjmd_sasaran_indikator')
-			// 	->where('ta_rpjmd_sasaran_indikator.rpjmd_sasaran_id', $row->rpjmd_sasaran_id)
-			// 	->get();
-			// 	$dataAll[$index]['level'] = 2;
-			// 	$index++;
-			// }
 			$temp = $row->opd_id
 				. "-" . $row->permen_ver
 				. "-" . $row->urusan_kode
@@ -197,7 +178,6 @@ class RenjaController extends Controller
 					// $dataAll[$kegiatan_index]['dataPagu']['renstra_pagu'] = $pagu + @$dataAll[$kegiatan_index]['dataPagu']['renstra_pagu'];
 				}
 
-
 				$dataAll[$index]['level'] = 4;
 				$index++;
 			}
@@ -219,7 +199,15 @@ class RenjaController extends Controller
 					. "." . $this->setKode($row->sub_kegiatan_kode, 3);
 				$dataAll[$index]['uraian'] = $row->sub_kegiatan_nama;
 				$dataAll[$index]['data'] = DB::table('ref_rkpd_sub_kegiatan_indikator')
-					->where('ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id', $row->id)
+					->leftJoin('ref_rkpd_sub_kegiatan', 'ref_rkpd_sub_kegiatan.id', '=', 'ref_rkpd_sub_kegiatan_indikator.rkpd_sub_kegiatan_id')
+					->where('ref_rkpd_sub_kegiatan.permen_ver', $row->permen_ver)
+					->where('ref_rkpd_sub_kegiatan.urusan_kode', $row->urusan_kode)
+					->where('ref_rkpd_sub_kegiatan.bidang_kode', $row->bidang_kode)
+					->where('ref_rkpd_sub_kegiatan.program_kode', $row->program_kode)
+					->where('ref_rkpd_sub_kegiatan.kegiatan_kode', $row->kegiatan_kode)
+					->where('ref_rkpd_sub_kegiatan.sub_kegiatan_kode', $row->sub_kegiatan_kode)
+					->where('ref_rkpd_sub_kegiatan.opd_id', $row->opd_id)
+					->where('ref_rkpd_sub_kegiatan.tahun_ke', $row->tahun_ke)
 					->get();
 
 
@@ -229,9 +217,22 @@ class RenjaController extends Controller
 				$triwulan = session('triwulan');
 				$arrTriwulan = [1,3,6,9,12];
 
+
+				$sub_pagu = DB::table('ref_rkpd_sub_kegiatan')
+				->where([
+					'opd_id' => $row->opd_id,
+					'tahun_ke' => $row->tahun_ke,
+					'permen_ver' => $row->permen_ver,
+					'urusan_kode' => $row->urusan_kode,
+					'bidang_kode' => $row->bidang_kode,
+					'program_kode' => $row->program_kode,
+					'kegiatan_kode' => $row->kegiatan_kode,
+					'sub_kegiatan_kode' => $row->sub_kegiatan_kode,
+				])->first();
+
 				$temp = 'sub_kegiatan_pagu_bln' . $arrTriwulan[$triwulan];
-				$realisasi_pagu = $row->$temp;
-				$pagu = $row->sub_kegiatan_pagu;
+				$realisasi_pagu = @$sub_pagu->$temp;
+				$pagu = @$sub_pagu->sub_kegiatan_pagu;
 
 				$dataAll[$index]['dataPagu']['pagu'] = $pagu + @$dataAll[$index]['dataPagu']['pagu'];
 				$dataAll[$program_index]['dataPagu']['pagu'] = $pagu + @$dataAll[$program_index]['dataPagu']['pagu'];
@@ -240,9 +241,6 @@ class RenjaController extends Controller
 				$dataAll[$index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$index]['dataPagu']['realisasi_pagu'];
 				$dataAll[$program_index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu']['realisasi_pagu'];
 				$dataAll[$kegiatan_index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu']['realisasi_pagu'];
-				// echo "<pre>";
-				// print_r($realisasi_pagu);
-				// die();
 
 				for ($rowPagu = 0; $rowPagu < count($dataAll[$index]['data']); $rowPagu++) {
 					$pagu = $dataAll[$index]['data'][$rowPagu]->rkpd_sub_kegiatan_indikator_pagu;
@@ -252,15 +250,15 @@ class RenjaController extends Controller
 					$temp = 'rkpd_sub_kegiatan_indikator_tw' . $triwulan . '_target';
 					$realisasi_target = $dataAll[$index]['data'][$rowPagu]->$temp;
 
-					$dataAll[$index]['data'][$rowPagu]->pagu = $pagu;
-					$dataAll[$index]['data'][$rowPagu]->realisasi_pagu = $realisasi_pagu;
+					// $dataAll[$index]['data'][$rowPagu]->pagu = $pagu;
+					// $dataAll[$index]['data'][$rowPagu]->realisasi_pagu = $realisasi_pagu;
 					$dataAll[$index]['data'][$rowPagu]->realisasi_target = $realisasi_target;
 
-					$dataAll[$program_index]['dataPagu']['pagu'] = $pagu + @$dataAll[$program_index]['dataPagu']['pagu'];
-					$dataAll[$kegiatan_index]['dataPagu']['pagu'] = $pagu + @$dataAll[$kegiatan_index]['dataPagu']['pagu'];
+					// $dataAll[$program_index]['dataPagu']['pagu'] = $pagu + @$dataAll[$program_index]['dataPagu']['pagu'];
+					// $dataAll[$kegiatan_index]['dataPagu']['pagu'] = $pagu + @$dataAll[$kegiatan_index]['dataPagu']['pagu'];
 
-					$dataAll[$program_index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu']['realisasi_pagu'];
-					$dataAll[$kegiatan_index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu']['realisasi_pagu'];
+					// $dataAll[$program_index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$program_index]['dataPagu']['realisasi_pagu'];
+					// $dataAll[$kegiatan_index]['dataPagu']['realisasi_pagu'] = $realisasi_pagu + @$dataAll[$kegiatan_index]['dataPagu']['realisasi_pagu'];
 				}
 
 				

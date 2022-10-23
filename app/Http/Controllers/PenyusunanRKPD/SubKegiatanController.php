@@ -225,8 +225,6 @@ class SubKegiatanController extends Controller
 				'program_kode' => @$permenKode[3],
 				'kegiatan_kode' => @$permenKode[4],
 				'sub_kegiatan_kode' => @$permenKode[5],
-				// 'sub_kegiatan_pagu' => $request->rkpd_sub_kegiatan_indikator_pagu,
-				// 'sub_kegiatan_pagu_perubahan' => $request->rkpd_sub_kegiatan_indikator_pagu,
 			];
 			$cekKegiatan = DB::table('ref_rkpd_sub_kegiatan')
 				->where($data)->first();
@@ -235,8 +233,6 @@ class SubKegiatanController extends Controller
 				$data['sub_kegiatan_pagu_perubahan'] = $request->rkpd_sub_kegiatan_indikator_pagu;
 				$kegiatanId = DB::table('ref_rkpd_sub_kegiatan')->insertGetId($data);
 			} else {
-				
-
 				$kegiatanId = $cekKegiatan->id;
 			}
 

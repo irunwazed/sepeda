@@ -311,6 +311,7 @@ $(document).ready(function() {
 		"order": [
 			[groupColumn[0].column, 'asc'],
 			[groupColumn[1].column, 'asc'],
+			[4, 'asc'],
 		],
 		"drawCallback": function(settings) {
 			var api = this.api();
@@ -327,6 +328,8 @@ $(document).ready(function() {
 					let space = '';
 					let name = group[groupColumn[idx].data];
 					let kode = group[groupColumn[idx].kode];
+					console.log(name)
+					
 					if(idx == 1){
 						kode = group['renstra_tujuan_kode']+'-'+group[groupColumn[idx].kode];
 						space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

@@ -50,6 +50,9 @@ class KegiatanController extends Controller
 
 	public function getQuery($request, $kode)
 	{
+
+		$dataProg = DB::table('ref_rpjmd_program')->where('id', $kode)->first();
+
 		$data = DB::table($this->table)
 			->select(
 				$this->table . '.*',
@@ -58,10 +61,11 @@ class KegiatanController extends Controller
 				'ref_renstra_kegiatan.bidang_kode',
 				'ref_renstra_kegiatan.program_kode',
 				'ref_renstra_kegiatan.kegiatan_kode',
-				'program_nama',
-				'kegiatan_nama'
+				'ref_program.program_nama',
+				'ref_kegiatan.kegiatan_nama'
 			)
 			->leftJoin('ref_renstra_kegiatan', 'ref_renstra_kegiatan.id', '=', 'ta_renstra_kegiatan_indikator.renstra_kegiatan_id')
+			->leftJoin('ref_rpjmd_program', 'ref_rpjmd_program.id', '=', 'ref_renstra_kegiatan.rpjmd_program_id')
 			->leftJoin('ref_program', function ($join) {
 				$join->on('ref_program.permen_ver', '=', 'ref_renstra_kegiatan.permen_ver');
 				$join->on('ref_program.urusan_kode', '=', 'ref_renstra_kegiatan.urusan_kode');
@@ -75,7 +79,12 @@ class KegiatanController extends Controller
 				$join->on('ref_kegiatan.program_kode', '=', 'ref_renstra_kegiatan.program_kode');
 				$join->on('ref_kegiatan.kegiatan_kode', '=', 'ref_renstra_kegiatan.kegiatan_kode');
 			})
-			->where('ref_renstra_kegiatan.rpjmd_program_id', $kode);
+			->where('ref_renstra_kegiatan.permen_ver', $dataProg->permen_ver)
+			->where('ref_renstra_kegiatan.urusan_kode', $dataProg->urusan_kode)
+			->where('ref_renstra_kegiatan.bidang_kode', $dataProg->bidang_kode)
+			->where('ref_renstra_kegiatan.program_kode', $dataProg->program_kode)
+			->where('ref_rpjmd_program.opd_id', $dataProg->opd_id);
+			// ->where('ref_renstra_kegiatan.rpjmd_program_id', $kode);
 
 		// echo "<pre>";
 		// print_r($data->get());

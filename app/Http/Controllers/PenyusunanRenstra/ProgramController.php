@@ -33,6 +33,13 @@ class ProgramController extends Controller
 		, 'ref_program.bidang_kode'
 		, 'ref_program.program_kode'
 		, 'ref_program.program_nama')
+		// ->select(DB::raw('MAX(ref_rpjmd_program.id) as total')
+		// $this->table.'.*', 'rpjmd_tujuan_nama', 'rpjmd_sasaran_nama', 'renstra_tujuan_nama', 'renstra_sasaran_nama'
+		// , $this->table.'.id'
+		// , 'ref_program.urusan_kode'
+		// , 'ref_program.bidang_kode'
+		// , 'ref_program.program_kode'
+		// , 'ref_program.program_nama')
 		->leftJoin('ref_program', function($join)
 		{
 			$join->on('ref_program.permen_ver', '=', 'ref_rpjmd_program.permen_ver');
@@ -53,13 +60,14 @@ class ProgramController extends Controller
 		})
 		->leftJoin('ref_rpjmd_sasaran', 'ref_rpjmd_sasaran.id', '=', 'ref_rpjmd_program.rpjmd_sasaran_id')
 		->leftJoin('ref_rpjmd_tujuan', 'ref_rpjmd_tujuan.id', '=', 'ref_rpjmd_sasaran.rpjmd_tujuan_id')
+		->where('ref_rpjmd_program.opd_id', session('opd'))
+		// ->groupBy('ref_program.urusan_kode');
 		->orderBy('ref_rpjmd_program.renstra_tujuan_kode', 'ASC')
 		->orderBy('ref_rpjmd_program.renstra_sasaran_kode', 'ASC')
 		->orderBy('ref_program.permen_ver', 'ASC')
 		->orderBy('ref_program.urusan_kode', 'ASC')
 		->orderBy('ref_program.bidang_kode', 'ASC')
-		->orderBy('ref_program.program_kode', 'ASC')
-		->where('ref_rpjmd_program.opd_id', session('opd'));
+		->orderBy('ref_program.program_kode', 'ASC');
 
 		return $data;
 
@@ -86,6 +94,7 @@ class ProgramController extends Controller
 					<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
 							
+						<a class="dropdown-item" href="./program/{{$id}}" ><i class="feather icon-eye"></i> Kegiatan</a>
 						<a class="dropdown-item" href="#" onclick="setUpdate(\'{{$id}}\')"><i class="feather icon-edit"></i> Ubah Tujuan Sasaran</a>
 
 					</div>

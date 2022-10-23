@@ -47,8 +47,11 @@ class TujuanOPDController extends Controller
   public function getData(Request $request, $id = null){
     $data = $this->getQuery($request);
 		if($id != null){
-			$data = $data->where($this->table.'.renstra_tujuan_kode', $id);
-
+			$kodeId = explode("-", $id);
+			$data = $data->where($this->table . '.opd_id', $kodeId[0])
+			->where($this->table . '.renstra_tujuan_kode', $kodeId[1])
+			->where($this->table . '.renstra_tujuan_indikator_kode', $kodeId[2]);
+		
 			$kirim = [
 				'status' => true,
 				'data' => $data->first(),
@@ -146,9 +149,11 @@ class TujuanOPDController extends Controller
 			->sum('ref_rkpd_sub_kegiatan.sub_kegiatan_pagu_bln'.$arrTri[session('triwulan')]);
 				return @$temp;
 			})
-			->addColumn('action', '
-				<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\'{{@$renstra_tujuan_kode}}\')"></span>
-				')
+			->addColumn('action', function($row){
+				return '
+				<span class="btn btn-primary feather icon-edit" onclick="setUpdate(\''.$row->opd_id."-".$row->renstra_tujuan_kode."-".$row->renstra_tujuan_indikator_kode.'\')"></span>
+				';
+			})
 			->rawColumns(['action'])
 			->make(true);
   }
