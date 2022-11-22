@@ -93,9 +93,16 @@ class RenstraController extends Controller
 			$join->on('ref_renstra_sasaran.opd_id', '=', 'ref_rpjmd_program.opd_id');
 			$join->on('ref_renstra_sasaran.renstra_tujuan_kode', '=', 'ref_rpjmd_program.renstra_tujuan_kode');
 			$join->on('ref_renstra_sasaran.renstra_sasaran_kode', '=', 'ref_rpjmd_program.renstra_sasaran_kode');
-		})
-		->where('ref_opd.id', session('opd'))
-		->orderBy('ref_rpjmd_program.renstra_tujuan_kode')
+		});
+
+		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
+		if(@$opd->opd_level == 2){
+			$data = $data->where('ref_opd.id', @$opd->opd_id);
+		}else{
+			$data = $data->where('ref_opd.id', session('opd'));
+		}
+
+		$data = $data->orderBy('ref_rpjmd_program.renstra_tujuan_kode')
 		->orderBy('ref_rpjmd_program.renstra_sasaran_kode')
 		->orderBy('ref_kegiatan.permen_ver')
 		->orderBy('ref_kegiatan.urusan_kode')
@@ -116,11 +123,11 @@ class RenstraController extends Controller
 		$dataTotal = [];
 		$index = 0;
 
-		$tujuan_id = 0;
-		$sasaran_id = 0;
-		$program_id = 0;
-		$kegiatan_id = 0;
-		$sub_kegiatan_id = 0;
+		$tujuan_id = '';
+		$sasaran_id = '';
+		$program_id = '';
+		$kegiatan_id = '';
+		$sub_kegiatan_id = '';
 
 		$tujuan_index = 0;
 		$sasaran_index = 0;
@@ -157,6 +164,7 @@ class RenstraController extends Controller
 			}
 
 			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode;
+			
 			if($program_id != $temp){
 				$program_id = $temp;
 				$program_index = $index;
@@ -176,6 +184,7 @@ class RenstraController extends Controller
 				$dataAll[$index]['level'] = 3;
 				$index++;
 			}
+
 
 
 			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode."-".$row->kegiatan_kode;

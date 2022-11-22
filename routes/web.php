@@ -327,6 +327,10 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/opd','Laporan\OPDController@view')->name('admin.rapor.opd');
 			Route::get('/opd/cetak','Laporan\OPDController@cetak');
 		});
+		Route::prefix('/monitor')->group(function () {
+			Route::get('/rkpd','Laporan\MonitorRKPDController@view')->name('admin.monitor.rkpd');
+			Route::get('/rkpd/cetak','Laporan\MonitorRKPDController@cetak');
+		});
 	});
 
 });

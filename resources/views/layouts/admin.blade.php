@@ -269,6 +269,17 @@
 					</li>
 
 					@if(in_array(session('login_level'), [1,2]))
+					<li data-menu-bar="monitor" class="nav-item pcoded-hasmenu">
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-print"></i></span><span
+								class="pcoded-mtext">Monitor</span></a>
+						<ul class="pcoded-submenu">
+							<li data-menu="/{{ $levelName }}/monitor/rkpd" class=""><a
+									href="{{ route($levelName.'.monitor.rkpd') }}" class="">RKPD</a></li>
+						</ul>
+					</li>
+					@endif
+
+					@if(in_array(session('login_level'), [1,2]))
 					<li class="nav-item pcoded-menu-caption">
 						<label>Pengaturan</label>
 					</li>
