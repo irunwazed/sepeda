@@ -95,7 +95,11 @@ class RenjaController extends Controller
 		$sub_kegiatan_index = 0;
 
 
+		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
+
+
 		foreach ($data as $row) {
+
 
 			$temp = $row->opd_id
 				. "-" . $row->permen_ver
@@ -115,9 +119,15 @@ class RenjaController extends Controller
 					->where('ref_rpjmd_program.permen_ver', $row->permen_ver)
 					->where('ref_rpjmd_program.urusan_kode', $row->urusan_kode)
 					->where('ref_rpjmd_program.bidang_kode', $row->bidang_kode)
-					->where('ref_rpjmd_program.program_kode', $row->program_kode)
-					->where('ref_rpjmd_program.opd_id', $row->opd_id)
-					->get();
+					->where('ref_rpjmd_program.program_kode', $row->program_kode);
+				
+				if($opd->opd_level == 2){
+					$dataAll[$index]['data'] = $dataAll[$index]['data']->where('ref_rpjmd_program.opd_id', $opd->opd_id);
+				}else{
+					$dataAll[$index]['data'] = $dataAll[$index]['data']->where('ref_rpjmd_program.opd_id', $row->opd_id);
+				}
+				
+				$dataAll[$index]['data'] = $dataAll[$index]['data']->get();
 
 				$dataAll[$index]['jumRow'] = count($dataAll[$index]['data']) == 0 ? 1 : count($dataAll[$index]['data']);
 
@@ -146,9 +156,14 @@ class RenjaController extends Controller
 					->where('ref_renstra_kegiatan.urusan_kode', $row->urusan_kode)
 					->where('ref_renstra_kegiatan.bidang_kode', $row->bidang_kode)
 					->where('ref_renstra_kegiatan.program_kode', $row->program_kode)
-					->where('ref_renstra_kegiatan.kegiatan_kode', $row->kegiatan_kode)
-					->where('ref_rpjmd_program.opd_id', $row->opd_id)
-					->get();
+					->where('ref_renstra_kegiatan.kegiatan_kode', $row->kegiatan_kode);
+
+				if($opd->opd_level == 2){
+					$dataAll[$index]['data'] = $dataAll[$index]['data']->where('ref_rpjmd_program.opd_id', $opd->opd_id);
+				}else{
+					$dataAll[$index]['data'] = $dataAll[$index]['data']->where('ref_rpjmd_program.opd_id', $row->opd_id);
+				}
+				$dataAll[$index]['data'] = $dataAll[$index]['data']->get();
 
 				// echo "<pre>";
 				// print_r($dataAll[$index]);
@@ -268,7 +283,6 @@ class RenjaController extends Controller
 			}
 		}
 
-		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
 
 		$cetak = $request->cetak;
 
