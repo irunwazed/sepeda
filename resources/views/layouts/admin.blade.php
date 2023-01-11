@@ -630,9 +630,9 @@
 			})
 			.then((willDelete) => {
 				if (willDelete) {
-					swal("Poof! Your imaginary file has been deleted!", {
-						icon: "success",
-					});
+					// swal("Poof! Your imaginary file has been deleted!", {
+					// 	icon: "success",
+					// });
 					$.when(sendAjax(url, {})).done(function(res) {
 						if (res.status) {
 							swal("Data anda berhasil terhapus!", {

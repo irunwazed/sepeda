@@ -72,6 +72,11 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 		
 		Route::get('/setting/jadwal','JadwalController@view');
+		Route::get('/setting/jadwal/{id}','JadwalController@getById');
+		Route::post('/setting/jadwal/create','JadwalController@createJadwal');
+		Route::post('/setting/jadwal/update','JadwalController@updateJadwal');
+		Route::get('/setting/jadwal/delete/{id}','JadwalController@deleteJadwal');
+		Route::get('/setting/jadwal/kunci/{id}','JadwalController@kunciJadwal');
 		Route::post('/setting/jadwal','JadwalController@update');
 		Route::post('/setting/tahun','JadwalController@setTahun');
 		

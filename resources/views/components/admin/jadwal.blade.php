@@ -80,14 +80,34 @@ $icon = "feather icon-user";
 											<table class="my-datatable table table-striped table-bordered" style="width:100%">
 												<thead>
 													<tr>
-														<th>-</th>
 														<th>No</th>
 														<th>Nama</th>
-														<th>Username</th>
-														<th>Level</th>
+														<th>Tanggal Mulai</th>
+														<th>Tanggal Akhir</th>
+														<th>Status</th>
 														<th>Aksi</th>
 													</tr>
 												</thead>
+												<tbody>
+													@foreach($dataJadwal as $row)
+													<tr>
+														<td>{{ $loop->index+1 }}</td>
+														<td>{{ $row->jadwal_nama }}</td>
+														<td>{{ $row->jadwal_mulai }}</td>
+														<td>{{ $row->jadwal_akhir }}</td>
+														<td>{{ $row->jadwal_status==2?'Kunci':'' }}</td>
+														<td>
+															@if(@$row->jadwal_status == 2)
+															<span class="btn btn-danger feather icon-trash-2" onclick="setDelete('{{ $row->id }}')"></span>
+															@else
+															<span class="btn btn-primary feather icon-edit" onclick="setUpdate('{{ $row->id }}')"></span>
+															<span class="btn btn-danger feather icon-trash-2" onclick="setDelete('{{ $row->id }}')"></span>
+															<span class="btn btn-warning feather icon-lock" onclick="setKunci('{{ $row->id }}')"></span>
+															@endif
+														</td>
+													</tr>
+													@endforeach
+												</tbody>
 											</table>
 									</div>
 								</div>
@@ -123,20 +143,13 @@ $icon = "feather icon-user";
 						<label for="basicInput">Nama</label>
 						<input type="text" class="form-control" name="jadwal_nama" placeholder="Masukkan Jadwal Nama" required>
 					</div>
-					<div class="form-group" id="div-password">
-						<label for="basicInput">Password</label>
-						<input type="password" class="form-control" name="login_password" placeholder="Masukkan Password" required>
+					<div class="form-group">
+						<label for="basicInput">Jadwal Mulai</label>
+						<input type="datetime-local" class="form-control" name="jadwal_mulai" required>
 					</div>
 					<div class="form-group">
-						<label for="basicInput">Level</label>
-						<fieldset class="form-group">
-							<select class="form-control" name="login_level" required>
-								<option value="">Pilih Level</option>
-								<option value="1">Super Admin</option>
-								<option value="2">Admin</option>
-								<option value="3">OPD</option>
-							</select>
-						</fieldset>
+						<label for="basicInput">Jadwal Akhir</label>
+						<input type="datetime-local" class="form-control" name="jadwal_akhir" required>
 					</div>
 				</form>
 			</div>
@@ -157,6 +170,7 @@ $icon = "feather icon-user";
 
 <script>
 $('li[data-menu-bar="pengaturan"]').addClass("active pcoded-trigger");
+	var link = window.location.pathname;
 
 
 function setCreate() {
@@ -165,9 +179,7 @@ function setCreate() {
 	$("#form-data :input").prop("disabled", false);
 	$('#modal-form').modal('show');
 	$('#form-data')[0].reset();
-
-	$('input[name="kode"]').val(kode);
-	$('textarea[name="rpjmd_tujuan_nama"]').html('');
+	$('input[name="jadwal_mulai"]').prop("disabled", false);
 }
 
 function setUpdate(id) {
@@ -177,14 +189,15 @@ function setUpdate(id) {
 	linkAction = '/update';
 	$('#modal-form').modal('show');
 	$('#form-data')[0].reset();
-	$('textarea[name="rpjmd_tujuan_nama"]').html('');
 
-	let url = link + '/get-data/' + id;
+	let url = link + '/' + id;
 	$.when(sendAjax(url, {}, 'get', '#form-data')).done(function(res) {
 		if (res.status) {
+			console.log(res.data)
 			$('input[name="id"]').val(res.data.id);
-			$('input[name="kode"]').val(kode);
-			$('textarea[name="rpjmd_sasaran_nama"]').html(res.data.rpjmd_sasaran_nama);
+			$('input[name="jadwal_nama"]').val(res.data.jadwal_nama);
+			$('input[name="jadwal_mulai"]').val(res.data.jadwal_mulai).prop("disabled", true);
+			$('input[name="jadwal_akhir"]').val(res.data.jadwal_akhir);
 		} else {
 			pesanSweet('Gagal!', res.pesan, 'warning');
 		}
@@ -192,7 +205,7 @@ function setUpdate(id) {
 }
 
 $('#form-data').submit(function(e) {
-	e.preventDefault();
+	// e.preventDefault();
 
 	let url = link + linkAction;
 	let data = $(this).serializeArray();
@@ -218,6 +231,40 @@ $('#form-data').submit(function(e) {
 
 function setDelete(id) {
 	init_hapus(link + '/delete/' + id, $('.my-datatable').DataTable());
+}
+
+function setKunci(id) {
+	swal({
+				title: "Apakah anda yakin?",
+				text: "Data akan terkunci dan tidak dapat diubah!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					location.href = 'jadwal/kunci/'+id;
+					// swal("Poof! Your imaginary file has been deleted!", {
+					// 	icon: "success",
+					// });
+					// $.when(sendAjax(link + '/kunci/' + id, {})).done(function(res) {
+					// 	if (res.status) {
+					// 		swal("Data anda berhasil terkunci!", {
+					// 			icon: "success",
+					// 		});
+					// 		if (dataTable != null) dataTable.ajax.reload();
+					// 	} else {
+
+					// 		swal("Server sedang bermasalah!", {
+					// 			icon: "warning",
+					// 		});
+					// 	}
+					// });
+				} else {
+					swal("Data anda batal terkunci!");
+				}
+			});
+
 }
 
 </script>

@@ -21,6 +21,7 @@ class CreateJadwalTable extends Migration
             $table->string('jadwal_triwulan')->comment('bentuk json => [1,2,3,4]');
             $table->datetime('jadwal_mulai');
             $table->datetime('jadwal_akhir');
+            $table->text('jadwal_data')->nullable()->comment('data json');
             $table->tinyInteger('jadwal_status'); // 1 aktif , 2 kunci, 3 tidak aktif
             $table->timestamps();
         });
