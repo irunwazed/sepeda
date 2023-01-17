@@ -70,7 +70,6 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 		Route::post('/setting/pengguna/update','UserController@update');
 		Route::get('/setting/pengguna/delete/{id}','UserController@delete');
 
-		
 		Route::get('/setting/jadwal','JadwalController@view');
 		Route::get('/setting/jadwal/{id}','JadwalController@getById');
 		Route::post('/setting/jadwal/create','JadwalController@createJadwal');
@@ -323,6 +322,9 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 
 			Route::get('/renja','Laporan\RenjaController@view')->name('admin.laporan.renja');
 			Route::get('/renja/cetak','Laporan\RenjaController@cetak');
+
+			Route::get('/urusan','Laporan\UrusanController@view')->name('admin.laporan.urusan');
+			Route::get('/urusan/cetak','Laporan\UrusanController@cetak');
 		});
 
 		Route::prefix('/rapor')->group(function () {
