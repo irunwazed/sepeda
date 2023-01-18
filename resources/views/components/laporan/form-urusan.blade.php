@@ -58,6 +58,19 @@
 														</fieldset>
 													</div>
 												</div>
+												<div class="col-sm-3">
+													<div class="form-group">
+														<label for="basicInput">Tahun</label>
+														<fieldset class="form-group">
+															<select name="tahun" class="form-control">
+																<option value="">-= Pilih Tahun =-</option>
+																@for($i = date('Y') +1; $i >= 2020; $i--)
+																<option value="{{ $i }}">{{ $i }}</option>
+																@endfor
+															</select>
+														</fieldset>
+													</div>
+												</div>
 												<div class="col-sm-6">
 													<div class="form-group">
 														<fieldset class="form-group">
@@ -79,13 +92,11 @@
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">
-										<a class="btn btn-info" target="_blank" href="./urusan/cetak?cetak=view&urusan={{ @$_GET['urusan'] }}"><i
+										<a class="btn btn-info" id="cetak-btn"  target="_blank" href="./urusan/cetak?cetak=view&urusan={{ @$_GET['urusan'] }}"><i
 												class="fa fa-print"></i>Cetak</a>
-										<a class="btn btn-warning" target="_blank" href="./urusan/cetak?cetak=view&status=1"><i
-												class="fa fa-print"></i>Cetak dengan Status</a>
 										<!-- <a class="btn btn-warning" target="_blank" href="./urusan/cetak?cetak=pdf"><i
 												class="fa fa-file"></i>PDF</a> -->
-										<iframe src="./urusan/cetak?cetak=view" height="900" style="width: 100%"
+										<iframe src="./urusan/cetak?cetak=view" id="cetak-frame" height="900" style="width: 100%"
 											title="Iframe Example"></iframe>
 									</div>
 								</div>
@@ -125,6 +136,13 @@ $('#form-cetak').submit(function(e) {
 	if ($('#laporan-btn').html() == 'Tampilkan') {
 		$('#laporan-btn').html('Sembunyikan');
 		$('#laporan-view').show();
+
+		let urusan = $('select[name="urusan"]').val();
+		let tahun = $('select[name="tahun"]').val();
+
+		$('#cetak-btn').attr("href", "./urusan/cetak?cetak=view&urusan="+urusan+"&tahun="+tahun)
+		$('#cetak-frame').attr("src", "./urusan/cetak?cetak=view&urusan="+urusan+"&tahun="+tahun)
+
 	} else {
 		$('#laporan-btn').html('Tampilkan');
 		$('#laporan-view').hide();

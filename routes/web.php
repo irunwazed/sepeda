@@ -323,8 +323,8 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 			Route::get('/renja','Laporan\RenjaController@view')->name('admin.laporan.renja');
 			Route::get('/renja/cetak','Laporan\RenjaController@cetak');
 
-			Route::get('/urusan','Laporan\UrusanController@view')->name('admin.laporan.urusan');
-			Route::get('/urusan/cetak','Laporan\UrusanController@cetak');
+			// Route::get('/urusan','Laporan\UrusanController@view')->name('admin.laporan.urusan');
+			// Route::get('/urusan/cetak','Laporan\UrusanController@cetak');
 		});
 
 		Route::prefix('/rapor')->group(function () {
@@ -337,6 +337,10 @@ Route::middleware(['verificationLevel:2'])->group(function () {
 		Route::prefix('/monitor')->group(function () {
 			Route::get('/rkpd','Laporan\MonitorRKPDController@view')->name('admin.monitor.rkpd');
 			Route::get('/rkpd/cetak','Laporan\MonitorRKPDController@cetak');
+		});
+		Route::prefix('/dokumen')->group(function () {
+			Route::get('/urusan','Laporan\UrusanController@view')->name('admin.dokumen.form-urusan');
+			Route::get('/urusan/cetak','Laporan\UrusanController@cetak');
 		});
 	});
 

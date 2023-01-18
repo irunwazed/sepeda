@@ -100,9 +100,7 @@ class UrusanController extends Controller
 		// 	$data = $data->where('ref_opd.id', session('opd'));
 		// }
 
-		$data = $data->orderBy('ref_rpjmd_program.renstra_tujuan_kode')
-		->orderBy('ref_rpjmd_program.renstra_sasaran_kode')
-		->orderBy('ref_kegiatan.permen_ver')
+		$data = $data->orderBy('ref_kegiatan.permen_ver')
 		->orderBy('ref_kegiatan.urusan_kode')
 		->orderBy('ref_kegiatan.bidang_kode')
 		->orderBy('ref_kegiatan.program_kode')
@@ -136,30 +134,30 @@ class UrusanController extends Controller
 
 		foreach($data as $row){
 			
-			if($tujuan_id != $row->renstra_tujuan_kode){
-				$tujuan_id = $row->renstra_tujuan_kode;
-				$tujuan_index = $index;
-				$dataAll[$index]['uraian'] = $row->renstra_tujuan_nama;
-				$dataAll[$index]['data'] = DB::table('ref_renstra_tujuan_indikator')
-				->where('ref_renstra_tujuan_indikator.opd_id', $row->opd_id)
-				->where('ref_renstra_tujuan_indikator.renstra_tujuan_kode', $row->renstra_tujuan_kode)
-				->get();
-				$dataAll[$index]['level'] = 1;
-				$index++;
-			}
+			// if($tujuan_id != $row->renstra_tujuan_kode){
+			// 	$tujuan_id = $row->renstra_tujuan_kode;
+			// 	$tujuan_index = $index;
+			// 	$dataAll[$index]['uraian'] = $row->renstra_tujuan_nama;
+			// 	$dataAll[$index]['data'] = DB::table('ref_renstra_tujuan_indikator')
+			// 	->where('ref_renstra_tujuan_indikator.opd_id', $row->opd_id)
+			// 	->where('ref_renstra_tujuan_indikator.renstra_tujuan_kode', $row->renstra_tujuan_kode)
+			// 	->get();
+			// 	$dataAll[$index]['level'] = 1;
+			// 	$index++;
+			// }
 
-			if($sasaran_id != $row->renstra_sasaran_kode){
-				$sasaran_id = $row->renstra_sasaran_kode;
-				$sasaran_index = $index;
-				$dataAll[$index]['uraian'] = $row->renstra_sasaran_nama;
-				$dataAll[$index]['data'] = DB::table('ref_renstra_sasaran_indikator')
-				->where('ref_renstra_sasaran_indikator.opd_id', $row->opd_id)
-				->where('ref_renstra_sasaran_indikator.renstra_tujuan_kode', $row->renstra_tujuan_kode)
-				->where('ref_renstra_sasaran_indikator.renstra_sasaran_kode', $row->renstra_sasaran_kode)
-				->get();
-				$dataAll[$index]['level'] = 2;
-				$index++;
-			}
+			// if($sasaran_id != $row->renstra_sasaran_kode){
+			// 	$sasaran_id = $row->renstra_sasaran_kode;
+			// 	$sasaran_index = $index;
+			// 	$dataAll[$index]['uraian'] = $row->renstra_sasaran_nama;
+			// 	$dataAll[$index]['data'] = DB::table('ref_renstra_sasaran_indikator')
+			// 	->where('ref_renstra_sasaran_indikator.opd_id', $row->opd_id)
+			// 	->where('ref_renstra_sasaran_indikator.renstra_tujuan_kode', $row->renstra_tujuan_kode)
+			// 	->where('ref_renstra_sasaran_indikator.renstra_sasaran_kode', $row->renstra_sasaran_kode)
+			// 	->get();
+			// 	$dataAll[$index]['level'] = 2;
+			// 	$index++;
+			// }
 
 			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode;
 			
@@ -171,6 +169,12 @@ class UrusanController extends Controller
 				$dataAll[$index]['data'] = DB::table('ta_rpjmd_program_indikator')
 				->leftJoin('ref_rpjmd_program', 'ref_rpjmd_program.id', '=', 'ta_rpjmd_program_indikator.rpjmd_program_id')
 				->leftJoin('ref_opd', 'ref_opd.id', '=', 'ref_rpjmd_program.opd_id')
+				->leftJoin('ref_bidang', function($join)
+				{
+					$join->on('ref_bidang.permen_ver', '=', 'ref_rpjmd_program.permen_ver');
+					$join->on('ref_bidang.urusan_kode', '=', 'ref_rpjmd_program.urusan_kode');
+					$join->on('ref_bidang.bidang_kode', '=', 'ref_rpjmd_program.bidang_kode');
+				})
 				->where('ref_rpjmd_program.permen_ver', $row->permen_ver)
 				->where('ref_rpjmd_program.urusan_kode', $row->urusan_kode)
 				->where('ref_rpjmd_program.bidang_kode', $row->bidang_kode)
@@ -194,6 +198,13 @@ class UrusanController extends Controller
 				$dataAll[$index]['data'] = DB::table('ta_renstra_kegiatan_indikator')
 				->leftJoin('ref_renstra_kegiatan', 'ref_renstra_kegiatan.id', '=', 'ta_renstra_kegiatan_indikator.renstra_kegiatan_id')
 				->leftJoin('ref_rpjmd_program', 'ref_rpjmd_program.id', '=', 'ref_renstra_kegiatan.rpjmd_program_id')
+				->leftJoin('ref_opd', 'ref_opd.id', '=', 'ref_rpjmd_program.opd_id')
+				->leftJoin('ref_bidang', function($join)
+				{
+					$join->on('ref_bidang.permen_ver', '=', 'ref_rpjmd_program.permen_ver');
+					$join->on('ref_bidang.urusan_kode', '=', 'ref_rpjmd_program.urusan_kode');
+					$join->on('ref_bidang.bidang_kode', '=', 'ref_rpjmd_program.bidang_kode');
+				})
 				->where('ref_renstra_kegiatan.permen_ver', $row->permen_ver)
 				->where('ref_renstra_kegiatan.urusan_kode', $row->urusan_kode)
 				->where('ref_renstra_kegiatan.bidang_kode', $row->bidang_kode)
@@ -308,11 +319,12 @@ class UrusanController extends Controller
 
 
 		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
+		$urusan = DB::table('ref_urusan')->where('permen_ver', 1)->where('urusan_kode', @$request->urusan_kode?$request->urusan_kode:1)->first();
 		
 		$kirim = [
 			'dataAll' => $dataAll,
 			'dataTotal' => $dataTotal,
-			'opd_nama' => @$opd->opd_nama,
+			'urusan' => @$urusan,
 		];
 
 
