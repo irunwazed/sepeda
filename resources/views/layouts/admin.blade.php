@@ -278,10 +278,10 @@
 						</ul>
 					</li>
 					<li data-menu-bar="dokumen" class="nav-item pcoded-hasmenu">
-						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-bullseye"></i></span><span
+						<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fa fa-list-alt"></i></span><span
 								class="pcoded-mtext">Dokumen</span></a>
 						<ul class="pcoded-submenu">
-							<li data-menu="/{{ $levelName }}/dokumen/form-urusan" class=""><a
+							<li data-menu="/{{ $levelName }}/dokumen/urusan" class=""><a
 									href="{{ route($levelName.'.dokumen.form-urusan') }}" class="">Form Urusan</a></li>
 						</ul>
 					</li>

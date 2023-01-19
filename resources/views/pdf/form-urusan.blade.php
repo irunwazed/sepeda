@@ -3,7 +3,9 @@
 <?php
 
 $triwulan = session('triwulan');
-$tahun = 1;
+$tahun = @$tahun?$tahun:1;
+$indikator = @$indikator==1?$indikator:0;
+// echo $indikator;
 function toRupiah($angka){
 	
 	$hasil_rupiah = number_format($angka,2,',','.');
@@ -114,12 +116,14 @@ if(@$_GET['status'] == 1){
 		<thead>
 			<tr>
 				<!-- <th rowspan="2">No</th> -->
-				<th rowspan="3">Nomor</th>
+				<th rowspan="3">No</th>
 				<th rowspan="3">Urusan Pemerintahan</th>
-				<th rowspan="3">Organisasi Perangkat daerah pelaksana</th>
+				<th rowspan="3">Organisasi Perangkat Daerah Pelaksana</th>
 				<th rowspan="3">Kebijakan</th>
 				<th rowspan="3">Uraian Program / Kegiatan</th>
+				@if($indikator != 0)
 				<th rowspan="3">Indikator</th>
+				@endif
 				<th colspan="2">Target</th>
 				<th colspan="2">Realisasi</th>
 				<th rowspan="3">Permasalahan</th>
@@ -127,8 +131,8 @@ if(@$_GET['status'] == 1){
 				<th rowspan="3">Tingkat Rekomendasi DPRD</th>
 			</tr>
 			<tr>
-				<th colspan="2">{{ session('rpjmd_tahun')+$tahun }}</th>
-				<th colspan="2">{{ session('rpjmd_tahun')+$tahun }}</th>
+				<th colspan="2">{{ session('rpjmd_tahun')+$tahun-1 }}</th>
+				<th colspan="2">{{ session('rpjmd_tahun')+$tahun-1 }}</th>
 			</tr>
 			<tr>
 				<th>Kinerja</th>
@@ -138,25 +142,29 @@ if(@$_GET['status'] == 1){
 			</tr>
 		</thead>
 		<tbody>
+			<?php
+			$no = 1;
+			
+			?>
 			@foreach($dataAll as $row)
 			@if($row['level'] == 3)
 			<?php
 				$uraian_target = 'rpjmd_program_indikator_th'.$tahun.'_target';
 				$uraian_realisasi = 'rpjmd_program_indikator_th'.$tahun.'_realisasi_target';
-				// echo "<pre>";
-				// print_r($row);
-				// echo "</pre>";
 				
 			?>
 					<tr>
 
-						<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->bidang_kode }}</td>
-						<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->bidang_nama }}</td>
-						<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->opd_nama }}</td>
-						<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}"></td>
+						<td style="border-right: 0px" rowspan="{{ @$row['jum']?$row['jum']:'1' }}">{{ @$no++ }}</td>
+						<td style="border-right: 0px" rowspan="{{ @$row['jum']?$row['jum']:'1' }}">{{ @$row['data'][0]->bidang_nama }}</td>
+						<td style="border-right: 0px" rowspan="{{ @$row['jum']?$row['jum']:'1' }}">{{ @$row['data'][0]->opd_nama }}</td>
+						<td style="border-right: 0px" rowspan="{{ @$row['jum']?$row['jum']:'1' }}"></td>
 						<td style="border-right: 0px;"
 							rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ $row['uraian'] }}</td>
+
+						@if($indikator != 0)
 						<td>{{ @$row['data'][0]->rpjmd_program_indikator_nama }}</td>
+						@endif
 						<td>
 							{{ setTarget(@$row['data'][0]->$uraian_target, @$row['data'][0]->rpjmd_program_indikator_nilai_jenis, @$row['data'][0]->rpjmd_program_indikator_nilai_json) }} {{ @$row['data'][0]->rpjmd_program_indikator_satuan }}
 						</td>
@@ -172,7 +180,10 @@ if(@$_GET['status'] == 1){
 						<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}"></td>
 					</tr>
 					@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++) <tr>
+
+					@if($indikator != 0)
 						<td>{{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_nama }}</td>
+					@endif
 						<td>
 							{{ setTarget(@$row['data'][$idxIndikator]->$uraian_target, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_jenis, @$row['data'][$idxIndikator]->rpjmd_program_indikator_nilai_json) }} {{ @$row['data'][$idxIndikator]->rpjmd_program_indikator_satuan }}
 						</td>
@@ -190,13 +201,12 @@ if(@$_GET['status'] == 1){
 				
 			?>
 						<tr>
-							<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->bidang_kode }}</td>
-							<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->bidang_nama }}</td>
-							<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ @$row['data'][0]->opd_nama }}</td>
-							<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}"></td>
 							<td style="border-right: 0px;"
 								rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}">{{ $row['uraian'] }}</td>
+
+							@if($indikator != 0)
 							<td>{{ @$row['data'][0]->renstra_kegiatan_indikator_nama }}</td>
+							@endif
 							<td>
 								{{ setTarget(@$row['data'][0]->$uraian_target, @$row['data'][0]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][0]->renstra_kegiatan_indikator_nilai_json) }} {{ @$row['data'][0]->renstra_kegiatan_indikator_satuan }}
 							</td>
@@ -212,7 +222,9 @@ if(@$_GET['status'] == 1){
 							<td style="border-right: 0px" rowspan="{{ count(@$row['data'])>0?count($row['data']):'1' }}"></td>
 						</tr>
 						@for($idxIndikator = 1; $idxIndikator < count(@$row['data']); $idxIndikator++) <tr>
+							@if($indikator != 0)
 							<td>{{ @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nama }}</td>
+							@endif
 							<td>
 								{{ setTarget(@$row['data'][$idxIndikator]->$uraian_target, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_jenis, @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_nilai_json) }}   {{ @$row['data'][$idxIndikator]->renstra_kegiatan_indikator_satuan }}
 							</td>

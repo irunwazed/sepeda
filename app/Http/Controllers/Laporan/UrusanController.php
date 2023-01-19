@@ -30,6 +30,8 @@ class UrusanController extends Controller
 	public function getQuery($request){
 
 		$urusan = @$request->urusan?$request->urusan:1;
+		// echo $urusan;
+		// die();
 
 		$data = DB::table($this->table)
 		->select($this->table.'.*'
@@ -103,6 +105,7 @@ class UrusanController extends Controller
 		$data = $data->orderBy('ref_kegiatan.permen_ver')
 		->orderBy('ref_kegiatan.urusan_kode')
 		->orderBy('ref_kegiatan.bidang_kode')
+		->orderBy('ref_opd.id')
 		->orderBy('ref_kegiatan.program_kode')
 		->orderBy('ref_kegiatan.kegiatan_kode');
 		// ->orderBy('ref_rpjmd_program.id')
@@ -159,7 +162,7 @@ class UrusanController extends Controller
 			// 	$index++;
 			// }
 
-			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode;
+			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->opd_id."-".$row->program_kode;
 			
 			if($program_id != $temp){
 				$program_id = $temp;
@@ -184,12 +187,13 @@ class UrusanController extends Controller
 				->get();
 
 				$dataAll[$index]['level'] = 3;
+				$dataAll[$index]['jum'] = count($dataAll[$index]['data'])==0?1:count($dataAll[$index]['data']);
 				$index++;
 			}
 
 
 
-			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->program_kode."-".$row->kegiatan_kode;
+			$temp = $row->urusan_kode."-".$row->bidang_kode."-".$row->opd_id."-".$row->program_kode."-".$row->kegiatan_kode;
 			if($kegiatan_id != $temp){
 				$kegiatan_id = $temp;
 				$kegiatan_index = $index;
@@ -213,6 +217,7 @@ class UrusanController extends Controller
 				->where('ref_rpjmd_program.opd_id', $row->opd_id)
 				->get();
 
+				$dataAll[$program_index]['jum'] += count($dataAll[$index]['data'])==0?1:count($dataAll[$index]['data']);
 
 				// echo "<pre>";
 				// print_r($dataAll[$index]);
@@ -313,18 +318,27 @@ class UrusanController extends Controller
 
 		}
 		// echo "<pre>";
-		// print_r($dataAll);
+		// print_r($request->all());
 		// echo "</pre>";
 		// die();
 
 
 		$opd = DB::table('ref_opd')->where('id', session('opd'))->first();
-		$urusan = DB::table('ref_urusan')->where('permen_ver', 1)->where('urusan_kode', @$request->urusan_kode?$request->urusan_kode:1)->first();
+		$urusan = DB::table('ref_urusan')->where('permen_ver', 1)->where('urusan_kode', @$request->urusan?$request->urusan:1)->first();
 		
+		$indikator = @$request->indikator==1?$request->indikator:0;
+
+		// echo "<pre>";
+		// print_r($request->all());
+		// print_r($indikator);
+		// die();
+
 		$kirim = [
 			'dataAll' => $dataAll,
 			'dataTotal' => $dataTotal,
+			'tahun' => @$request->tahun,
 			'urusan' => @$urusan,
+			'indikator' => @$indikator,
 		];
 
 

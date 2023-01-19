@@ -65,7 +65,11 @@
 															<select name="tahun" class="form-control">
 																<option value="">-= Pilih Tahun =-</option>
 																@for($i = date('Y') +1; $i >= 2020; $i--)
-																<option value="{{ $i }}">{{ $i }}</option>
+																<?php
+																	$val = ($i-2018)%5;
+																	$val = $val==0?5:$val;
+																?>
+																<option value="{{ $val }}">{{ $i }}</option>
 																@endfor
 															</select>
 														</fieldset>
@@ -74,7 +78,7 @@
 												<div class="col-sm-6">
 													<div class="form-group">
 														<fieldset class="form-group">
-															<button type="submit" class="btn btn-primary" id="laporan-btn">Tampilkan</button>
+															<button style="margin-top: 30px" type="submit" class="btn btn-primary" id="laporan-btn">Tampilkan</button>
 														</fieldset>
 													</div>
 												</div>
@@ -92,8 +96,10 @@
 										<h5 style="color: white"><i class="{{ $icon }}"></i> {{ $judul }}</h5>
 									</div>
 									<div class="card-block">
-										<a class="btn btn-info" id="cetak-btn"  target="_blank" href="./urusan/cetak?cetak=view&urusan={{ @$_GET['urusan'] }}"><i
+										<a class="btn btn-info" id="cetak-btn"  target="_blank" href="./urusan/cetak?cetak=view&urusan={{ @$_GET['urusan'] }}&indikator=1"><i
 												class="fa fa-print"></i>Cetak</a>
+										<a class="btn btn-warning" id="cetak-btn-indi"  target="_blank" href="./urusan/cetak?cetak=view&urusan={{ @$_GET['urusan'] }}&indikator=0"><i
+												class="fa fa-print"></i>Cetak Tanpa Indikator</a>
 										<!-- <a class="btn btn-warning" target="_blank" href="./urusan/cetak?cetak=pdf"><i
 												class="fa fa-file"></i>PDF</a> -->
 										<iframe src="./urusan/cetak?cetak=view" id="cetak-frame" height="900" style="width: 100%"
@@ -126,7 +132,7 @@
 <script>
 var link = window.location.pathname;
 
-$('li[data-menu-bar="laporan"]').addClass("active pcoded-trigger");
+$('li[data-menu-bar="dokumen"]').addClass("active pcoded-trigger");
 $('#laporan-view').hide();
 
 $('.select2').select2();
@@ -139,9 +145,11 @@ $('#form-cetak').submit(function(e) {
 
 		let urusan = $('select[name="urusan"]').val();
 		let tahun = $('select[name="tahun"]').val();
+		
 
-		$('#cetak-btn').attr("href", "./urusan/cetak?cetak=view&urusan="+urusan+"&tahun="+tahun)
-		$('#cetak-frame').attr("src", "./urusan/cetak?cetak=view&urusan="+urusan+"&tahun="+tahun)
+		$('#cetak-btn-indi').attr("href", "./urusan/cetak?cetak=view&&urusan="+urusan+"&&tahun="+tahun+"&indikator=0")
+		$('#cetak-btn').attr("href", "./urusan/cetak?cetak=view&&urusan="+urusan+"&&tahun="+tahun+"&indikator=1")
+		$('#cetak-frame').attr("src", "./urusan/cetak?cetak=view&&urusan="+urusan+"&&tahun="+tahun+"&indikator=1")
 
 	} else {
 		$('#laporan-btn').html('Tampilkan');
