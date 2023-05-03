@@ -16,12 +16,13 @@ class CreateRpjmdTable extends Migration
     {
         Schema::create('ref_rpjmd', function (Blueprint $table) {
 					$table->id();
-					$table->integer('rpjmd_tahun'); // tahun awal contoh 2018 -> 2018 - 2023
+					$table->integer('rpjmd_tahun'); // tahun awal contoh 2019 -> 2019 - 2023
+					$table->tinyInteger('rpjmd_jenis'); // 1. RPJMD, 2 RPD
 					$table->timestamps();
 
         });
 				DB::table('ref_rpjmd')->insert([
-					['rpjmd_tahun' => 2018],
+					['rpjmd_tahun' => 2018, 'rpjmd_jenis' => 1],
 				]);
     }
 

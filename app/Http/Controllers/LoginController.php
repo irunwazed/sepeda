@@ -33,6 +33,7 @@ class LoginController extends Controller
           ->withInput();
     }
     $username = $request->username;
+    $tahun = @$request->tahun?$request->tahun:date("Y");
     
     $user = DB::table('login')
             ->where('login_username', $username)
@@ -52,18 +53,46 @@ class LoginController extends Controller
         session()->put('opd', 1); // sesuai login opd
 
 
-				$temp = DB::table('pengaturan')
-				->where('nama', 'rpjmd_tahun')->first();
-        session()->put('rpjmd_tahun', @$temp->value); // tahun awal RPJMD
+				// $temp = DB::table('pengaturan')
+				// ->where('nama', 'rpjmd_tahun')->first();
+        // session()->put('rpjmd_tahun', @$temp->value); // tahun awal RPJMD
 
-				$temp = DB::table('pengaturan')
-				->where('nama', 'tahun')->first();
-        session()->put('tahun', @$temp->value); // tahun ke untuk RPKD
+				// $temp = DB::table('pengaturan')
+				// ->where('nama', 'tahun')->first();
+        // session()->put('tahun', @$temp->value); // tahun ke untuk RPKD
 
-				$temp = DB::table('pengaturan')
-				->where('nama', 'triwulan')->first();
-        session()->put('triwulan', @$temp->value); // triwulan
+				// $temp = DB::table('pengaturan')
+				// ->where('nama', 'triwulan')->first();
+        // session()->put('triwulan', @$temp->value); // triwulan
 
+
+				$temp = DB::table('ref_rpjmd')->where('rpjmd_tahun', '<=', $tahun)->orderBy('rpjmd_tahun', 'DESC')->first();
+
+				if(!@$temp->id){
+					return back()
+          ->withErrors(['tahun salah!'])
+          ->withInput();
+				}
+				session()->put('rpjmd_tahun', @$temp->rpjmd_tahun);
+				session()->put('rpjmd_jenis', @$temp->rpjmd_jenis);
+				session()->put('tahun', @$temp->rpjmd_tahun - $tahun+1);
+
+				$month = date('m');
+				if($month > 9){
+					$triwulan = 3;
+				}else if($month > 6){
+					$triwulan = 2;
+				}else if($month > 3){
+					$triwulan = 1;
+				}else{
+					$triwulan = 4;
+				}
+
+        session()->put('triwulan', @$triwulan); // triwulan
+
+				// print_r(session()->all());
+				// die();
+				
 
         if(@$user->login_level == 3){
           $dataOPD = DB::table('ref_login_opd')->where('login_id', @$user->id)->first();

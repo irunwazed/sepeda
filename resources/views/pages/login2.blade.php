@@ -67,6 +67,14 @@
 						<div class="input-group mb-4">
 							<input type="password" class="form-control" name="password" placeholder="password">
 						</div>
+						<div class="input-group mb-4">
+							<select name="tahun" class="form-control">
+								<option value="">-= Pilih Tahun =-</option>
+								@for($i = date("Y") + 1; $i >= 2018; $i--)
+								<option value="{{ $i }}" <?=date("Y")==$i?'selected':''?>>{{ $i }}</option>
+								@endfor
+							</select>
+						</div>
 						<!-- <div class="form-group text-left">
 							<div class="checkbox checkbox-fill d-inline">
 								<input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
